@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Runtime.Extensions;
@@ -39,7 +39,6 @@ namespace BasicAssistantCLU
 
             // Set up custom content types - associating file extension to MIME type.
             var provider = new FileExtensionContentTypeProvider();
-            provider.Mappings[".lu"] = "application/vnd.microsoft.lu";
             provider.Mappings[".qna"] = "application/vnd.microsoft.qna";
 
             // Expose static files in manifests folder for skill scenarios.

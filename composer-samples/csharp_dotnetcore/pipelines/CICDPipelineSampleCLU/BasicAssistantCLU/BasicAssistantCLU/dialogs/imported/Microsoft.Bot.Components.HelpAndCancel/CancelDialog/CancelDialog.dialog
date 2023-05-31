@@ -75,10 +75,10 @@
   "generator": "CancelDialog.lg",
   "recognizer": {
     "$kind": "Microsoft.CluRecognizer",
-    "projectName": "",
-    "endpoint": "",
-    "endpointKey": "",
-    "deploymentName": ""
+    "projectName": "CLU",
+    "endpoint": "https://clulanguage.cognitiveservices.azure.com/",
+    "endpointKey": "1c743bb2d7f440ccbb6ed47bd69fc69b",
+    "deploymentName": "CLU"
   },
   "id": "CancelDialog",
   "$Imported": "7ace8b3c7d6add6c499b34efbbc7c563"

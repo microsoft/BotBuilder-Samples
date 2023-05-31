@@ -151,9 +151,9 @@
   "id": "BasicAssistantCLU",
   "recognizer": {
     "$kind": "Microsoft.CluRecognizer",
-    "projectName": "",
-    "endpoint": "",
-    "endpointKey": "",
-    "deploymentName": ""
+    "projectName": "CLU",
+    "endpoint": "https://clulanguage.cognitiveservices.azure.com/",
+    "endpointKey": "1c743bb2d7f440ccbb6ed47bd69fc69b",
+    "deploymentName": "CLU"
   }
 }

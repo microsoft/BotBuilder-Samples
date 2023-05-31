@@ -59,8 +59,6 @@ Follow these instructions to manually provision Azure resources:
    | Azure Cosmos DB                               | Optional          |
    | Application Insights                          | Optional          |
    | Azure Blob Storage                            | Optional          |
-   | LUIS authoring resource (Cognitive Services)  | Optional          |
-   | LUIS prediction resource (Cognitive Services) | Optional          |
    | QnA Maker resources (Cognitive Services)      | Optional          |
 
    > [!TIP]
@@ -68,24 +66,7 @@ Follow these instructions to manually provision Azure resources:
 
    1. You will be asked to login to the Azure portal in your browser.
 
-      > ![publish az login](./media/publish-az-login.png)
-
-   2. If you see the error message "InsufficientQuota", add a param '--createLuisAuthoringResource false' and run the script again.
-
-      - **_Azure Web App_**:
-
-      ```cmd
-      node provisionComposer.js --subscriptionId=<YOUR AZURE SUBSCRIPTION ID> --name=<NAME OF YOUR RESOURCE GROUP>--appPassword=<APP PASSWORD> --environment=<NAME FOR ENVIRONMENT DEFAULT to dev> --createLuisAuthoringResource false
-      ```
-
-      - **_Azure Functions_**:
-
-      ```cmd
-      node provisionComposer.js --subscriptionId=<YOUR AZURE SUBSCRIPTION ID> --name=<NAME OF YOUR RESOURCE GROUP> --appPassword=<APP PASSWORD> --environment=<NAME FOR ENVIRONMENT DEFAULT to dev> --createLuisAuthoringResource false --customArmTemplate=DeploymentTemplates/function-template-with-preexisting-rg.json
-      ```
-
-      > [!NOTE]
-      > If you use `--createLuisAuthoringResource false` in this step, you should manually add the LUIS authoring key to the publish configuration in the [deploy bot to new Azure resources](#deploy-bot-to-new-azure-resources) section. The default region is `westus`. To provision to other regions, you should add `--location region`.
+      > ![publish az login](./media/publish-az-login.png) 
 
 4. As the Azure resources are being provisioned, which takes a few minutes, you will see the following:
 
@@ -99,7 +80,6 @@ Follow these instructions to manually provision Azure resources:
      "name": "<NAME OF YOUR RESOURCE GROUP>",
      "environment": "<ENVIRONMENT>",
      "hostname": "<NAME OF THE HOST>",
-     "luisResource": "<NAME OF YOUR LUIS RESOURCE>",
      "settings": {
        "applicationInsights": {
          "InstrumentationKey": "<SOME VALUE>"
@@ -114,11 +94,6 @@ Follow these instructions to manually provision Azure resources:
        "blobStorage": {
          "connectionString": "<SOME VALUE>",
          "container": "transcripts"
-       },
-       "luis": {
-         "endpointKey": "<SOME VALUE>",
-         "authoringKey": "<SOME VALUE>",
-         "region": "westus"
        },
        "qna": {
          "endpoint": "<SOME VALUE>",
@@ -184,9 +159,7 @@ You don't need to create a complete list of the Azure resources as covered in **
 | environment                 | Optional          | dev                                                      | N/A                                                                                                                                                                                  |
 | location                    | Optional          | `westus`                                                 | Your Azure resource group region                                                                                                                                                     |
 | tenantId                    | Optional          | default tenantId                                         | ID of your tenant if required.                                                                                                                                                       |
-| customArmTemplate           | Optional          | `/DeploymentTemplates/template-with-preexisting-rg.json` | For Azure Functions or your own template for a custom deployment.                                                                                                                    |
-| createLuisResource          | Optional          | `true`                                                   | The LUIS prediction resource to create. Region is default to `westus` and cannot be changed.                                                                                         |
-| createLuisAuthoringResource | Optional          | true                                                     | The LUIS authoring resource to create. Region is default to `westus` and cannot be changed.                                                                                          |
+| customArmTemplate           | Optional          | `/DeploymentTemplates/template-with-preexisting-rg.json` | For Azure Functions or your own template for a custom deployment.                                                                                                                    |                                                                                        |
 | createQnAResource           | Optional          | `true`                                                   | The QnA resource to create.                                                                                                                                                          |
 | createCosmosDb              | Optional          | `true`                                                   | The CosmosDb resource to create.                                                                                                                                                     |
 | createStorage               | Optional          | `true`                                                   | The BlobStorage resource to create.                                                                                                                                                  |

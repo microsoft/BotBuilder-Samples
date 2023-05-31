@@ -29,10 +29,6 @@
       "type": "bool",
       "defaultValue": true
     },
-    "shouldCreateLuisResource": {
-      "type": "bool",
-      "defaultValue": true
-    },
     "cosmosDbName": {
       "type": "string",
       "defaultValue": "[parameters('name')]"
@@ -49,10 +45,6 @@
       "metadata": {
         "description": "The pricing tier of the Bot Service Registration. Acceptable values are F0 and S1."
       }
-    },
-    "luisAuthoringKey": {
-      "type": "string",
-      "defaultValue": ""
     },
     "newAppServicePlanName": {
       "type": "string",
@@ -113,22 +105,6 @@
     "storageAccountName": {
       "type": "string",
       "defaultValue": "[parameters('name')]"
-    },
-    "luisServiceName": {
-      "type": "string",
-      "defaultValue": "[concat(parameters('name'), '-luis')]"
-    },
-    "luisServiceAuthoringSku": {
-      "type": "string",
-      "defaultValue": "F0"
-    },
-    "luisServiceRunTimeSku": {
-      "type": "string",
-      "defaultValue": "S0"
-    },
-    "luisServiceLocation": {
-      "type": "string",
-      "defaultValue": "[resourceGroup().location]"
     }
   },
   "variables": {
@@ -140,8 +116,7 @@
     "webAppName": "[if(empty(parameters('newWebAppName')), parameters('botId'), parameters('newWebAppName'))]",
     "siteHost": "[concat(variables('webAppName'), '.azurewebsites.net')]",
     "botEndpoint": "[concat('https://', variables('siteHost'), '/api/messages')]",
-    "storageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]",
-    "LuisAuthoringAccountName": "[concat(parameters('luisServiceName'), '-authoring')]"
+    "storageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]"
   },
   "resources": [
     {
@@ -319,30 +294,6 @@
         "name": "Standard_LRS"
       },
       "condition": "[parameters('useStorage')]"
-    },
-    {
-      "comments": "Cognitive service authoring key for all LUIS apps.",
-      "apiVersion": "2017-04-18",
-      "name": "[variables('LuisAuthoringAccountName')]",
-      "location": "[parameters('luisServiceLocation')]",
-      "type": "Microsoft.CognitiveServices/accounts",
-      "kind": "LUIS.Authoring",
-      "sku": {
-        "name": "[parameters('luisServiceAuthoringSku')]"
-      },
-      "condition": "[parameters('shouldCreateAuthoringResource')]"
-    },
-    {
-      "comments": "Cognitive service endpoint key for all LUIS apps.",
-      "type": "Microsoft.CognitiveServices/accounts",
-      "kind": "LUIS",
-      "apiVersion": "2017-04-18",
-      "name": "[parameters('luisServiceName')]",
-      "location": "[parameters('luisServiceLocation')]",
-      "sku": {
-        "name": "[parameters('luisServiceRunTimeSku')]"
-      },
-      "condition": "[parameters('shouldCreateLuisResource')]"
     }
   ],
   "outputs": {
@@ -366,16 +317,6 @@
       "value": {
         "connectionString": "[if(parameters('useStorage'), concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2018-07-01').keys[0].value, ';EndpointSuffix=core.windows.net'), '')]",
         "container": "transcripts"
-      }
-    },
-    "luis": {
-      "type": "object",
-      "value": {
-        "endpointKey": "[if(parameters('shouldCreateLuisResource'), listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1, '')]",
-        "authoringKey": "[if(parameters('shouldCreateAuthoringResource'), listKeys(resourceId('Microsoft.CognitiveServices/accounts', variables('LuisAuthoringAccountName')),'2017-04-18').key1, parameters('luisAuthoringKey'))]",
-        "region": "[parameters('luisServiceLocation')]",
-        "endpoint": "[if(parameters('shouldCreateLuisResource'), reference(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName'))).endpoint, '')]",
-        "authoringEndpoint": "[if(parameters('shouldCreateAuthoringResource'), reference(resourceId('Microsoft.CognitiveServices/accounts', variables('LuisAuthoringAccountName'))).endpoint, '')]"
       }
     }
   }

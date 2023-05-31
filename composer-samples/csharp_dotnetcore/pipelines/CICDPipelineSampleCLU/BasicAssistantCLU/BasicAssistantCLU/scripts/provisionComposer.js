@@ -34,8 +34,6 @@ const usage = () => {
     ['resourceGroup', 'Name of your resource group (Defaults to name-environment)'],
     ['appId', 'Microsoft App ID (Will create if absent)'],
     ['tenantId', 'ID of your tenant if required (will choose first in list by default)'],
-    ['createLuisResource', 'Create a LUIS resource? Default true'],
-    ['createLuisAuthoringResource', 'Create a LUIS authoring resource? Default true'],
     ['createCosmosDb', 'Create a CosmosDB? Default true'],
     ['createStorage', 'Create a storage account? Default true'],
     ['createAppInsights', 'Create an AppInsights resource? Default true'],
@@ -90,8 +88,6 @@ const location = argv.location || 'westus';
 const appId = argv.appId; // MicrosoftAppId - generated if left blank
 
 // Get option flags
-const createLuisResource = argv.createLuisResource == 'false' ? false : true;
-const createLuisAuthoringResource = argv.createLuisAuthoringResource == 'false' ? false : true;
 const createCosmosDb = argv.createCosmosDb == 'false' ? false : true;
 const createStorage = argv.createStorage == 'false' ? false : true;
 const createAppInsights = argv.createAppInsights == 'false' ? false : true;
@@ -216,7 +212,6 @@ const getTenantId = async (accessToken) => {
  * @param {*} location the locaiton of all resources
  * @param {*} name the base name of resources
  * @param {*} shouldCreateAuthoringResource
- * @param {*} shouldCreateLuisResource
  * @param {*} useAppInsights
  * @param {*} useCosmosDb
  * @param {*} useStorage
@@ -227,7 +222,6 @@ const getDeploymentTemplateParam = (
   location,
   name,
   shouldCreateAuthoringResource,
-  shouldCreateLuisResource,
   useAppInsights,
   useCosmosDb,
   useStorage
@@ -239,7 +233,6 @@ const getDeploymentTemplateParam = (
     appServicePlanLocation: pack(location),
     botId: pack(name),
     shouldCreateAuthoringResource: pack(shouldCreateAuthoringResource),
-    shouldCreateLuisResource: pack(shouldCreateLuisResource),
     useAppInsights: pack(useAppInsights),
     useCosmosDb: pack(useCosmosDb),
     useStorage: pack(useStorage),
@@ -351,9 +344,6 @@ const updateDeploymentJsonFile = async (client, resourceGroupName, deployName, a
     if (!createCosmosDb) {
       delete outputObj.cosmosDb;
     }
-    if (!createLuisAuthoringResource && !createLuisResource) {
-      delete outputObj.luis;
-    }
     if (!createStorage) {
       delete outputObj.blobStorage;
     }
@@ -404,8 +394,6 @@ const create = async (
   environment,
   appId,
   appPassword,
-  createLuisResource = true,
-  createLuisAuthoringResource = true,
   createQnAResource = true,
   createCosmosDb = true,
   createStorage = true,
@@ -490,8 +478,6 @@ const create = async (
     appPassword,
     location,
     name,
-    createLuisAuthoringResource,
-    createLuisResource,
     createAppInsights,
     createCosmosDb,
     createStorage
@@ -777,8 +763,6 @@ msRestNodeAuth
       environment,
       appId,
       appPassword,
-      createLuisResource,
-      createLuisAuthoringResource,
       createQnAResource,
       createCosmosDb,
       createStorage,
@@ -800,7 +784,6 @@ msRestNodeAuth
         name: name,
         environment: environment,
         hostname: `${name}`,
-        luisResource: `${name}-luis`,
         settings: createResult,
         runtimeIdentifier: 'win-x64',
         resourceGroup: resourceGroup,
