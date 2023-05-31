@@ -79,9 +79,6 @@ Because BF CLI is not compatible with CLU, then the creation of the resources mu
 [Here](https://learn.microsoft.com/en-us/azure/cognitive-services/language-service/conversational-language-understanding/how-to/create-project?tabs=language-studio%2CLanguage-Studio) you can find the guide to create a CLU resource.
 
 After you create the resource, you must take the following credentials from Language Studio to set them in the bot configuration:
-
-| Configuration setting | Description | Example |
-| ------ | ------ | ------ |
 - Project Name
 - Endpoint
 - Endpoint Key
