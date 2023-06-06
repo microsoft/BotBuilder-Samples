@@ -73,7 +73,8 @@ const dialog = new RootDialog(
     endpointHostName,
     process.env.DefaultAnswer,
     process.env.EnablePreciseAnswer.toLowerCase(),
-    process.env.DisplayPreciseAnswerOnly.toLowerCase());
+    process.env.DisplayPreciseAnswerOnly.toLowerCase(),
+    process.env.UseTeamsAdaptiveCard.toLowerCase());
 
 // Create the bot's main handler.
 const bot = new CustomQABot(conversationState, userState, dialog);

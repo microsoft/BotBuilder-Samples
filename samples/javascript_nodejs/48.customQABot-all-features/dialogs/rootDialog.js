@@ -26,7 +26,7 @@ const INCLUDE_UNSTRUCTURED_SOURCES = true;
 /**
  * Creates QnAMakerDialog instance with provided configuraton values.
  */
-const createQnAMakerDialog = (knowledgeBaseId, endpointKey, endpointHostName, defaultAnswer, enablePreciseAnswerRaw, displayPreciseAnswerOnlyRaw) => {
+const createQnAMakerDialog = (knowledgeBaseId, endpointKey, endpointHostName, defaultAnswer, enablePreciseAnswerRaw, displayPreciseAnswerOnlyRaw, useTeamsAdaptiveCard) => {
     let noAnswerActivity;
     if (typeof defaultAnswer === 'string' && defaultAnswer !== '') {
         noAnswerActivity = MessageFactory.text(defaultAnswer);
@@ -51,6 +51,7 @@ const createQnAMakerDialog = (knowledgeBaseId, endpointKey, endpointHostName, de
     qnaMakerDialog.id = QNAMAKER_BASE_DIALOG;
     qnaMakerDialog.isTest = ISTEST;
     qnaMakerDialog.includeUnstructuredSources = INCLUDE_UNSTRUCTURED_SOURCES;
+    qnaMakerDialog.useTeamsAdaptiveCard = useTeamsAdaptiveCard === 'true';
 
     return qnaMakerDialog;
 };
@@ -66,14 +67,14 @@ class RootDialog extends ComponentDialog {
      * @param {string} displayPreciseAnswerOnly
 
     */
-    constructor(knowledgeBaseId, endpointKey, endpointHostName, defaultAnswer, enablePreciseAnswer, displayPreciseAnswerOnly) {
+    constructor(knowledgeBaseId, endpointKey, endpointHostName, defaultAnswer, enablePreciseAnswer, displayPreciseAnswerOnly, useTeamsAdaptiveCard) {
         super(ROOT_DIALOG);
         // Initial waterfall dialog.
         this.addDialog(new WaterfallDialog(INITIAL_DIALOG, [
             this.startInitialDialog.bind(this)
         ]));
 
-        this.addDialog(createQnAMakerDialog(knowledgeBaseId, endpointKey, endpointHostName, defaultAnswer, enablePreciseAnswer, displayPreciseAnswerOnly));
+        this.addDialog(createQnAMakerDialog(knowledgeBaseId, endpointKey, endpointHostName, defaultAnswer, enablePreciseAnswer, displayPreciseAnswerOnly, useTeamsAdaptiveCard));
         this.initialDialogId = INITIAL_DIALOG;
     }
 

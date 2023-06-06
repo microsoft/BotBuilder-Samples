@@ -26,6 +26,14 @@ Follow these steps to update [.env file](.env).
      - Endpoint: `LanguageEndpointHostName`
 - `ProjectName` is the name of the project created in [Language Studio][LS].
 
+## Configure Adaptive Cards for Microsoft Teams
+When using the Microsoft Teams channel, you have the option of using Adaptive Cards instead of Hero Cards for CQA responses. To enable these cards, perform the following steps:
+
+1. Update `botbuilder-ai` to version `4.20.0` or greater.
+2. Set `UseTeamsAdaptiveCard` variable in the `.env` file to true.
+
+If you do not set the `UseTeamsAdaptiveCard` variable or set it to false, the existing Hero Card implementation will be used.
+
 ## Try this sample
 
 - Install the Bot Framework Emulator version 4.14.0 or greater from [here][BFE]

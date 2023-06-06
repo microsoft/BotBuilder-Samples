@@ -45,7 +45,8 @@ class CustomQABot extends ActivityHandler {
 
                 const enablePreciseAnswer = process.env.EnablePreciseAnswer === 'true';
                 const displayPreciseAnswerOnly = process.env.DisplayPreciseAnswerOnly === 'true';
-                const response = await this.qnaMaker.getAnswers(context, { enablePreciseAnswer: enablePreciseAnswer });
+                const useTeamsAdaptiveCard = process.env.UseTeamsAdaptiveCard === 'true';
+                const response = await this.qnaMaker.getAnswers(context, { enablePreciseAnswer: enablePreciseAnswer, useTeamsAdaptiveCard: useTeamsAdaptiveCard });
 
                 // If an answer was received from CQA, send the answer back to the user.
                 if (response.length > 0) {
