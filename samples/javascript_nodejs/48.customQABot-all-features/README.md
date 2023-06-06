@@ -120,6 +120,8 @@ When using the Microsoft Teams channel, you have the option of using Adaptive Ca
 1. Update `botbuilder-ai` to version `4.20.0` or greater.
 2. Set `UseTeamsAdaptiveCard` variable in the `.env` file to true.
 
+If you do not set the `UseTeamsAdaptiveCard` variable or set it to false, the existing Hero Card implementation will be used.
+
 
 ## Microsoft Teams channel group chat fix
 To get answers from the service when a bot (named as `HelpBot`) is added to a Teams channel or Teams group chat, refer to it as `@HelpBot` `How to build a bot?`.
