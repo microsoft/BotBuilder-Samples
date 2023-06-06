@@ -69,10 +69,11 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
             var enablePreciseAnswer = bool.Parse(configuration["EnablePreciseAnswer"]);
             var displayPreciseAnswerOnly = bool.Parse(configuration["DisplayPreciseAnswerOnly"]);
+            var useTeamsAdaptiveCard = bool.Parse(configuration["UseTeamsAdaptiveCard"]);
 
             // Create a new instance of QnAMakerDialog with dialogOptions initialized.
             var noAnswer = MessageFactory.Text(configuration["DefaultAnswer"] ?? string.Empty);
-            var qnamakerDialog = new QnAMakerDialog(nameof(QnAMakerDialog), knowledgeBaseId, endpointKey, hostname, noAnswer: noAnswer, cardNoMatchResponse: MessageFactory.Text(ActiveLearningCardNoMatchResponse))
+            var qnamakerDialog = new QnAMakerDialog(nameof(QnAMakerDialog), knowledgeBaseId, endpointKey, hostname, noAnswer: noAnswer, cardNoMatchResponse: MessageFactory.Text(ActiveLearningCardNoMatchResponse), useTeamsAdaptiveCard: useTeamsAdaptiveCard)
             {
                 Threshold = ScoreThreshold,
                 ActiveLearningCardTitle = ActiveLearningCardTitle,
@@ -84,7 +85,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 DisplayPreciseAnswerOnly = displayPreciseAnswerOnly,
                 IncludeUnstructuredSources = IncludeUnstructuredSources,
                 RankerType = RankerType,
-                IsTest = IsTest
+                IsTest = IsTest,
+                UseTeamsAdaptiveCard = useTeamsAdaptiveCard
             };
 
             return qnamakerDialog;
