@@ -1,0 +1,186 @@
+{
+  "projectFileVersion": "2022-10-01-preview",
+  "stringIndexType": "Utf16CodeUnit",
+  "metadata": {
+    "projectKind": "Conversation",
+    "settings": {
+      "confidenceThreshold": 0,
+      "normalizeCasing": false
+    },
+    "projectName": "BasicAssistantCLU",
+    "multilingual": false,
+    "description": "",
+    "language": "en-us"
+  },
+  "assets": {
+    "projectKind": "Conversation",
+    "intents": [
+      {
+        "category": "None"
+      },
+      {
+        "category": "Help"
+      },
+      {
+        "category": "Cancel"
+      }
+    ],
+    "entities": [],
+    "utterances": [
+      {
+        "text": "end this now",
+        "language": "en-us",
+        "intent": "Cancel",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "just stop already",
+        "language": "en-us",
+        "intent": "Cancel",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "forget about it",
+        "language": "en-us",
+        "intent": "Cancel",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "never mind",
+        "language": "en-us",
+        "intent": "Cancel",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "exit",
+        "language": "en-us",
+        "intent": "Cancel",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "abort",
+        "language": "en-us",
+        "intent": "Cancel",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "quit",
+        "language": "en-us",
+        "intent": "Cancel",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "cancel",
+        "language": "en-us",
+        "intent": "Cancel",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "i need some assistance",
+        "language": "en-us",
+        "intent": "Help",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "i need help",
+        "language": "en-us",
+        "intent": "Help",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "what can you help me with",
+        "language": "en-us",
+        "intent": "Help",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "what can you do",
+        "language": "en-us",
+        "intent": "Help",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "how do you work",
+        "language": "en-us",
+        "intent": "Help",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "im stuck",
+        "language": "en-us",
+        "intent": "Help",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "duck",
+        "language": "en-us",
+        "intent": "None",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "do unicorns really exist",
+        "language": "en-us",
+        "intent": "None",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "check my account balance",
+        "language": "en-us",
+        "intent": "None",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "turn on the lights",
+        "language": "en-us",
+        "intent": "None",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "Is it going to rain?",
+        "language": "en-us",
+        "intent": "None",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "place an item on hold",
+        "language": "en-us",
+        "intent": "None",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "I want to order a pizza",
+        "language": "en-us",
+        "intent": "None",
+        "entities": [],
+        "dataset": "Train"
+      },
+      {
+        "text": "where is my car?",
+        "language": "en-us",
+        "intent": "None",
+        "entities": [],
+        "dataset": "Train"
+      }
+    ]
+  }
+}

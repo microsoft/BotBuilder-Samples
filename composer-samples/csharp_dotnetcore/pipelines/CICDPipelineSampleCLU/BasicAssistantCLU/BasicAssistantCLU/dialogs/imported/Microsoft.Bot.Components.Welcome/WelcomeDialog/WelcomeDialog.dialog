@@ -59,10 +59,10 @@
   "id": "WelcomeDialog",
   "recognizer": {
     "$kind": "Microsoft.CluRecognizer",
-    "projectName": "",
-    "endpoint": "",
-    "endpointKey": "",
-    "deploymentName": ""
+    "projectName": "=settings.clu.projectName",
+    "endpoint": "=settings.clu.endpoint",
+    "endpointKey": "=settings.clu.endpointKey",
+    "deploymentName": "=settings.clu.deploymentName"
   },
   "$Imported": "af4f041fedef6fc782dfdbdc10c87be3"
 }

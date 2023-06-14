@@ -61,6 +61,27 @@ parameters:
     type: string
     default: $(BUILDYAMLDIRECTORY)
 
+  # CLU parameters
+  - name: cluProjectName
+    displayName: CLU Project name
+    type: string
+    default: $(CLUPROJECTNAME)
+
+  - name: cluEndpoint
+    displayName: CLU Endpoint
+    type: string
+    default: $(CLUENDPOINT)
+    
+  - name: cluEndpointKey
+    displayName: CLU Endpoint key
+    type: string
+    default: $(CLUENDPOINTKEY)
+
+  - name: cluDeploymentName
+    displayName: CLU Deployment name
+    type: string
+    default: $(CLUDEPLOYMENTNAME)
+
   # QnAMaker parameters
   - name: qnaSubscriptionKey
     displayName: QnA Maker subscription key
@@ -109,6 +130,10 @@ steps:
       botName: "${{ parameters.botName }}"
       microsoftAppId: "${{ parameters.microsoftAppId }}"
       microsoftAppPassword: "${{ parameters.microsoftAppPassword }}"
+      cluProjectName: "${{ parameters.cluProjectName }}"
+      cluEndpoint: "${{ parameters.cluEndpoint }}"
+      cluEndpointKey: "${{ parameters.cluEndpointKey }}"
+      cluDeploymentName: "${{ parameters.cluDeploymentName }}"
       qnaSubscriptionKey: "${{ parameters.qnaSubscriptionKey }}"
       qnaEndpointKey: "${{ parameters.qnaEndpointKey }}"
       qnaHostName: "${{ parameters.qnaHostName }}"

@@ -33,6 +33,22 @@ parameters:
     displayName: Bot's Microsoft app Password
     type: string
 
+  - name: cluProjectName
+    displayName: CLU Project name
+    type: string
+
+  - name: cluEndpoint
+    displayName: CLU Endpoint
+    type: string
+    
+  - name: cluEndpointKey
+    displayName: CLU Endpoint key
+    type: string
+
+  - name: cluDeploymentName
+    displayName: CLU Deployment name
+    type: string
+
   - name: qnaSubscriptionKey
     displayName: QnA Maker subscription key
     type: string
@@ -101,6 +117,26 @@ steps:
           {
             "name": "MicrosoftAppPassword",
             "value": "${{ parameters.microsoftAppPassword }}",
+            "slotSetting": false
+          },
+          {
+            "name": "clu__projectName",
+            "value": "${{ parameters.cluProjectName }}",
+            "slotSetting": false
+          },
+          {
+            "name": "clu__endpoint",
+            "value": "${{ parameters.cluEndpoint }}",
+            "slotSetting": false
+          },
+          {
+            "name": "clu__endpointKey",
+            "value": "${{ parameters.cluEndpointKey }}",
+            "slotSetting": false
+          },
+          {
+            "name": "clu__deploymentName",
+            "value": "${{ parameters.cluDeploymentName }}",
             "slotSetting": false
           },
           {

@@ -38,6 +38,7 @@ steps:
 
         $outputDirectory = "$generatedDirectory/interruption"
         New-Item -Path /. -name $outputDirectory -ItemType "directory"
+    condition: and(succeeded(), ne(variables['qnaSubscriptionKey'], ''))
 
   # Publish QnA Maker KBs if qnaSubscriptionKey is defined
   - task: PowerShell@2
@@ -61,6 +62,7 @@ steps:
       archiveType: "zip"
       archiveFile: "$(System.DefaultWorkingDirectory)/output/generated.zip"
       verbose: true
+    condition: and(succeeded(), ne(variables['qnaSubscriptionKey'], ''))
 
   # Publish output artifacts to Azure DevOps
   - task: PublishBuildArtifacts@1
@@ -68,3 +70,4 @@ steps:
     inputs:
       pathtoPublish: "$(System.DefaultWorkingDirectory)/output/generated.zip"
       artifactName: "BuildArtifacts-$(Build.BuildId)"
+    condition: and(succeeded(), ne(variables['qnaSubscriptionKey'], ''))
