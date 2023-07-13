@@ -56,7 +56,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             choices.Add(new Choice() { Value = PostBackOption, Action = new CardAction() { Title = PostBackOption, Type = ActionTypes.PostBack, Value = PostBackOption } });
 
             // Create the prompt message
-            var message = ChoiceFactory.ForChannel(turnContext.Activity.ChannelId, choices, "What Facebook feature would you like to try? Here are some quick replies to choose from!");
+            var message = ChoiceFactory.ForChannel(turnContext.Activity.ChannelId, choices, "What Facebook feature would you like to try? Here are some quick replies to choose from!", null, null, null);
             await turnContext.SendActivityAsync(message, cancellationToken);
         }
 
