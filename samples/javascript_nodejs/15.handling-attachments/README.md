@@ -9,7 +9,7 @@ upload files to Teams from a bot and how to receive a file sent to a bot as an a
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org) version 10.14 or higher
+- [Node.js](https://nodejs.org) version 16.16.0 or higher
 
     ```bash
     # determine node version

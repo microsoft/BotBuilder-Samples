@@ -21,7 +21,7 @@ The API uses the most modern neural machine translation technology, as well as o
 
 This sample **requires** prerequisites in order to run.
 
-- [Node.js](https://nodejs.org) version 10.14 or higher
+- [Node.js](https://nodejs.org) version 16.16.0 or higher
 
     ```bash
     # determine node version

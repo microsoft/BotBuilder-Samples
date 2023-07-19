@@ -19,7 +19,7 @@ This sample **requires** prerequisites in order to run.
 This bot uses [LUIS](https://www.luis.ai), an AI based cognitive service, to implement language understanding
 and [Application Insights](https://docs.microsoft.com/azure/azure-monitor/app/cloudservices), an extensible Application Performance Management (APM) service for web developers on multiple platforms.
 
-- [Node.js](https://nodejs.org) version 10.14 or higher
+- [Node.js](https://nodejs.org) version 16.16.0 or higher
 
     ```bash
     # determine node version
