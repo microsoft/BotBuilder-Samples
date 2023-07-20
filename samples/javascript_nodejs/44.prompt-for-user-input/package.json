@@ -13,9 +13,9 @@
     },
     "dependencies": {
         "@microsoft/recognizers-text-suite": "1.1.4",
-        "botbuilder": "~4.17.0",
+        "botbuilder": "~4.20.0",
         "dotenv": "^8.2.0",
-        "restify": "~8.6.0"
+        "restify": "~10.0.0"
     },
     "devDependencies": {
         "eslint": "^7.0.0",

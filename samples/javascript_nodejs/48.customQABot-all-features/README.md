@@ -13,6 +13,12 @@ This bot was created using [Bot Framework][BF].
 
 ## Prerequisites
 - This project requires a [Language resource](https://aka.ms/create-language-resource) with Custom question answering enabled.
+- [Node.js](https://nodejs.org) version 16.16.0 or higher
+
+    ```bash
+    # determine node version
+    node --version
+    ```
 
 ### Configure knowledge base of the project
 - Follow instructions [here][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `ProjectName` in [.env file](.env).

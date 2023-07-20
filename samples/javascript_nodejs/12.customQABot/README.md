@@ -9,6 +9,13 @@ This bot has been created using the [Bot Framework SDK][BF], it shows how to cre
 ## Prerequisites
 - This project requires a [Language service resource](https://aka.ms/create-language-resource) with Custom question answering enabled.
 
+- [Node.js](https://nodejs.org) version 16.16.0 or higher
+
+    ```bash
+    # determine node version
+    node --version
+    ```
+
 ### Configure knowledge base of the project
 - See the [quickstart][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `ProjectName` in [.env file](.env).
 - Go to [Language Studio][LS] and open the created project.
