@@ -34,15 +34,6 @@ const { AuthBot } = require('./authBot');
             console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
         });
 
-        // ---- Authenticate using local certificate
-        // const key = fs.readFileSync('{KeyPath}.pem', 'utf8');
-
-        // const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication({
-        //     MicrosoftAppId: process.env.MicrosoftAppId,
-        //     CertificateThumbprint: process.env.Thumbprint,
-        //     CertificatePrivateKey: key,
-        // });
-
         // ---- Authenticate using key vault to obtain the certificate values
         // Create an Azure credential to authenticate
         const credential = new DefaultAzureCredential();
@@ -67,6 +58,15 @@ const { AuthBot } = require('./authBot');
             CertificateThumbprint: process.env.Thumbprint,
             CertificatePrivateKey: certificateKey
         });
+
+        // ---- Authenticate using local certificate
+        // const key = fs.readFileSync('{KeyPath}.pem', 'utf8');
+
+        // const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication({
+        //     MicrosoftAppId: process.env.MicrosoftAppId,
+        //     CertificateThumbprint: process.env.Thumbprint,
+        //     CertificatePrivateKey: key,
+        // });
 
         // Create adapter.
         // See https://aka.ms/about-bot-adapter to learn more about how bots work.

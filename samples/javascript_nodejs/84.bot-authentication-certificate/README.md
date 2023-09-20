@@ -1,4 +1,4 @@
-# Authentication Bot Utilizing Certificate
+# Authentication Bot using SSL/TLS certificates
 
 Bot Framework v4 bot authentication using Certificate
 
@@ -84,3 +84,5 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Restify](https://www.npmjs.com/package/restify)
 
 - [dotenv](https://www.npmjs.com/package/dotenv)
+
+- [SSL/TLS certificates](https://www.digicert.com/tls-ssl/tls-ssl-certificates)

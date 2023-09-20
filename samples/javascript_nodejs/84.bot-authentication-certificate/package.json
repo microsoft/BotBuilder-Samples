@@ -1,7 +1,7 @@
 {
-    "name": "echobot",
+    "name": "bot-authentication-certificate",
     "version": "1.0.0",
-    "description": "Bot Builder v4 echo bot sample",
+    "description": "Bot Builder v4 bot authentication with ssl/tls certificate sample",
     "author": "Microsoft",
     "license": "MIT",
     "main": "index.js",
@@ -19,7 +19,7 @@
         "@azure/identity": "^3.3.0",
         "@azure/keyvault-certificates": "^4.7.0",
         "@azure/keyvault-secrets": "^4.7.0",
-        "botbuilder": "^4.20.0",
+        "botbuilder": "~4.20.0",
         "dotenv": "^8.2.0",
         "restify": "~8.6.0"
     },
