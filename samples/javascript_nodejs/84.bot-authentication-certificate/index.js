@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 const path = require('path');
-const fs = require('fs');
+// const fs = require('fs');
 const dotenv = require('dotenv');
 const restify = require('restify');
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
+const { DefaultAzureCredential } = require('@azure/identity');
+const { SecretClient } = require('@azure/keyvault-secrets');
 
 // Import required bot configuration.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -29,7 +29,7 @@ const { AuthBot } = require('./authBot');
         server.use(restify.plugins.bodyParser());
 
         server.listen(process.env.port || process.env.PORT || 3978, () => {
-            console.log(`\n${server.name} listening to ${server.url}`);
+            console.log(`\n${ server.name } listening to ${ server.url }`);
             console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
             console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
         });
@@ -44,11 +44,11 @@ const { AuthBot } = require('./authBot');
         // });
 
         // ---- Authenticate using key vault to obtain the certificate values
-        //Create an Azure credential to authenticate
+        // Create an Azure credential to authenticate
         const credential = new DefaultAzureCredential();
 
         const vaultName = process.env.KeyVaultName;
-        const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+        const keyVaultUrl = `https://${ vaultName }.vault.azure.net`;
 
         const certificateName = process.env.CertificateName;
 
@@ -65,7 +65,7 @@ const { AuthBot } = require('./authBot');
         const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication({
             MicrosoftAppId: process.env.MicrosoftAppId,
             CertificateThumbprint: process.env.Thumbprint,
-            CertificatePrivateKey: certificateKey,
+            CertificatePrivateKey: certificateKey
         });
 
         // Create adapter.
@@ -77,12 +77,12 @@ const { AuthBot } = require('./authBot');
             // NOTE: In production environment, you should consider logging this to Azure
             //       application insights. See https://aka.ms/bottelemetry for telemetry
             //       configuration instructions.
-            console.error(`\n [onTurnError] unhandled error: ${error}`);
+            console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
             // Send a trace activity, which will be displayed in Bot Framework Emulator
             await context.sendTraceActivity(
                 'OnTurnError Trace',
-                `${error}`,
+                `${ error }`,
                 'https://www.botframework.com/schemas/error',
                 'TurnError'
             );
@@ -113,8 +113,7 @@ const { AuthBot } = require('./authBot');
 
             await streamingAdapter.process(req, socket, head, (context) => myBot.run(context));
         });
-
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
 })();
