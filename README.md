@@ -75,6 +75,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 |18|OAuth authentication  | Bot that demonstrates how to integrate OAuth providers.                  |[.NET&nbsp;Core][cs#18]|[JavaScript][js#18]|[Python][py#18]|[Java][java#18]
 |24|MSGraph&nbsp;authentication    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[.NET&nbsp;Core][cs#24] |[JavaScript][js#24] |[Python][py#24]|[Java][java#24]
 |46|Teams authentication    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/csharp) | [JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation-sso-quickstart/js)   |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/python)|[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/java)
+|84|Certificate authentication            | Demonstrates how to use Certificates to authenticate the bot     | |[JavaScript][js#84]      | |
 
 ### Custom question answering samples
 
@@ -183,6 +184,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [js#80]:samples/javascript_nodejs/80.skills-simple-bot-to-bot
 [js#81]:samples/javascript_nodejs/81.skills-skilldialog
 [js#82]:samples/javascript_nodejs/82.skills-sso-cloudadapter
+[js#84]:samples/javascript_nodejs/84.bot-authentication-certificate
 
 [py#1]:samples/python/01.console-echo
 [py#2]:samples/python/02.echo-bot
