@@ -55,7 +55,7 @@ const { AuthBot } = require('./authBot');
 
         const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication({
             MicrosoftAppId: process.env.MicrosoftAppId,
-            CertificateThumbprint: process.env.Thumbprint,
+            CertificateThumbprint: process.env.CertificateThumbprint,
             CertificatePrivateKey: certificateKey
         });
 
@@ -64,7 +64,7 @@ const { AuthBot } = require('./authBot');
 
         // const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication({
         //     MicrosoftAppId: process.env.MicrosoftAppId,
-        //     CertificateThumbprint: process.env.Thumbprint,
+        //     CertificateThumbprint: process.env.CertificateThumbprint,
         //     CertificatePrivateKey: key,
         // });
 
