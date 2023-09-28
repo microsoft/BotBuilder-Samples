@@ -10,7 +10,7 @@ namespace Azure_Bot_Generic_CSharp
     {
         public static void Register(HttpConfiguration config)
         {
-            // Json settings///Testing
+            // Json settings///Testing //Test
             config.Formatters.JsonFormatter.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             config.Formatters.JsonFormatter.SerializerSettings.Formatting = Formatting.Indented;
