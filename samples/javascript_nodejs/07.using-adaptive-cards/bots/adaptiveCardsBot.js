@@ -3,23 +3,12 @@
 
 const { ActivityHandler, CardFactory } = require('botbuilder');
 
-// Import AdaptiveCard content.
-const FlightItineraryCard = require('../resources/FlightItineraryCard.json');
-const ImageGalleryCard = require('../resources/ImageGalleryCard.json');
-const LargeWeatherCard = require('../resources/LargeWeatherCard.json');
-const RestaurantCard = require('../resources/RestaurantCard.json');
-const SolitaireCard = require('../resources/SolitaireCard.json');
+const fetch = require('node-fetch')
 
-// Create array of AdaptiveCard content, this will be used to send a random card to the user.
-const CARDS = [
-    FlightItineraryCard,
-    ImageGalleryCard,
-    LargeWeatherCard,
-    RestaurantCard,
-    SolitaireCard
-];
+// location of python weather script flask server
+const pythonWeatherScript = 'http://127.0.0.1:5000'
 
-const WELCOME_TEXT = 'This bot will introduce you to Adaptive Cards. Type anything to see an Adaptive Card.';
+const WELCOME_TEXT = 'Type "Weather {city_name}" to get weather information for that city!';
 
 class AdaptiveCardsBot extends ActivityHandler {
     constructor() {
@@ -28,7 +17,7 @@ class AdaptiveCardsBot extends ActivityHandler {
             const membersAdded = context.activity.membersAdded;
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
-                    await context.sendActivity(`Welcome to Adaptive Cards Bot  ${ membersAdded[cnt].name }. ${ WELCOME_TEXT }`);
+                    await context.sendActivity(`${ WELCOME_TEXT }`);
                 }
             }
 
@@ -37,13 +26,35 @@ class AdaptiveCardsBot extends ActivityHandler {
         });
 
         this.onMessage(async (context, next) => {
-            const randomlySelectedCard = CARDS[Math.floor((Math.random() * CARDS.length - 1) + 1)];
-            await context.sendActivity({
-                text: 'Here is an Adaptive Card:',
-                attachments: [CardFactory.adaptiveCard(randomlySelectedCard)]
-            });
+            const userInput = context.activity.text.toLowerCase();
 
-            // By calling next() you ensure that the next BotHandler is run.
+            if (userInput.startsWith('weather ')) {
+                const city = userInput.substring('weather '.length).trim();
+                
+                // add city variable to python url
+                let pythonURLWithCity = `${pythonWeatherScript}/new_weather_card?city=${city}`
+
+                // send fetch request to python
+                let response = await fetch(pythonURLWithCity);
+                
+                if (response.ok) {
+                    const WeatherJson = await response.json();
+                    
+                    await context.sendActivity({
+                        text:`The weather in ${city} is:`,
+                        attachments: [CardFactory.adaptiveCard(WeatherJson)]
+                    })
+                }
+                // if error response in requesting api data
+                else{
+                    await context.sendActivity('An error occured while retrieving weather data');
+                }
+            }
+            // if user does not enter weather as a command
+            else {
+                await context.sendActivity('Sorry, that is not a valid command. Please say "weather" followed by the name of a city.');
+            } 
+            // ensure that the next BotHandler is run.
             await next();
         });
     }

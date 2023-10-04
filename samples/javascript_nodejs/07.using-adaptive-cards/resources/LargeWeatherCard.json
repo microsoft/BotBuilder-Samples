@@ -2,8 +2,6 @@
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
     "type": "AdaptiveCard",
     "version": "1.0",
-    "speak": "Weather forecast for Monday is high of 62 and low of 42 degrees with a 20% chance of rainWinds will be 5 mph from the northeast",
-    "backgroundImage": "http://adaptivecards.io/content/Mostly%20Cloudy-Background-Dark.jpg",
     "body": [
       {
         "type": "ColumnSet",

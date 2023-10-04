@@ -1,0 +1,63 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "speak": "<s>The forecast for Seattle ${formatEpoch(dt, 'MMMM d')} is mostly clear with a High of ${formatNumber((main.temp_max - 273) * 9 / 5 + 32, 0)} degrees and Low of ${formatNumber((main.temp_min - 273) * 9 / 5 + 32, 0)} degrees</s>",
+  "body": [
+      {
+          "type": "TextBlock",
+          "text": "${name}",
+          "size": "Large",
+          "isSubtle": true,
+          "wrap": true
+      },
+      {
+          "type": "TextBlock",
+          "text": "{{DATE(${formatEpoch(dt, 'yyyy-MM-ddTHH:mm:ssZ')}, SHORT)}} {{TIME(${formatEpoch(dt, 'yyyy-MM-ddTHH:mm:ssZ')})}}",
+          "spacing": "None",
+          "wrap": true
+      },
+      {
+          "type": "ColumnSet",
+          "columns": [
+              {
+                  "type": "Column",
+                  "width": "auto",
+                  "items": [
+                      {
+                          "type": "TextBlock",
+                          "text": "${description}",
+                          "wrap": true
+                      }
+                  ]
+              },
+              {
+                  "type": "Column",
+                  "width": "auto",
+                  "items": [
+                      {
+                          "type": "TextBlock",
+                          "text": "${formatNumber((main.temp - 273) * 9 / 5 + 32, 0)}",
+                          "size": "ExtraLarge",
+                          "spacing": "None",
+                          "wrap": true
+                      }
+                  ]
+              },
+              {
+                  "type": "Column",
+                  "width": "stretch",
+                  "items": [
+                      {
+                          "type": "TextBlock",
+                          "text": "°F",
+                          "weight": "Bolder",
+                          "spacing": "Small",
+                          "wrap": true
+                      }
+                  ]
+              }
+          ]
+      }
+  ]
+}
