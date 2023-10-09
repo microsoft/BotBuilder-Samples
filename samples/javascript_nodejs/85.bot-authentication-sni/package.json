@@ -1,0 +1,35 @@
+{
+    "name": "bot-authentication-sni",
+    "version": "1.0.0",
+    "description": "Bot Builder v4 bot authentication with subject name/issuer sample",
+    "author": "Microsoft",
+    "license": "MIT",
+    "main": "index.js",
+    "scripts": {
+        "start": "node ./index.js",
+        "watch": "nodemon ./index.js",
+        "lint": "eslint .",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com"
+    },
+    "dependencies": {
+        "@azure/identity": "^3.3.0",
+        "@azure/keyvault-certificates": "^4.7.0",
+        "@azure/keyvault-secrets": "^4.7.0",
+        "botbuilder": "~4.20.0",
+        "dotenv": "^8.2.0",
+        "restify": "~8.6.0"
+    },
+    "devDependencies": {
+        "eslint": "^7.0.0",
+        "eslint-config-standard": "^14.1.1",
+        "eslint-plugin-import": "^2.20.2",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^4.2.1",
+        "eslint-plugin-standard": "^4.0.1",
+        "nodemon": "~2.0.4"
+    }
+}
