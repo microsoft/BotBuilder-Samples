@@ -11,13 +11,8 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class AuthCertificateBot<T> : DialogBot<T> where T : Dialog
+    public class AuthCertificateBot : ActivityHandler
     {
-        public AuthCertificateBot(ConversationState conversationState, UserState userState, T dialog, ILogger<DialogBot<T>> logger)
-            : base(conversationState, userState, dialog, logger)
-        {
-        }
-
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             foreach (var member in turnContext.Activity.MembersAdded)
