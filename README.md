@@ -186,7 +186,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [js#81]:samples/javascript_nodejs/81.skills-skilldialog
 [js#82]:samples/javascript_nodejs/82.skills-sso-cloudadapter
 [js#84]:samples/javascript_nodejs/84.bot-authentication-certificate
-[js#85]:samples/javascript_nodejs/84.bot-authentication-sni
+[js#85]:samples/javascript_nodejs/85.bot-authentication-sni
 
 [py#1]:samples/python/01.console-echo
 [py#2]:samples/python/02.echo-bot

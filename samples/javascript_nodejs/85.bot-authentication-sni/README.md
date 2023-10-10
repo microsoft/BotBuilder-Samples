@@ -10,9 +10,15 @@ This bot has been created using [Bot Framework](https://dev.botframework.com/), 
 
 ```bash
 
+
+
 # determine node version
 
+
+
 node  --version
+
+
 
 ```
 
@@ -22,7 +28,11 @@ node  --version
 
 ```bash
 
+
+
 git  clone  https://github.com/microsoft/botbuilder-samples.git
+
+
 
 ```
 
@@ -30,7 +40,11 @@ git  clone  https://github.com/microsoft/botbuilder-samples.git
 
 ```bash
 
+
+
 cd  samples/javascript_nodejs/85.bot-authentication-sni
+
+
 
 ```
 
@@ -38,15 +52,35 @@ cd  samples/javascript_nodejs/85.bot-authentication-sni
 
 ```bash
 
+
+
 npm  install
 
+
+
 ```
+
+- Set environment variables
+
+  - MicrosoftAppId: App Id of your bot.
+
+  - MicrosoftAppTenantId: Tenant Id to which your bot belongs.
+
+  - CertificateThumbprint: Certificate thumbprint.
+
+  - KeyVaultName: Name of the KeyVault containing the certificate.
+
+  - CertificateName: Name of the certificate in the KeyVault.
 
 - Start the bot
 
 ```bash
 
+
+
 npm  start
+
+
 
 ```
 
@@ -78,29 +112,39 @@ There are two possible options to create SSL/TSL certificate. Below is a step-by
 
 ### Using local environment
 
-1.  Run the following command in a local PowerShell
+1. Run the following command in a local PowerShell
 
 ```
-$cert = New-SelfSignedCertificate -CertStoreLocation "Cert:\CurrentUser\My" -Subject "CN=sampleAppCert" -KeySpec KeyExchange
-```
 
-1.  Then, type _Manage User Certificates_ in the Windows search bar and hit enter
-2.  The certificate will be in the _user certificates_ folder, under _personal_.
-3.  Export the certificate to _pfx_ format including the key(The default location is _system32_ folder).
-4.  Go to the certificate location and run the following command to generate a _pem_ file:
+$cert = New-SelfSignedCertificate -CertStoreLocation "<directory-to-store-certificate>" -Subject "CN=<certificate-name>" -KeySpec KeyExchange
 
 ```
-OpenSSL pkcs12 -in sampleAppCert.pfx -out c:\sampleAppCert.pem –nodes
+
+1. Then, type _Manage User Certificates_ in the Windows search bar and hit enter
+
+2. The certificate will be located in the _user certificates_ folder, under _personal_ directory.
+
+3. Export the certificate to _pfx_ format including the key(The default location is _system32_ folder).
+
+4. Go to the certificate location and run the following command to generate a _pem_ file:
+
 ```
 
-5.  Upload the generated certificate to the Azure app registration.
+OpenSSL pkcs12 -in <certificate-name>.pfx -out c:\<certificate-name>.pem –nodes
+
+```
+
+5. Upload the generated certificate to the Azure app registration.
 
 ### Using KeyVault
 
-1.  Create a KeyVault resource and assign _the KeyVault Administrator_ role to have permission to create a new certificate.
-2.  Under the Certificates section, hit on Generate/Import, complete the form, and create the certificate in PEM format.
-3.  Go to the details of the certificate that you created and enable it.
-4.  Download the certificate in CER format and then upload it to the Azure app registration.
+1. Create a KeyVault resource and assign _the KeyVault Administrator_ role to have permission to create a new certificate.
+
+2. Under the Certificates section, hit on Generate/Import, complete the form, and create the certificate in PEM format.
+
+3. Go to the details of the certificate that you created and enable it.
+
+4. Download the certificate in CER format and then upload it to the Azure app registration.
 
 ## Deploy the bot to Azure
 
