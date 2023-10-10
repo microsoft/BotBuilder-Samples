@@ -35,6 +35,8 @@ npm  install
 
 - Set environment variables
 
+  - MicrosoftAppType: Type of the App.
+
   - MicrosoftAppId: App Id of your bot.
 
   - MicrosoftAppTenantId: Tenant Id to which your bot belongs.
