@@ -9,17 +9,8 @@ This bot has been created using [Bot Framework](https://dev.botframework.com/), 
 - [Node.js](https://nodejs.org) version 10.14 or higher
 
 ```bash
-
-
-
 # determine node version
-
-
-
 node  --version
-
-
-
 ```
 
 ## To try this sample
@@ -27,37 +18,19 @@ node  --version
 - Clone the repository
 
 ```bash
-
-
-
 git  clone  https://github.com/microsoft/botbuilder-samples.git
-
-
-
 ```
 
 - In a terminal, navigate to `samples/javascript_nodejs/85.bot-authentication-sni`
 
 ```bash
-
-
-
 cd  samples/javascript_nodejs/85.bot-authentication-sni
-
-
-
 ```
 
 - Install modules
 
 ```bash
-
-
-
 npm  install
-
-
-
 ```
 
 - Set environment variables
@@ -75,13 +48,7 @@ npm  install
 - Start the bot
 
 ```bash
-
-
-
 npm  start
-
-
-
 ```
 
 ## Testing the bot using Bot Framework Emulator
@@ -115,9 +82,7 @@ There are two possible options to create SSL/TSL certificate. Below is a step-by
 1. Run the following command in a local PowerShell
 
 ```
-
 $cert = New-SelfSignedCertificate -CertStoreLocation "<directory-to-store-certificate>" -Subject "CN=<certificate-name>" -KeySpec KeyExchange
-
 ```
 
 1. Then, type _Manage User Certificates_ in the Windows search bar and hit enter
@@ -129,9 +94,7 @@ $cert = New-SelfSignedCertificate -CertStoreLocation "<directory-to-store-certif
 4. Go to the certificate location and run the following command to generate a _pem_ file:
 
 ```
-
 OpenSSL pkcs12 -in <certificate-name>.pfx -out c:\<certificate-name>.pem –nodes
-
 ```
 
 5. Upload the generated certificate to the Azure app registration.
