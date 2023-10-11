@@ -1,7 +1,5 @@
 ﻿# Authentication Bot using SSL/TLS certificates
 
-Bot Framework v4 bot authentication sample
-
 Bot Framework v4 bot authentication using Certificate
 
 This bot has been created using [Bot Framework](https://dev.botframework.com/), is shows how to use the bot authentication capabilities of Azure Bot Service. In this sample, we use a local or KeyVault certificate to create the Bot Framework Authentication.
@@ -38,7 +36,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com/), 
 
 - Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal, navigate to `samples/csharp_dotnetcore/18.bot-authentication`
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/84.bot-authentication-certificate`
 
   ```bash
   # run the bot
@@ -49,8 +47,8 @@ This bot has been created using [Bot Framework](https://dev.botframework.com/), 
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/18.bot-authentication` folder
-  - Select `AuthenticationBot.csproj` file
+  - Navigate to `samples/csharp_dotnetcore/84.bot-authentication-certificate` folder
+  - Select `AuthCertificateBot.csproj` file
   - Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator
@@ -118,13 +116,11 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Bot Framework Documentation](https://docs.botframework.com)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [Azure Portal](https://portal.azure.com)
-- [Add Authentication to Your Bot Via Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=csharp)
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
 - [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 - [Azure Portal](https://portal.azure.com)
-- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 - [SSL/TLS certificates](https://www.digicert.com/tls-ssl/tls-ssl-certificates)

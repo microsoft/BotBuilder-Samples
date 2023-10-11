@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Runtime.ConstrainedExecution;
-using System.Security.Cryptography.X509Certificates;
 using Azure.Identity;
 using Azure.Security.KeyVault.Certificates;
 using Microsoft.AspNetCore.Builder;
@@ -14,7 +12,6 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using static System.Net.WebRequestMethods;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -66,7 +63,6 @@ namespace Microsoft.BotBuilderSamples
 
             // Create the Conversation state. (Used by the Dialog system itself.)
             services.AddSingleton<ConversationState>();
-
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, AuthCertificateBot>();
