@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Security.Cryptography.X509Certificates;
 using Azure.Identity;
 using Azure.Security.KeyVault.Certificates;
 using Microsoft.AspNetCore.Builder;
@@ -76,7 +75,7 @@ namespace Microsoft.BotBuilderSamples
             services.AddSingleton<ConversationState>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, AuthCertificateBot>();
+            services.AddTransient<IBot, AuthSNIBot>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
