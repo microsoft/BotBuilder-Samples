@@ -194,7 +194,7 @@
                   "appSettings": [
                     {
                       "name": "WEBSITE_NODE_DEFAULT_VERSION",
-                      "value": "10.14.1"
+                      "value": "16.20.2"
                     },
                     {
                       "name": "MicrosoftAppType",
