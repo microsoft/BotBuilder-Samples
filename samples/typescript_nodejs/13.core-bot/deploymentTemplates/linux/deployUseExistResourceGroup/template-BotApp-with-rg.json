@@ -51,7 +51,7 @@
     },
     "linuxFxVersion": {
       "type": "string",
-      "defaultValue": "NODE|10.14"
+      "defaultValue": "NODE|16"
     },
     "appId": {
       "type": "string",
@@ -137,7 +137,7 @@
           "appSettings": [
             {
               "name": "WEBSITE_NODE_DEFAULT_VERSION",
-              "value": "10.14.1"
+              "value": "~16"
             },
             {
               "name": "MicrosoftAppType",
