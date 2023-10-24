@@ -75,7 +75,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 |18|OAuth authentication  | Bot that demonstrates how to integrate OAuth providers.                  |[.NET&nbsp;Core][cs#18]|[JavaScript][js#18]|[Python][py#18]|[Java][java#18]
 |24|MSGraph&nbsp;authentication    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[.NET&nbsp;Core][cs#24] |[JavaScript][js#24] |[Python][py#24]|[Java][java#24]
 |46|Teams authentication    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/csharp) | [JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation-sso-quickstart/js)   |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/python)|[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/java)
-|84|Certificate authentication            | Demonstrates how to use Certificates to authenticate the bot     | |[JavaScript][js#84]      | |
+|84|Certificate authentication            | Demonstrates how to use Certificates to authenticate the bot     | [.NET&nbsp;Core][cs#84] |[JavaScript][js#84]      | |
 |85|Subject name/issuer authentication            | Demonstrates how to use the subject name/issuer authentication in a bot     | [.NET&nbsp;Core][cs#85] | | |
 
 ### Custom question answering samples
@@ -142,6 +142,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [cs#80]:samples/csharp_dotnetcore/80.skills-simple-bot-to-bot
 [cs#81]:samples/csharp_dotnetcore/81.skills-skilldialog
 [cs#82]:samples/csharp_dotnetcore/82.skills-sso-cloudadapter
+[cs#84]:samples/csharp_dotnetcore/84.bot-authentication-certificate
 [cs#85]:samples/csharp_dotnetcore/85.bot-authentication-sni
 
 [wa#13]:samples/csharp_webapi/13.core-bot
