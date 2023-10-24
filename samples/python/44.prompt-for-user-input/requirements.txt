@@ -1,2 +1,12 @@
 botbuilder-integration-aiohttp>=4.14.0
 recognizers-text>=1.0.2a1
+recognizers_date_time
+recognizers_number
+botbuilder-core
+aiohttp
+emoji
+botbuilder-schema
+botframework-connector
+botbuilder-dialogs
+botbuilder-azure
+botbuilder

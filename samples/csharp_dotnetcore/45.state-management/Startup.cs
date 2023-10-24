@@ -4,7 +4,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Azure.Blobs;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,14 +27,35 @@ namespace Microsoft.BotBuilderSamples
             // Create the Bot Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
+            /* JSON SERIALIZER - Uncomment the code in this section to use a JsonSerializer with a custom SerializationBinder configuration. */
+            // Note: the AllowedTypesSerializationBinder limits the objects the storage is able to read and write, by providing a list of types used to allow or deny. It can be used to increase security.
+
+            // var jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings
+            // {
+            //     TypeNameHandling = TypeNameHandling.All,
+            //     MaxDepth = null,
+            //     SerializationBinder = new AllowedTypesSerializationBinder(
+            //         new List<Type>
+            //         {
+            //             typeof(Dictionary<string, object>),
+            //             typeof(ConversationData),
+            //             typeof(UserProfile)
+            //         })
+            // });
+            
+            /* JSON SERIALIZER - Uncomment the code in this section to use a JsonSerializer with a custom SerializationBinder configuration. */
+
             // Create the storage we'll be using for User and Conversation state.
             // (Memory is great for testing purposes - examples of implementing storage with
             // Azure Blob Storage or Cosmos DB are below).
             var storage = new MemoryStorage();
 
             /* AZURE BLOB STORAGE - Uncomment the code in this section to use Azure blob storage */
-                           
+
             // var storage = new BlobsStorage("<blob-storage-connection-string>", "bot-state");
+
+            // With a custom JSON SERIALIZER, use this instead.
+            // var storage = new BlobsStorage("<blob-storage-connection-string>", "bot-state", jsonSerializer);
 
             /* END AZURE BLOB STORAGE */
 
@@ -48,7 +68,11 @@ namespace Microsoft.BotBuilderSamples
             //     DatabaseId = "<your-database-id>",
             //     ContainerId = "<cosmosdb-container-id>"
             // };
+
             // var storage = new CosmosDbPartitionedStorage(cosmosDbStorageOptions);
+
+            // With a custom JSON SERIALIZER, use this instead.
+            // var storage = new CosmosDbPartitionedStorage(cosmosDbStorageOptions, jsonSerializer);
 
             /* END COSMOSDB STORAGE */
 
