@@ -82,6 +82,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomQABot", "12.customQAB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomQABotAllFeatures", "48.customQABot-all-features\CustomQABotAllFeatures.csproj", "{4C855F46-DCA3-4A69-9ED3-3B7491F91CF4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthCertificateBot", "84.bot-authentication-certificate\AuthCertificateBot.csproj", "{FA3A48E6-6CBE-4E8B-8CAA-3521511E2725}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -344,6 +346,14 @@ Global
 		{4C855F46-DCA3-4A69-9ED3-3B7491F91CF4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C855F46-DCA3-4A69-9ED3-3B7491F91CF4}.Release|x64.ActiveCfg = Release|Any CPU
 		{4C855F46-DCA3-4A69-9ED3-3B7491F91CF4}.Release|x64.Build.0 = Release|Any CPU
+		{FA3A48E6-6CBE-4E8B-8CAA-3521511E2725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA3A48E6-6CBE-4E8B-8CAA-3521511E2725}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA3A48E6-6CBE-4E8B-8CAA-3521511E2725}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FA3A48E6-6CBE-4E8B-8CAA-3521511E2725}.Debug|x64.Build.0 = Debug|Any CPU
+		{FA3A48E6-6CBE-4E8B-8CAA-3521511E2725}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA3A48E6-6CBE-4E8B-8CAA-3521511E2725}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA3A48E6-6CBE-4E8B-8CAA-3521511E2725}.Release|x64.ActiveCfg = Release|Any CPU
+		{FA3A48E6-6CBE-4E8B-8CAA-3521511E2725}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
