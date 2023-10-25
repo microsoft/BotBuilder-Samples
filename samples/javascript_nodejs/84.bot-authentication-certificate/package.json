@@ -19,7 +19,7 @@
         "@azure/identity": "^3.3.0",
         "@azure/keyvault-certificates": "^4.7.0",
         "@azure/keyvault-secrets": "^4.7.0",
-        "botbuilder": "~4.20.0",
+        "botbuilder": "~4.21.0",
         "dotenv": "^8.2.0",
         "restify": "~8.6.0"
     },
