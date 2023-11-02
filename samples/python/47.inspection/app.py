@@ -10,8 +10,6 @@ from aiohttp import web
 from aiohttp.web import Request, Response, json_response
 
 from botbuilder.core import (
-    BotFrameworkAdapter,
-    BotFrameworkAdapterSettings,
     ConversationState,
     MemoryStorage,
     TurnContext,
@@ -19,6 +17,7 @@ from botbuilder.core import (
 )
 from botbuilder.core.inspection import InspectionMiddleware, InspectionState
 from botbuilder.core.integration import aiohttp_error_middleware
+from botbuilder.integration.aiohttp import CloudAdapter, ConfigurationBotFrameworkAuthentication
 from botbuilder.schema import Activity, ActivityTypes
 from botframework.connector.auth import MicrosoftAppCredentials
 
@@ -29,9 +28,7 @@ CONFIG = DefaultConfig()
 
 # Create adapter.
 # See https://aka.ms/about-bot-adapter to learn more about how bots work.
-SETTINGS = BotFrameworkAdapterSettings(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
-ADAPTER = BotFrameworkAdapter(SETTINGS)
-
+ADAPTER = CloudAdapter(ConfigurationBotFrameworkAuthentication(CONFIG))
 
 # Catch-all for errors.
 async def on_error(context: TurnContext, error: Exception):
@@ -99,7 +96,7 @@ async def messages(req: Request) -> Response:
     activity = Activity().deserialize(body)
     auth_header = req.headers["Authorization"] if "Authorization" in req.headers else ""
 
-    response = await ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
+    response = await ADAPTER.process_activity(auth_header, activity, BOT.on_turn)
     if response:
         return json_response(data=response.body, status=response.status)
     return Response(status=HTTPStatus.OK)

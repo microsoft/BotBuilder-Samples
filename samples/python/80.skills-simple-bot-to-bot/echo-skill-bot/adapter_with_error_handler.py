@@ -4,17 +4,16 @@ import sys
 import traceback
 
 from botbuilder.core import (
-    BotFrameworkAdapter,
-    BotFrameworkAdapterSettings,
     MessageFactory,
     TurnContext,
 )
+from botbuilder.integration.aiohttp import CloudAdapter, ConfigurationBotFrameworkAuthentication
 from botbuilder.schema import Activity, ActivityTypes, InputHints
 
 
-class AdapterWithErrorHandler(BotFrameworkAdapter):
+class AdapterWithErrorHandler(CloudAdapter):
     def __init__(
-        self, settings: BotFrameworkAdapterSettings,
+        self, settings: ConfigurationBotFrameworkAuthentication,
     ):
         super().__init__(settings)
 

@@ -10,6 +10,7 @@ from botbuilder.core import (
     MessageFactory,
     TurnContext,
 )
+from botbuilder.integration.aiohttp import CloudAdapter, ConfigurationBotFrameworkAuthentication
 from botbuilder.integration.aiohttp.skills import SkillHttpClient
 from botbuilder.schema import ActivityTypes, Activity, InputHints
 
@@ -18,10 +19,10 @@ from dialogs import MainDialog
 from middleware import LoggerMiddleware
 
 
-class AdapterWithErrorHandler(BotFrameworkAdapter):
+class AdapterWithErrorHandler(CloudAdapter):
     def __init__(
         self,
-        settings: BotFrameworkAdapterSettings,
+        settings: ConfigurationBotFrameworkAuthentication,
         config: DefaultConfig,
         conversation_state: ConversationState,
         skill_client: SkillHttpClient = None,

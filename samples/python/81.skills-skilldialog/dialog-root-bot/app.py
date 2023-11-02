@@ -6,7 +6,6 @@ from aiohttp import web
 from aiohttp.web import Request, Response
 from aiohttp.web_response import json_response
 from botbuilder.core import (
-    BotFrameworkAdapterSettings,
     ConversationState,
     MemoryStorage,
     UserState,
@@ -17,6 +16,7 @@ from botbuilder.core.integration import (
 )
 from botbuilder.core.skills import SkillHandler
 from botbuilder.schema import Activity
+from botbuilder.integration.aiohttp import ConfigurationBotFrameworkAuthentication
 from botbuilder.integration.aiohttp.skills import SkillHttpClient
 from botframework.connector.auth import (
     AuthenticationConfiguration,
@@ -45,7 +45,7 @@ CLIENT = SkillHttpClient(CREDENTIAL_PROVIDER, ID_FACTORY)
 
 # Create adapter.
 # See https://aka.ms/about-bot-adapter to learn more about how bots work.
-SETTINGS = BotFrameworkAdapterSettings(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
+SETTINGS = ConfigurationBotFrameworkAuthentication(CONFIG)
 ADAPTER = AdapterWithErrorHandler(
     SETTINGS, CONFIG, CONVERSATION_STATE, CLIENT, SKILL_CONFIG
 )
@@ -73,7 +73,7 @@ async def messages(req: Request) -> Response:
     activity = Activity().deserialize(body)
     auth_header = req.headers["Authorization"] if "Authorization" in req.headers else ""
 
-    invoke_response = await ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
+    invoke_response = await ADAPTER.process_activity(auth_header, activity, BOT.on_turn)
     if invoke_response:
         return json_response(data=invoke_response.body, status=invoke_response.status)
     return Response(status=HTTPStatus.OK)
