@@ -1,0 +1,35 @@
+[import](common.lg)
+
+# ConfirmInput_Prompt_AreYouSure()
+[Activity
+    Text = ${ConfirmInput_Prompt_AreYouSure_text()}
+]
+
+# ConfirmInput_Prompt_AreYouSure_text()
+- Are you sure you want to cancel?
+- Do you want to cancel?
+- I will cancel this for you, but are you sure?
+
+# SendActivity_CancelConfirmation()
+[Activity
+    Text = ${SendActivity_CancelConfirmation_text()}
+]
+
+# SendActivity_CancelConfirmation_text()
+- OK, no problem.
+- Sure. I'll cancel.
+- OK, I will stop.
+- Got it, I'll stop here.
+- No problem, I will stop.
+
+# SendActivity_ContinueConfirmation()
+[Activity
+    Text = ${SendActivity_ContinueConfirmation_text()}
+]
+
+# SendActivity_ContinueConfirmation_text()
+- OK, let's continue.
+- Alright, let's move on.
+- Let's continue then.
+
+> Imported: 184d315b4c724ad6466cf3feb5320df4

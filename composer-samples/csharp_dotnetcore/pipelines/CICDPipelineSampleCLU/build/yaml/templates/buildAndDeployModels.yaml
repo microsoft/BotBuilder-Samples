@@ -1,0 +1,73 @@
+﻿# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+#
+# Builds, deploys and train language models (QnA Maker)
+#
+
+parameters:
+  - name: sourceDirectory
+    displayName: Directory to the source code in the build pipeline
+    type: string
+
+  - name: yamlDirectory
+    displayName: Directory to the yaml files in the build pipeline
+    type: string
+
+  - name: botName
+    displayName: Bot name
+    type: string
+
+  - name: qnaSubscriptionKey
+    displayName: QnA Maker subscription key
+    type: string
+
+steps:
+  # Prepare working folders
+  - task: PowerShell@2
+    displayName: "Prepare working folders"
+    inputs:
+      targetType: "inline"
+      script: |
+        $generatedDirectory = "${{ parameters.sourceDirectory }}/generated"
+
+        # Clean and recreate the generated directory
+        if (Test-Path $generatedDirectory)
+        {
+          Remove-Item -Path $generatedDirectory -Force -Recurse
+        }
+
+        $outputDirectory = "$generatedDirectory/interruption"
+        New-Item -Path /. -name $outputDirectory -ItemType "directory"
+    condition: and(succeeded(), ne(variables['qnaSubscriptionKey'], ''))
+
+  # Publish QnA Maker KBs if qnaSubscriptionKey is defined
+  - task: PowerShell@2
+    displayName: "Publish QnA"
+    inputs:
+      targetType: "inline"
+      script: |
+        $sourceDirectory = "${{ parameters.sourceDirectory }}/generated/interruption"
+        $outputDirectory = "${{ parameters.sourceDirectory }}/generated"
+
+        # Build, train and publish the QnA maker models
+        bf qnamaker:build --out $outputDirectory --in $sourceDirectory --subscriptionKey ${{ parameters.qnaSubscriptionKey }} --botName ${{ parameters.botName }} --suffix composer --force --log
+    condition: and(succeeded(), ne(variables['qnaSubscriptionKey'], ''))
+
+  # Compress generated folder
+  - task: ArchiveFiles@2
+    displayName: "Compress generated files"
+    inputs:
+      rootFolderOrFile: "${{ parameters.sourceDirectory }}/generated"
+      includeRootFolder: true
+      archiveType: "zip"
+      archiveFile: "$(System.DefaultWorkingDirectory)/output/generated.zip"
+      verbose: true
+    condition: and(succeeded(), ne(variables['qnaSubscriptionKey'], ''))
+
+  # Publish output artifacts to Azure DevOps
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish generated artifacts"
+    inputs:
+      pathtoPublish: "$(System.DefaultWorkingDirectory)/output/generated.zip"
+      artifactName: "BuildArtifacts-$(Build.BuildId)"
+    condition: and(succeeded(), ne(variables['qnaSubscriptionKey'], ''))
