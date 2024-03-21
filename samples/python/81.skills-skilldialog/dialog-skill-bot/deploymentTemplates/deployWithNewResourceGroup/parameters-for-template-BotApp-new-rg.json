@@ -26,10 +26,16 @@
                 "capacity": 1
             }
         },
+        "appType": {
+            "value": "MultiTenant"
+        },
         "appId": {
             "value": ""
         },
         "appSecret": {
+            "value": ""
+        },
+        "tenantId": {
             "value": ""
         }
     }
