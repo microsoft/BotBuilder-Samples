@@ -30,8 +30,8 @@ namespace Microsoft.BotBuilderSamples
                 NameConfirmStepAsync,
                 AgeStepAsync,
                 PictureStepAsync,
-                ConfirmStepAsync,
                 SummaryStepAsync,
+                ConfirmStepAsync,
             };
 
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
@@ -127,54 +127,60 @@ namespace Microsoft.BotBuilderSamples
 
         private async Task<DialogTurnResult> ConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            stepContext.Values["picture"] = ((IList<Attachment>)stepContext.Result)?.FirstOrDefault();
+            var msg = $"Thanks. ";
 
-            // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
-            return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = MessageFactory.Text("Is this ok?") }, cancellationToken);
+            if ((bool)stepContext.Result)
+            {
+                msg += $" Your profile saved successfully.";
+            }
+            else
+            {
+                msg += $" Your profile will not be kept.";
+            }
+
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text(msg), cancellationToken);
+
+            // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is the end.
+            return await stepContext.EndDialogAsync(cancellationToken: cancellationToken);
         }
 
         private async Task<DialogTurnResult> SummaryStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            if ((bool)stepContext.Result)
+            stepContext.Values["picture"] = ((IList<Attachment>)stepContext.Result)?.FirstOrDefault();
+
+            // Get the current profile object from user state.
+            var userProfile = await _userProfileAccessor.GetAsync(stepContext.Context, () => new UserProfile(), cancellationToken);
+
+            userProfile.Transport = (string)stepContext.Values["transport"];
+            userProfile.Name = (string)stepContext.Values["name"];
+            userProfile.Age = (int)stepContext.Values["age"];
+            userProfile.Picture = (Attachment)stepContext.Values["picture"];
+
+            var msg = $"I have your mode of transport as {userProfile.Transport} and your name as {userProfile.Name}";
+
+            if (userProfile.Age != -1)
             {
-                // Get the current profile object from user state.
-                var userProfile = await _userProfileAccessor.GetAsync(stepContext.Context, () => new UserProfile(), cancellationToken);
-
-                userProfile.Transport = (string)stepContext.Values["transport"];
-                userProfile.Name = (string)stepContext.Values["name"];
-                userProfile.Age = (int)stepContext.Values["age"];
-                userProfile.Picture = (Attachment)stepContext.Values["picture"];
-
-                var msg = $"I have your mode of transport as {userProfile.Transport} and your name as {userProfile.Name}";
-
-                if (userProfile.Age != -1)
-                {
-                    msg += $" and your age as {userProfile.Age}";
-                }
-
-                msg += ".";
-
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text(msg), cancellationToken);
-
-                if (userProfile.Picture != null)
-                {
-                    try
-                    {
-                        await stepContext.Context.SendActivityAsync(MessageFactory.Attachment(userProfile.Picture, "This is your profile picture."), cancellationToken);
-                    }
-                    catch
-                    {
-                        await stepContext.Context.SendActivityAsync(MessageFactory.Text("A profile picture was saved but could not be displayed here."), cancellationToken);
-                    }
-                }
-            }
-            else
-            {
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Thanks. Your profile will not be kept."), cancellationToken);
+                msg += $" and your age as {userProfile.Age}";
             }
 
-            // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is the end.
-            return await stepContext.EndDialogAsync(cancellationToken: cancellationToken);
+            msg += ".";
+
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text(msg), cancellationToken);
+
+            if (userProfile.Picture != null)
+            {
+                try
+                {
+                    await stepContext.Context.SendActivityAsync(MessageFactory.Attachment(userProfile.Picture, "This is your profile picture."), cancellationToken);
+                }
+                catch
+                {
+                    await stepContext.Context.SendActivityAsync(MessageFactory.Text("A profile picture was saved but could not be displayed here."), cancellationToken);
+                }
+            }
+
+            // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
+            return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = MessageFactory.Text("Is this ok?") }, cancellationToken);
         }
 
         private static Task<bool> AgePromptValidatorAsync(PromptValidatorContext<int> promptContext, CancellationToken cancellationToken)
