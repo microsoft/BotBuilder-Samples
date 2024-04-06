@@ -131,8 +131,7 @@ class UserProfileDialog extends ComponentDialog {
         let msg = 'Thanks.';
         if (step.result) {
             msg += ' Your profile saved successfully.';
-        }
-        else{
+        } else {
             msg += ' Your profile will not be kept.';
         }
 
@@ -144,7 +143,7 @@ class UserProfileDialog extends ComponentDialog {
 
     async summaryStep(step) {
         step.values.picture = step.result && step.result[0];
-        
+
         // Get the current profile object from user state.
         const userProfile = await this.userProfile.get(step.context, new UserProfile());
 
