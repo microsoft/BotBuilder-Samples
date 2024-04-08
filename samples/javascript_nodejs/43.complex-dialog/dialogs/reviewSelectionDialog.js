@@ -73,7 +73,7 @@ class ReviewSelectionDialog extends ComponentDialog {
             return await stepContext.endDialog(list);
         } else {
             // Otherwise, repeat this dialog, passing in the list from this iteration.
-            return await stepContext.replaceDialog(REVIEW_SELECTION_DIALOG, list);
+            return await stepContext.replaceDialog(this.initialDialogId, list);
         }
     }
 }

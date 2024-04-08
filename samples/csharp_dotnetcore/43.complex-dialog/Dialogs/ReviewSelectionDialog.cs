@@ -101,7 +101,7 @@ namespace Microsoft.BotBuilderSamples
             else
             {
                 // Otherwise, repeat this dialog, passing in the list from this iteration.
-                return await stepContext.ReplaceDialogAsync(nameof(ReviewSelectionDialog), list, cancellationToken);
+                return await stepContext.ReplaceDialogAsync(InitialDialogId, list, cancellationToken);
             }
         }
     }
