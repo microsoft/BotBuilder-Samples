@@ -20,8 +20,14 @@
         "botEndpoint": {
             "value": ""
         },
-        "appId": {
+        "appType": {
+            "value": "MultiTenant"
+          },
+          "appId": {
+              "value": ""
+          },
+          "tenantId": {
             "value": ""
-        }
-    }
+          }
+      }
 }
