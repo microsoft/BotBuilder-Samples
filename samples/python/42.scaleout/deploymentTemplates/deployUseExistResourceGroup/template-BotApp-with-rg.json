@@ -210,7 +210,7 @@
         "phpVersion": "",
         "pythonVersion": "",
         "nodeVersion": "",
-        "linuxFxVersion": "PYTHON|3.7",
+        "linuxFxVersion": "PYTHON|3.9",
         "requestTracingEnabled": false,
         "remoteDebuggingEnabled": false,
         "remoteDebuggingVersion": "VS2017",
