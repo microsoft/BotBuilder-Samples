@@ -1,5 +1,5 @@
 emoji<2.0.0
-botbuilder-integration-aiohttp>=4.14.0
-botbuilder-dialogs>=4.14.0
-botbuilder-ai>=4.14.0
+botbuilder-integration-aiohttp>=4.15.0
+botbuilder-dialogs>=4.15.0
+botbuilder-ai>=4.15.0
 
