@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import AdaptiveCard from '../resources/adaptiveCard.json';
 
-import { AttachmentLayoutTypes, CardFactory, StatePropertyAccessor, TurnContext, UserState } from 'botbuilder';
+import { AttachmentLayoutTypes, CardFactory, StatePropertyAccessor, TurnContext } from 'botbuilder';
 import {
     ChoicePrompt,
     ComponentDialog,
@@ -15,7 +15,6 @@ import {
 const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
 
 export class MainDialog extends ComponentDialog {
-
     constructor() {
         super('MainDialog');
 
@@ -77,49 +76,49 @@ export class MainDialog extends ComponentDialog {
         console.log('MainDialog.showCardStep');
 
         switch (stepContext.result.value) {
-            case 'Adaptive Card':
-                await stepContext.context.sendActivity({ attachments: [this.createAdaptiveCard()] });
-                break;
-            case 'Animation Card':
-                await stepContext.context.sendActivity({ attachments: [this.createAnimationCard()] });
-                break;
-            case 'Audio Card':
-                await stepContext.context.sendActivity({ attachments: [this.createAudioCard()] });
-                break;
-            case 'OAuth Card':
-                await stepContext.context.sendActivity({ attachments: [this.createOAuthCard()] });
-                break;
-            case 'Hero Card':
-                await stepContext.context.sendActivity({ attachments: [this.createHeroCard()] });
-                break;
-            case 'Receipt Card':
-                await stepContext.context.sendActivity({ attachments: [this.createReceiptCard()] });
-                break;
-            case 'Signin Card':
-                await stepContext.context.sendActivity({ attachments: [this.createSignInCard()] });
-                break;
-            case 'Thumbnail Card':
-                await stepContext.context.sendActivity({ attachments: [this.createThumbnailCard()] });
-                break;
-            case 'Video Card':
-                await stepContext.context.sendActivity({ attachments: [this.createVideoCard()] });
-                break;
-            default:
-                await stepContext.context.sendActivity({
-                    attachmentLayout: AttachmentLayoutTypes.Carousel,
-                    attachments: [
-                        this.createAdaptiveCard(),
-                        this.createAnimationCard(),
-                        this.createAudioCard(),
-                        this.createOAuthCard(),
-                        this.createHeroCard(),
-                        this.createReceiptCard(),
-                        this.createSignInCard(),
-                        this.createThumbnailCard(),
-                        this.createVideoCard()
-                    ]
-                });
-                break;
+        case 'Adaptive Card':
+            await stepContext.context.sendActivity({ attachments: [this.createAdaptiveCard()] });
+            break;
+        case 'Animation Card':
+            await stepContext.context.sendActivity({ attachments: [this.createAnimationCard()] });
+            break;
+        case 'Audio Card':
+            await stepContext.context.sendActivity({ attachments: [this.createAudioCard()] });
+            break;
+        case 'OAuth Card':
+            await stepContext.context.sendActivity({ attachments: [this.createOAuthCard()] });
+            break;
+        case 'Hero Card':
+            await stepContext.context.sendActivity({ attachments: [this.createHeroCard()] });
+            break;
+        case 'Receipt Card':
+            await stepContext.context.sendActivity({ attachments: [this.createReceiptCard()] });
+            break;
+        case 'Signin Card':
+            await stepContext.context.sendActivity({ attachments: [this.createSignInCard()] });
+            break;
+        case 'Thumbnail Card':
+            await stepContext.context.sendActivity({ attachments: [this.createThumbnailCard()] });
+            break;
+        case 'Video Card':
+            await stepContext.context.sendActivity({ attachments: [this.createVideoCard()] });
+            break;
+        default:
+            await stepContext.context.sendActivity({
+                attachmentLayout: AttachmentLayoutTypes.Carousel,
+                attachments: [
+                    this.createAdaptiveCard(),
+                    this.createAnimationCard(),
+                    this.createAudioCard(),
+                    this.createOAuthCard(),
+                    this.createHeroCard(),
+                    this.createReceiptCard(),
+                    this.createSignInCard(),
+                    this.createThumbnailCard(),
+                    this.createVideoCard()
+                ]
+            });
+            break;
         }
 
         // Give the user instructions about what to do next

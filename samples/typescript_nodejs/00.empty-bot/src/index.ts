@@ -7,7 +7,6 @@ import * as restify from 'restify';
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 import {
     CloudAdapter,
-    ConfigurationServiceClientCredentialFactory,
     ConfigurationBotFrameworkAuthentication,
     ConfigurationBotFrameworkAuthenticationOptions
 } from 'botbuilder';
@@ -54,5 +53,5 @@ const myBot = new EmptyBot();
 // Listen for incoming requests.
 server.post('/api/messages', async (req, res) => {
     // Route received a request to adapter for processing
-    await adapter.process(req, res, (context) => myBot.run(context))
+    await adapter.process(req, res, (context) => myBot.run(context));
 });
