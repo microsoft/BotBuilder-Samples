@@ -56,6 +56,7 @@
         "@typescript-eslint/parser": "^7.8.0",
         "eslint": "^8.57.0",
         "eslint-plugin-import": "^2.29.1",
+        "eslint-plugin-n": "^17.4.0",
         "mocha": "^7.1.2",
         "nodemon": "~2.0.4",
         "nyc": "^15.0.1",
