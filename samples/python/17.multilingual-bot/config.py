@@ -16,4 +16,4 @@ class DefaultConfig:
     APP_TYPE = os.environ.get("MicrosoftAppType", "MultiTenant")
     APP_TENANTID = os.environ.get("MicrosoftAppTenantId", "")
     SUBSCRIPTION_KEY = os.environ.get("SubscriptionKey", "")
-    # SUBSCRIPTION_REGION = os.environ.get("SubscriptionRegion", "")
+    SUBSCRIPTION_REGION = os.environ.get("SubscriptionRegion", "")
