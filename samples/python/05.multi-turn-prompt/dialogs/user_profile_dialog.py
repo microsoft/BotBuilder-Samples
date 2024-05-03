@@ -37,8 +37,8 @@ class UserProfileDialog(ComponentDialog):
                     self.name_confirm_step,
                     self.age_step,
                     self.picture_step,
-                    self.confirm_step,
                     self.summary_step,
+                    self.confirm_step,
                 ],
             )
         )
@@ -152,56 +152,58 @@ class UserProfileDialog(ComponentDialog):
     async def confirm_step(
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
-        step_context.values["picture"] = (
-            None if not step_context.result else step_context.result[0]
-        )
+        msg = f"Thanks."
+        if step_context.result:
+            msg += f" Your profile saved successfully."
+        else:
+            msg += f" Your profile will not be kept."
+
+        await step_context.context.send_activity(MessageFactory.text(msg))
 
         # WaterfallStep always finishes with the end of the Waterfall or
         # with another dialog; here it is a Prompt Dialog.
-        return await step_context.prompt(
-            ConfirmPrompt.__name__,
-            PromptOptions(prompt=MessageFactory.text("Is this ok?")),
-        )
+        return await step_context.end_dialog()
 
     async def summary_step(
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
-        if step_context.result:
-            # Get the current profile object from user state.  Changes to it
-            # will saved during Bot.on_turn.
-            user_profile = await self.user_profile_accessor.get(
-                step_context.context, UserProfile
+        step_context.values["picture"] = (
+            None if not step_context.result else step_context.result[0]
+        )
+        # Get the current profile object from user state.  Changes to it
+        # will saved during Bot.on_turn.
+        user_profile = await self.user_profile_accessor.get(
+            step_context.context, UserProfile
+        )
+
+        user_profile.transport = step_context.values["transport"]
+        user_profile.name = step_context.values["name"]
+        user_profile.age = step_context.values["age"]
+        user_profile.picture = step_context.values["picture"]
+
+        msg = f"I have your mode of transport as {user_profile.transport} and your name as {user_profile.name}."
+        if user_profile.age != -1:
+            msg += f" And age as {user_profile.age}."
+
+        await step_context.context.send_activity(MessageFactory.text(msg))
+
+        if user_profile.picture:
+            await step_context.context.send_activity(
+                MessageFactory.attachment(
+                    user_profile.picture, "This is your profile picture."
+                )
             )
-
-            user_profile.transport = step_context.values["transport"]
-            user_profile.name = step_context.values["name"]
-            user_profile.age = step_context.values["age"]
-            user_profile.picture = step_context.values["picture"]
-
-            msg = f"I have your mode of transport as {user_profile.transport} and your name as {user_profile.name}."
-            if user_profile.age != -1:
-                msg += f" And age as {user_profile.age}."
-
-            await step_context.context.send_activity(MessageFactory.text(msg))
-
-            if user_profile.picture:
-                await step_context.context.send_activity(
-                    MessageFactory.attachment(
-                        user_profile.picture, "This is your profile picture."
-                    )
-                )
-            else:
-                await step_context.context.send_activity(
-                    "A profile picture was saved but could not be displayed here."
-                )
         else:
             await step_context.context.send_activity(
-                MessageFactory.text("Thanks. Your profile will not be kept.")
+                "A profile picture was saved but could not be displayed here."
             )
 
         # WaterfallStep always finishes with the end of the Waterfall or with another
         # dialog, here it is the end.
-        return await step_context.end_dialog()
+        return await step_context.prompt(
+            ConfirmPrompt.__name__,
+            PromptOptions(prompt=MessageFactory.text("Is this ok?")),
+        )
 
     @staticmethod
     async def age_prompt_validator(prompt_context: PromptValidatorContext) -> bool:

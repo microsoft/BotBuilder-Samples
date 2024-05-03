@@ -13,6 +13,8 @@ class DefaultConfig:
     PORT = 3978
     APP_ID = os.environ.get("MicrosoftAppId", "")
     APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
+    APP_TYPE = os.environ.get("MicrosoftAppType", "MultiTenant")
+    APP_TENANTID = os.environ.get("MicrosoftAppTenantId", "")
     BLOB_ACCOUNT_NAME = ""
     BLOB_KEY = ""
     BLOB_CONTAINER = "dialogs"

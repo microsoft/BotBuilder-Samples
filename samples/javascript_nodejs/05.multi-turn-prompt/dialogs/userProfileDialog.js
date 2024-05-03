@@ -43,8 +43,8 @@ class UserProfileDialog extends ComponentDialog {
             this.nameConfirmStep.bind(this),
             this.ageStep.bind(this),
             this.pictureStep.bind(this),
-            this.confirmStep.bind(this),
-            this.summaryStep.bind(this)
+            this.summaryStep.bind(this),
+            this.confirmStep.bind(this)
         ]));
 
         this.initialDialogId = WATERFALL_DIALOG;
@@ -128,42 +128,47 @@ class UserProfileDialog extends ComponentDialog {
     }
 
     async confirmStep(step) {
-        step.values.picture = step.result && step.result[0];
+        let msg = 'Thanks.';
+        if (step.result) {
+            msg += ' Your profile saved successfully.';
+        } else {
+            msg += ' Your profile will not be kept.';
+        }
+
+        await step.context.sendActivity(msg);
 
         // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
-        return await step.prompt(CONFIRM_PROMPT, { prompt: 'Is this okay?' });
+        return await step.endDialog();
     }
 
     async summaryStep(step) {
-        if (step.result) {
-            // Get the current profile object from user state.
-            const userProfile = await this.userProfile.get(step.context, new UserProfile());
+        step.values.picture = step.result && step.result[0];
 
-            userProfile.transport = step.values.transport;
-            userProfile.name = step.values.name;
-            userProfile.age = step.values.age;
-            userProfile.picture = step.values.picture;
+        // Get the current profile object from user state.
+        const userProfile = await this.userProfile.get(step.context, new UserProfile());
 
-            let msg = `I have your mode of transport as ${ userProfile.transport } and your name as ${ userProfile.name }`;
-            if (userProfile.age !== -1) {
-                msg += ` and your age as ${ userProfile.age }`;
+        userProfile.transport = step.values.transport;
+        userProfile.name = step.values.name;
+        userProfile.age = step.values.age;
+        userProfile.picture = step.values.picture;
+
+        let msg = `I have your mode of transport as ${ userProfile.transport } and your name as ${ userProfile.name }`;
+        if (userProfile.age !== -1) {
+            msg += ` and your age as ${ userProfile.age }`;
+        }
+
+        msg += '.';
+        await step.context.sendActivity(msg);
+        if (userProfile.picture) {
+            try {
+                await step.context.sendActivity(MessageFactory.attachment(userProfile.picture, 'This is your profile picture.'));
+            } catch {
+                await step.context.sendActivity('A profile picture was saved but could not be displayed here.');
             }
-
-            msg += '.';
-            await step.context.sendActivity(msg);
-            if (userProfile.picture) {
-                try {
-                    await step.context.sendActivity(MessageFactory.attachment(userProfile.picture, 'This is your profile picture.'));
-                } catch {
-                    await step.context.sendActivity('A profile picture was saved but could not be displayed here.');
-                }
-            }
-        } else {
-            await step.context.sendActivity('Thanks. Your profile will not be kept.');
         }
 
         // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is the end.
-        return await step.endDialog();
+        return await step.prompt(CONFIRM_PROMPT, { prompt: 'Is this okay?' });
     }
 
     async agePromptValidator(promptContext) {

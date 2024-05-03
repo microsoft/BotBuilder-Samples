@@ -46,6 +46,24 @@
         "description": "The SKU of the App Service Plan. Defaults to Standard values."
       }
     },
+    "tenantId": {
+      "type": "string",
+      "defaultValue": "[subscription().tenantId]",
+      "metadata": {
+        "description": "The Azure AD Tenant ID to use as part of the Bot's Authentication. Only used for SingleTenant and UserAssignedMSI app types. Defaults to \"Subscription Tenant ID\"."
+      }
+    },
+    "appType": {
+      "type": "string",
+      "defaultValue": "MultiTenant",
+      "allowedValues": [
+        "MultiTenant",
+        "SingleTenant"
+      ],
+      "metadata": {
+        "description": "Type of Bot Authentication. set as MicrosoftAppType in the Web App's Application Settings. Allowed values are: MultiTenant, SingleTenant, UserAssignedMSI. Defaults to \"MultiTenant\"."
+      }
+    },
     "appId": {
       "type": "string",
       "metadata": {
@@ -60,10 +78,26 @@
     }
   },
   "variables": {
+    "tenantId": "[if(empty(parameters('tenantId')), subscription().tenantId, parameters('tenantId'))]",
     "appServicePlanName": "[parameters('appServicePlanName')]",
     "resourcesLocation": "[if(empty(parameters('appServicePlanLocation')), parameters('groupLocation'), parameters('appServicePlanLocation'))]",
     "appServiceName": "[parameters('appServiceName')]",
-    "resourceGroupId": "[concat(subscription().id, '/resourceGroups/', parameters('groupName'))]"
+    "resourceGroupId": "[concat(subscription().id, '/resourceGroups/', parameters('groupName'))]",
+    "msiResourceId": "[if(empty(parameters('UMSIName')), '', concat(subscription().id, '/resourceGroups/', parameters('UMSIResourceGroupName'), '/providers/', 'Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('UMSIName')))]",
+    "appTypeDef": {
+      "MultiTenant": {
+        "tenantId": "",
+        "identity": { "type": "None" }
+      },
+      "SingleTenant": {
+        "tenantId": "[variables('tenantId')]",
+        "identity": { "type": "None" }
+      }
+    },
+    "appType": {
+      "tenantId": "[variables('appTypeDef')[parameters('appType')].tenantId]",
+      "identity": "[variables('appTypeDef')[parameters('appType')].identity]"
+    }
   },
   "resources": [
     {
@@ -115,6 +149,7 @@
                 "[concat(variables('resourceGroupId'), '/providers/Microsoft.Web/serverfarms/', variables('appServicePlanName'))]"
               ],
               "name": "[variables('appServiceName')]",
+              "identity": "[variables('appType').identity]",
               "properties": {
                 "name": "[variables('appServiceName')]",
                 "hostNameSslStates": [
@@ -137,12 +172,19 @@
                       "value": "true"
                     },
                     {
+                      "name": "MicrosoftAppType",
+                      "value": "[parameters('appType')]"
+                    },                    {
                       "name": "MicrosoftAppId",
                       "value": "[parameters('appId')]"
                     },
                     {
                       "name": "MicrosoftAppPassword",
                       "value": "[parameters('appSecret')]"
+                    },
+                    {
+                      "name": "MicrosoftAppTenantId",
+                      "value": "[variables('appType').tenantId]"
                     }
                   ],
                   "cors": {
@@ -180,7 +222,7 @@
                 "phpVersion": "",
                 "pythonVersion": "",
                 "nodeVersion": "",
-                "linuxFxVersion": "PYTHON|3.7",
+                "linuxFxVersion": "PYTHON|3.9",
                 "requestTracingEnabled": false,
                 "remoteDebuggingEnabled": false,
                 "remoteDebuggingVersion": "VS2017",
