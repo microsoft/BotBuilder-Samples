@@ -5,14 +5,14 @@ const { ActivityHandler } = require('botbuilder');
 const { MemoryStore } = require('../memoryStore');
 const { DialogHost } = require('../dialogHost');
 
-class DialogBot extends ActivityHandler {
+class ScaleoutBot extends ActivityHandler {
     /**
      *
      * @param {Dialog} dialog
      */
     constructor(dialog) {
         super();
-        if (!dialog) throw new Error('[DialogBot]: Missing parameter. dialog is required');
+        if (!dialog) throw new Error('[ScaleoutBot]: Missing parameter. dialog is required');
 
         this.dialog = dialog;
 
@@ -51,4 +51,4 @@ class DialogBot extends ActivityHandler {
     }
 }
 
-module.exports.DialogBot = DialogBot;
+module.exports.ScaleoutBot = ScaleoutBot;

@@ -18,7 +18,7 @@ const {
 } = require('botbuilder');
 
 const { MemoryStore } = require('./memoryStore');
-const { DialogBot } = require('./bots/dialogBot');
+const { ScaleoutBot } = require('./bots/scaleoutBot');
 const { RootDialog } = require('./dialogs/rootDialog');
 
 // Create HTTP server.
@@ -49,7 +49,7 @@ const userState = new UserState(memoryStorage);
 const dialog = new RootDialog(userState);
 
 // Create the bot's main handler.
-const bot = new DialogBot(conversationState, userState, dialog);
+const bot = new ScaleoutBot(conversationState, userState, dialog);
 
 // Listen for incoming requests.
 server.post('/api/messages', async (req, res) => {

@@ -13,10 +13,9 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com"
+        "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
     },
     "dependencies": {
-        "@microsoft/recognizers-text-data-types-timex-expression": "1.1.4",
         "botbuilder": "~4.22.1",
         "botbuilder-ai": "~4.22.1",
         "botbuilder-dialogs": "~4.22.1",
