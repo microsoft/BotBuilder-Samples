@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ActivityHandler, BotState, ConversationState, StatePropertyAccessor, UserState  } from 'botbuilder';
+import { ActivityHandler, BotState, ConversationState, StatePropertyAccessor, UserState } from 'botbuilder';
 import { Dialog, DialogState } from 'botbuilder-dialogs';
 import { MainDialog } from '../dialogs/mainDialog';
 export class DialogBot extends ActivityHandler {

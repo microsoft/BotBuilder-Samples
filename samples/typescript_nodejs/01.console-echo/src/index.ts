@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ConsoleAdapter} from './consoleAdapter';
+import { ConsoleAdapter } from './consoleAdapter';
 
 import { ConsoleEchoBot } from './bot';
 
@@ -17,7 +17,7 @@ const echoBot: ConsoleEchoBot = new ConsoleEchoBot();
 // `adapter.listen` tells the adapter to listen for incoming messages
 // and events, known as "Activities."
 // Activities are wrapped in TurnContext objects by the handler function.
-const closeFn = adapter.listen(async (turnContext: TurnContext) => {
+adapter.listen(async (turnContext: TurnContext) => {
     await echoBot.onTurn(turnContext);
 });
 

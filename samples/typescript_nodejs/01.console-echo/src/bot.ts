@@ -7,7 +7,6 @@ import { ActivityTypes, TurnContext } from 'botbuilder';
  * Simple bot that echoes received messages.
  */
 export class ConsoleEchoBot {
-
     /**
      * Driver code for the bot. This bot only responds to "Message"-type
      * Activities. If the user's message is "quit", the process will exit.
@@ -26,5 +25,5 @@ export class ConsoleEchoBot {
                 await turnContext.sendActivity(`You sent '${ turnContext.activity.text }'`);
             }
         }
-    }
+    };
 }

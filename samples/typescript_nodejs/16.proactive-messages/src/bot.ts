@@ -25,11 +25,11 @@ export class EchoBot extends ActivityHandler {
 
         this.onMembersAdded(async (context, next) => {
             const membersAdded = context.activity.membersAdded;
-            const welcomeText = 'Hello and welcome!';
             for (const member of membersAdded) {
                 if (member.id !== context.activity.recipient.id) {
                     const welcomeMessage = 'Welcome to the Proactive Bot sample.  Navigate to http://localhost:3978/api/notify to proactively message everyone who has previously messaged this bot.';
-                    await context.sendActivity(welcomeMessage);                }
+                    await context.sendActivity(welcomeMessage);
+                }
             }
             // By calling next() you ensure that the next BotHandler is run.
             await next();

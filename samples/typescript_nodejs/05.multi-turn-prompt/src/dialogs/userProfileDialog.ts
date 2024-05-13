@@ -83,7 +83,7 @@ export class UserProfileDialog extends ComponentDialog {
         stepContext.options.name = stepContext.result;
 
         // We can send messages to the user at any point in the WaterfallStep.
-        await stepContext.context.sendActivity(`Thanks ${stepContext.result}.`);
+        await stepContext.context.sendActivity(`Thanks ${ stepContext.result }.`);
 
         // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
         return await stepContext.prompt(CONFIRM_PROMPT, 'Do you want to give your age?', ['yes', 'no']);
@@ -105,7 +105,7 @@ export class UserProfileDialog extends ComponentDialog {
     private async confirmStep(stepContext: WaterfallStepContext<UserProfile>) {
         stepContext.options.age = stepContext.result;
 
-        const msg = stepContext.options.age === -1 ? 'No age given.' : `I have your age as ${stepContext.options.age}.`;
+        const msg = stepContext.options.age === -1 ? 'No age given.' : `I have your age as ${ stepContext.options.age }.`;
 
         // We can send messages to the user at any point in the WaterfallStep.
         await stepContext.context.sendActivity(msg);
@@ -123,9 +123,9 @@ export class UserProfileDialog extends ComponentDialog {
             userProfile.name = stepContextOptions.name;
             userProfile.age = stepContextOptions.age;
 
-            let msg = `I have your mode of transport as ${userProfile.transport} and your name as ${userProfile.name}.`;
+            let msg = `I have your mode of transport as ${ userProfile.transport } and your name as ${ userProfile.name }.`;
             if (userProfile.age !== -1) {
-                msg += ` And age as ${userProfile.age}.`;
+                msg += ` And age as ${ userProfile.age }.`;
             }
 
             await stepContext.context.sendActivity(msg);
