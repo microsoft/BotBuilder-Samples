@@ -93,7 +93,6 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseRouting()
-                .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();

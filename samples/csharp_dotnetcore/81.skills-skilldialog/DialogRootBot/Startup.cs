@@ -112,8 +112,6 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
 
             app.UseWebSockets();
 
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

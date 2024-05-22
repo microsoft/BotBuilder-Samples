@@ -75,7 +75,6 @@ namespace Microsoft.BotBuilderSamples.EchoSkillBot
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseRouting()
-                .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();
