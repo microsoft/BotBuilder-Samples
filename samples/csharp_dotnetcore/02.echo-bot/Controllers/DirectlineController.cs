@@ -24,7 +24,7 @@ using Newtonsoft.Json;
 
 namespace Microsoft.BotBuilderSamples.Controllers
 {
-    [Route("v3/directline")]
+    [Route(".bot")]
     [ApiController]
     public class DirectlineController : ControllerBase
     {
@@ -39,7 +39,13 @@ namespace Microsoft.BotBuilderSamples.Controllers
             _logger = logger;
         }
 
-        [HttpPost("tokens/generate")]
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok("Welcome to the Local Directline Controller example, which is free and open-source. This example allows clients (webchat or dotnet) to directly connect to bot without any external service and let you take control the network as well as authentication");
+        }
+
+        [HttpPost("v3/directline/tokens/generate")]
         [Produces("application/json")]
         public async Task<object> TokenGenerate()
         {
@@ -80,7 +86,7 @@ namespace Microsoft.BotBuilderSamples.Controllers
             };
         }
 
-        [HttpGet("conversations/connect")]
+        [HttpGet("v3/directline/conversations/connect")]
         public async Task ConnectToConversation()
         {
             if (!HttpContext.WebSockets.IsWebSocketRequest)
