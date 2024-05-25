@@ -75,6 +75,7 @@ namespace Microsoft.BotBuilderSamples.Controllers
 
             return new
             {
+                conversationId = Guid.NewGuid().ToString(),
                 token
             };
         }
@@ -95,6 +96,13 @@ namespace Microsoft.BotBuilderSamples.Controllers
                 HttpContext.Response.StatusCode = 400;
                 await HttpContext.Response.BodyWriter.WriteAsync(Encoding.UTF8.GetBytes("The query parameter 'token' is required")).ConfigureAwait(false);
                 return;
+            }
+
+            var conversationId = Request.Query["conversationId"];
+            if (string.IsNullOrEmpty(conversationId))
+            {
+                _logger.LogInformation("No conversationId specified when connecting, generating new conversation id");
+                conversationId = Guid.NewGuid().ToString();
             }
 
             // Again, this is just a sample. In production scenarios, you should validate the token
@@ -123,7 +131,7 @@ namespace Microsoft.BotBuilderSamples.Controllers
                 // This may not necessarily be an AdapterWithErrorHandler, but we need to access the custom ProcessActivityAsync method
                 if (_adapter is AdapterWithErrorHandler adapterWithErrorHandler)
                 {
-                    var directlineClientRequestHander = new DirectlineRequestHandler(adapterWithErrorHandler, _bot, user);
+                    var directlineClientRequestHander = new DirectlineRequestHandler(adapterWithErrorHandler, _bot, user, conversationId);
                     var wbServer = new WebSocketServer(webSocket, directlineClientRequestHander);
                     directlineClientRequestHander.WebSocketServer = wbServer;
                     await wbServer.StartAsync();
@@ -162,14 +170,16 @@ namespace Microsoft.BotBuilderSamples.Controllers
         private readonly IBot _bot;
         private ChannelAccount _user;
         private readonly string channelId = "webchat";
+        private readonly string _conversationId;
 
         public WebSocketServer WebSocketServer { get; set; }
 
-        public DirectlineRequestHandler(AdapterWithErrorHandler adapter, IBot bot, ChannelAccount user)
+        public DirectlineRequestHandler(AdapterWithErrorHandler adapter, IBot bot, ChannelAccount user, string conversationId)
         {
             _adapter = adapter;
             _bot = bot;
             _user = user;
+            _conversationId = conversationId;
         }
 
         public override Task<StreamingResponse> ProcessRequestAsync(ReceiveRequest request, ILogger<RequestHandler> logger, object context = null, CancellationToken cancellationToken = default)
@@ -201,7 +211,7 @@ namespace Microsoft.BotBuilderSamples.Controllers
         {
             var conversation = new
             {
-                conversationId = Guid.NewGuid().ToString(),
+                conversationId = _conversationId,
             };
 
             await SendConversationUpdateToBotAsync(request, conversation.conversationId, logger, cancellationToken);
