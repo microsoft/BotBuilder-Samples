@@ -220,13 +220,14 @@ namespace Microsoft.BotBuilderSamples.Controllers
 
             return streamResponse;
         }
-
+         
         private async Task<StreamingResponse> ProcessPostActivityRequestAsync(ReceiveRequest request, ILogger<RequestHandler> logger, object context, string conversationId, ChannelAccount user, CancellationToken cancellationToken)
         {
             var activity = await request.ReadBodyAsJsonAsync<Activity>().ConfigureAwait(false);
             activity.Conversation = new ConversationAccount { Id = conversationId };
             activity.Id = Guid.NewGuid().ToString();
             activity.Timestamp = DateTime.UtcNow;
+            activity.Recipient = new ChannelAccount { Id = "bot", Name = "bot" };
 
             // Echo back the activity to client first, so the client knows the activity has been received
             await SendActivityToClient(request, activity, logger, cancellationToken);
@@ -247,7 +248,7 @@ namespace Microsoft.BotBuilderSamples.Controllers
                 Timestamp = DateTime.UtcNow,
                 ChannelId = channelId,
                 Conversation = new ConversationAccount { Id = conversationId },
-                Recipient = new ChannelAccount { Id = "Bot", Name = "Bot" },
+                Recipient = new ChannelAccount { Id = "bot", Name = "bot" },
                 From = _user
             };
             return await SendActivityToBot(requestContext, update, logger, cancellationToken);
@@ -269,7 +270,8 @@ namespace Microsoft.BotBuilderSamples.Controllers
         {
             var clientRequest = new StreamingRequest
             {
-                Path = requestContext.Path,
+                // Stream client is expecting the path to be relative to /v3/directline
+                Path = requestContext.Path.Replace("/v3/directline", ""),
                 Verb = requestContext.Verb
             };
             var activitySet = new ActivitySet
@@ -333,9 +335,12 @@ namespace Microsoft.BotBuilderSamples.Controllers
             {
                 var streamingRequest = new StreamingRequest
                 {
-                    Path = httpRequestMessage.RequestUri.OriginalString.Substring(httpRequestMessage.RequestUri.OriginalString.IndexOf("/v3", StringComparison.Ordinal)),
+                    Path = httpRequestMessage.RequestUri.OriginalString.Substring(httpRequestMessage.RequestUri.OriginalString.IndexOf("/conversation", StringComparison.Ordinal)),
                     Verb = httpRequestMessage.Method.ToString(),
                 };
+
+                // Stream client doesn't expect the path to contains any thing after activities
+                streamingRequest.Path = streamingRequest.Path.Substring(0, streamingRequest.Path.IndexOf("activities", StringComparison.Ordinal) + "activities".Length);
 
                 if (httpRequestMessage.Content != null)
                 {
@@ -343,6 +348,7 @@ namespace Microsoft.BotBuilderSamples.Controllers
                     var activity = JsonConvert.DeserializeObject<Activity>(contentString);
                     activity.Timestamp = DateTime.UtcNow;
                     activity.Id = Guid.NewGuid().ToString();
+                    activity.From = new ChannelAccount { Id = "bot", Name = "bot" };
 
                     var activitySet = new
                     {
