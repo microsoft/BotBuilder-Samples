@@ -36,6 +36,7 @@ namespace Microsoft.BotBuilderSamples.Controllers
         {
             _adapter = adapter;
             _bot = bot;
+            _logger = logger;
         }
 
         [HttpPost("tokens/generate")]
@@ -50,14 +51,19 @@ namespace Microsoft.BotBuilderSamples.Controllers
             }
             catch (JsonException)
             {
-                _logger.LogTrace("The request body is not a valid JSON object");
+                _logger.LogError("The request body is not a valid JSON object");
                 return BadRequest("The request body is not a valid JSON object");
             }
 
             if (tokenGenerationParameters?.user?.Id == null || tokenGenerationParameters?.user?.Name == null)
             {
-                _logger.LogTrace("The user parameter is required");
-                return BadRequest("The user parameter is required");
+                _logger.LogWarning("No user specified, using default user id and name");
+                tokenGenerationParameters = new TokenGenerationParameters();
+                tokenGenerationParameters.user = new TokenGenerationParameters.User
+                {
+                    Id = "default-user-id",
+                    Name = "default-user-name"
+                };
             }
 
             // We just encode the user id and name in the token for this sample
