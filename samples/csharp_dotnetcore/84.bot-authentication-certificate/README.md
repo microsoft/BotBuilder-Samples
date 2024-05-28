@@ -21,18 +21,29 @@ This bot has been created using [Bot Framework](https://dev.botframework.com/), 
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- Set app settings variables
+- Set app settings variables needed in every certificate option
 
-  - MicrosoftAppType: Type of the App.
+  - Local certificate:
+  
+    - MicrosoftAppId: App Id of your bot.
 
-  - MicrosoftAppId: App Id of your bot.
+    - MicrosoftAppType: Type of the App(optional).
 
-  - MicrosoftAppTenantId: Tenant Id to which your bot belongs.
+    - MicrosoftAppTenantId: Tenant Id to which your bot belongs(optional).
 
-  - KeyVaultName: Name of the KeyVault containing the certificate.
+  - KeyVault certificate:
 
-  - CertificateName: Name of the certificate in the KeyVault.
+    - MicrosoftAppId: App Id of your bot.
 
+    - KeyVaultName: Name of the KeyVault containing the certificate.
+
+    - CertificateName: Name of the certificate in the KeyVault.
+
+    - MicrosoftAppType: Type of the App(optional).
+
+    - MicrosoftAppTenantId: Tenant Id to which your bot belongs(optional).
+
+- [Create](#how-to-create-and-use-an-ssltls-certificate-with-botframework) an SSL/TLS certificate and configure it for use in the sample.
 
 - Run the bot from a terminal or from Visual Studio:
 
@@ -71,31 +82,68 @@ This sample uses the bot authentication capabilities of Azure Bot Service, provi
 
 An SSL/TLS certificate is a digital object that allows systems to verify identity and subsequently establish an encrypted network connection with another system using the Secure Sockets Layer/Transport Layer Security (SSL/TLS) protocol. Certificates are issued using a cryptographic system known as public key infrastructure (PKI). PKI allows one party to establish the identity of another through the use of certificates if they both trust a third party, known as a certificate authority. SSL/TLS certificates therefore function as digital identity documents that protect network communications and establish the identity of websites on the Internet as well as resources on private networks.
 
-## How to create an SSL/TLS certificate
+## How to create and use an SSL/TLS certificate with BotFramework
 
-There are two possible options to create SSL/TSL certificate. Below is a step-by-step description of each one:
+We use two possible options to create SSL/TSL certificate. Below is a step-by-step description of each one:
 
 ### Using local environment
+1. Intall and configure [OpenSSL](https://www.openssl.org/source/) with the latest version
+  - Download the latest version source and add the folder to the [environment variables](https://www.java.com/en/download/help/path.html) path.
+  ```bash
+  setx path "%path%;<OpenSSL path here> 
+  i.e
+  setx path "%path%;C:\Program Files\openssl-3.3.0"
+  ```
 
-1. Run the following command in a local PowerShell
+2. Run the following command in PowerShell
+  - For global environment certificate(Use admin PowerShell) execute:
+
+  ```
+  $cert = New-SelfSignedCertificate -CertStoreLocation "." -Subject "CN=<certificate-name>" -KeySpec KeyExchange
+  ```
+  ![Global Certificate Command](Images/GlobalCertificateCommand.png)
+
+  - For current user certificate execute:
+
+  ```
+  $cert = New-SelfSignedCertificate -CertStoreLocation "Cert:\CurrentUser\My" -Subject "CN=<certificate-name>" -KeySpec KeyExchange
+  ```
+![User Certificate Command](Images/UserCertificateCommand.png)
+
+3. Then, type _Manage computer certificates(global environment certificate)_ or _Manage User Certificates(current user certificate)_ in the Windows search bar and hit enter.
+![User Certificate Search](Images/CertificateSearch.png)
+
+4. The certificate will be located in the _user certificates_ folder, under _personal_ directory.
+![Certificate Directory](Images/CertificateDirectory.png)
+
+5. Export the certificate to _pfx_ format including the key.
+![Certificate Export Steps](Images/CertificateExportSteps1.png)
+![Certificate Export Steps](Images/CertificateExportSteps2.png)
+
+6. Go to the certificate location and run the following command to generate a _pem_ file (the command will ask for the password generated in the previous step):
 
 ```
-$cert = New-SelfSignedCertificate -CertStoreLocation "<directory-to-store-certificate>" -Subject "CN=<certificate-name>" -KeySpec KeyExchange
+OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-name>.pem –nodes -nokeys
 ```
+![Pem File Command No Key](Images/PemCommandNoKey.png)
 
-1. Then, type _Manage User Certificates_ in the Windows search bar and hit enter
+7. Upload the generated certificate to the Azure app registration.
+![Certificate Upload](Images/CertificateUpload.png)
 
-2. The certificate will be located in the _user certificates_ folder, under _personal_ directory.
-
-3. Export the certificate to _pfx_ format including the key(The default location is _system32_ folder).
-
-4. Go to the certificate location and run the following command to generate a _pem_ file:
-
+8. To read the certificate in the bot, the _pem_ file must include the key, then go to the certificate location and run the following command to generate a _pem_ file with key:
 ```
-OpenSSL pkcs12 -in <certificate-name>.pfx -out c:\<certificate-name>.pem –nodes
+OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-with-key-name>.pem –nodes
 ```
+![Pem Command With Key](Images/PemCommandWithKey.png)
 
-5. Upload the generated certificate to the Azure app registration.
+9. In the code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the local certificate and write the name of the certificate in _pem_ format inside the _CreateFromPemFile_ method.
+Be sure to comment out or remove the lines of code that use Azure KeyVault to avoid errors.
+> Here the value of MicrosoftAppId and MicrosoftAppTenantId are needed to generate the credentials.
+
+![Certificate Reading](Images/CertificateReading.png)
+
+10. Run the sample and talk with the bot:
+![Bot Conversation](Images/BotConversation.png)
 
 ### Using KeyVault
 
