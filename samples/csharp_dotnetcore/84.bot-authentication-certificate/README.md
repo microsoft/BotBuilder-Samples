@@ -101,59 +101,97 @@ We use two possible options to create SSL/TSL certificate. Below is a step-by-st
   ```
   $cert = New-SelfSignedCertificate -CertStoreLocation "." -Subject "CN=<certificate-name>" -KeySpec KeyExchange
   ```
-  ![Global Certificate Command](Images/GlobalCertificateCommand.png)
+
+  ![Global Certificate Command](Images/Local/GlobalCertificateCommand.png)
 
   - For current user certificate execute:
 
   ```
   $cert = New-SelfSignedCertificate -CertStoreLocation "Cert:\CurrentUser\My" -Subject "CN=<certificate-name>" -KeySpec KeyExchange
   ```
-![User Certificate Command](Images/UserCertificateCommand.png)
+
+  ![User Certificate Command](Images/Local/UserCertificateCommand.png)
 
 3. Then, type _Manage computer certificates(global environment certificate)_ or _Manage User Certificates(current user certificate)_ in the Windows search bar and hit enter.
-![User Certificate Search](Images/CertificateSearch.png)
+
+![User Certificate Search](Images/Local/CertificateSearch.png)
 
 4. The certificate will be located in the _user certificates_ folder, under _personal_ directory.
-![Certificate Directory](Images/CertificateDirectory.png)
+
+![Certificate Directory](Images/Local/CertificateDirectory.png)
 
 5. Export the certificate to _pfx_ format including the key.
-![Certificate Export Steps](Images/CertificateExportSteps1.png)
-![Certificate Export Steps](Images/CertificateExportSteps2.png)
+
+![Certificate Export Steps](Images/Local/CertificateExportSteps1.png)
+![Certificate Export Steps](Images/Local/CertificateExportSteps2.png)
 
 6. Go to the certificate location and run the following command to generate a _pem_ file (the command will ask for the password generated in the previous step):
 
 ```
 OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-name>.pem –nodes -nokeys
 ```
-![Pem File Command No Key](Images/PemCommandNoKey.png)
+
+![Pem File Command No Key](Images/Local/PemCommandNoKey.png)
 
 7. Upload the generated certificate to the Azure app registration.
-![Certificate Upload](Images/CertificateUpload.png)
+
+![Certificate Upload](Images/Local/CertificateUpload.png)
 
 8. To read the certificate in the bot, the _pem_ file must include the key, then go to the certificate location and run the following command to generate a _pem_ file with key:
 ```
 OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-with-key-name>.pem –nodes
 ```
-![Pem Command With Key](Images/PemCommandWithKey.png)
 
-9. In the code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the local certificate and write the name of the certificate in _pem_ format inside the _CreateFromPemFile_ method.
+![Pem Command With Key](Images/Local/PemCommandWithKey.png)
+
+9. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the local certificate and write the name of the certificate in _pem_ format inside the _CreateFromPemFile_ method.
 Be sure to comment out or remove the lines of code that use Azure KeyVault to avoid errors.
-> Here the value of MicrosoftAppId and MicrosoftAppTenantId are needed to generate the credentials.
+> NOTE: Here the value of MicrosoftAppId and MicrosoftAppTenantId are needed to generate the credentials.
 
-![Certificate Reading](Images/CertificateReading.png)
+![Certificate Reading](Images/Local/CertificateReading.png)
 
 10. Run the sample and talk with the bot:
-![Bot Conversation](Images/BotConversation.png)
+
+![Bot Conversation](Images/Local/BotConversation.png)
 
 ### Using KeyVault
 
-1. Create a KeyVault resource and assign _the KeyVault Administrator_ role to have permission to create a new certificate.
+1. Create a [KeyVault](https://learn.microsoft.com/en-us/azure/key-vault/general/quick-create-portal) resource.
+   
+2. Assign KeyVault [permissions](https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide?tabs=azure-cli) to the current user if needed to create a new certificate.
 
-2. Under the Certificates section, hit on Generate/Import, complete the form, and create the certificate in PEM format.
+3. Under the Certificates section, hit on Generate/Import, complete the form, and create the certificate in _pem_ format.
 
-3. Go to the details of the certificate that you created and enable it.
+![Generate Certificate](Images/KeyVault/GenerateCertificate.png)
+![Create Certificate](Images/KeyVault/CreateCertificate.png)
 
-4. Download the certificate in CER format and then upload it to the Azure app registration.
+4. Go to the details of the certificate and download it in _CER_ format to avoid the export of the private key.
+
+![Certificate Details](Images/KeyVault/CertificateDetails.png)
+![alt text](Images/KeyVault/DownloadCertificate.png)
+
+>NOTE: If you downloaded it in _PEM_ format, it will be neccesary to remove the private key by executing the following command:
+```
+OpenSSL pkcs12 -in .\<certificate-name>.pem -export -out .\<certificate-without-key-name>.pem -nokeys
+```
+
+![Remove Keys](Images/KeyVault/RemoveKeys.png)
+
+>NOTE: If you used _pkcs_ format in the creation step and downloaded it in _PFX_ format, follow the step 6 of the previous [section](#using-local-environment) to convert it to _pem_ format without keys.
+
+5. Upload the certificate to the Azure app registration.
+
+![Upload Cer Certificate](Images/KeyVault/UploadCerCertificate.png)
+
+6. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the keyvault certificate and verify that the keyvault credentials are completed in the [appsettings](appsettings.json) file.
+Be sure to comment out or remove the lines of code that use local certificate to avoid errors.
+> NOTE: Here the value of MicrosoftAppId and MicrosoftAppTenantId are also needed to generate the credentials.
+
+![Certificate Reading](Images/KeyVault/CertificateReading.png)
+
+7. Run the sample and talk with the bot:
+
+![Bot Conversation](Images/KeyVault/BotConversation.png)
 
 ## Deploy the bot to Azure
 

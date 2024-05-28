@@ -4,6 +4,7 @@
 using System;
 using Azure.Identity;
 using Azure.Security.KeyVault.Certificates;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -32,18 +33,18 @@ namespace Microsoft.BotBuilderSamples
                 options.SerializerSettings.MaxDepth = HttpHelper.BotMessageSerializerSettings.MaxDepth;
             });
 
-            // Using KeyVault
+            //// Using KeyVault
             // Create a new certificate client using the default credential from Azure.Identity using environment variables previously set,
             // including AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, and AZURE_TENANT_ID.
             var keyVaultUri = $"https://{_configuration["KeyVaultName"]}.vault.azure.net";
             var credential = new DefaultAzureCredential();
             var client = new CertificateClient(new Uri(keyVaultUri), credential);
 
-            //Get certificate in X509Certificate format 
+            //Get certificate in X509Certificate format
             var certificateName = _configuration["CertificateName"];
-            var certificate =  client.DownloadCertificate(certificateName).Value;
+            var certificate = client.DownloadCertificate(certificateName).Value;
 
-            // Using a local certificate
+            //// Using a local certificate
             //var certificate = X509Certificate2.CreateFromPemFile(@"{Pem file path}");
 
             // Create the ClientCredentialsFactory to user certificate authentication
