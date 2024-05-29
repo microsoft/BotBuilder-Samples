@@ -57,66 +57,66 @@ An SSL/TLS certificate is a digital object that allows systems to verify identit
 
   1. Intall and configure [OpenSSL](https://www.openssl.org/source/) with the latest version
     - Download the latest version source and add the folder to the [environment variables](https://www.java.com/en/download/help/path.html) path.
-    ```bash
-    setx path "%path%;<OpenSSL path here> 
-    i.e
-    setx path "%path%;C:\Program Files\openssl-3.3.0"
-    ```
+      ```bash
+      setx path "%path%;<OpenSSL path here> 
+      i.e
+      setx path "%path%;C:\Program Files\openssl-3.3.0"
+      ```
 
   2. Run the following command in PowerShell
-    - For global environment certificate(Use admin PowerShell) execute:
+       - For global environment certificate(Use admin PowerShell) execute:
 
-    ```
-    $cert = New-SelfSignedCertificate -CertStoreLocation "." -Subject "CN=<certificate-name>" -KeySpec KeyExchange
-    ```
+      ```
+      $cert = New-SelfSignedCertificate -CertStoreLocation "." -Subject "CN=<certificate-name>" -KeySpec KeyExchange
+      ```
 
-    ![Global Certificate Command](Images/Local/GlobalCertificateCommand.png)
+      ![Global Certificate Command](Images/Local/GlobalCertificateCommand.png)
 
-    - For current user certificate execute:
+       - For current user certificate execute:
 
-    ```
-    $cert = New-SelfSignedCertificate -CertStoreLocation "Cert:\CurrentUser\My" -Subject "CN=<certificate-name>" -KeySpec KeyExchange
-    ```
+      ```
+      $cert = New-SelfSignedCertificate -CertStoreLocation "Cert:\CurrentUser\My" -Subject "CN=<certificate-name>" -KeySpec KeyExchange
+      ```
 
-    ![User Certificate Command](Images/Local/UserCertificateCommand.png)
+      ![User Certificate Command](Images/Local/UserCertificateCommand.png)
 
   3. Then, type _Manage computer certificates(global environment certificate)_ or _Manage User Certificates(current user certificate)_ in the Windows search bar and hit enter.
 
-  ![User Certificate Search](Images/Local/CertificateSearch.png)
+      ![User Certificate Search](Images/Local/CertificateSearch.png)
 
   4. The certificate will be located in the _user certificates_ folder, under _personal_ directory.
 
-  ![Certificate Directory](Images/Local/CertificateDirectory.png)
+      ![Certificate Directory](Images/Local/CertificateDirectory.png)
 
   5. Export the certificate to _pfx_ format including the key.
 
-  ![Certificate Export Steps](Images/Local/CertificateExportSteps1.png)
-  ![Certificate Export Steps](Images/Local/CertificateExportSteps2.png)
+      ![Certificate Export Steps](Images/Local/CertificateExportSteps1.png)
+      ![Certificate Export Steps](Images/Local/CertificateExportSteps2.png)
 
   6. Go to the certificate location and run the following command to generate a _pem_ file (the command will ask for the password generated in the previous step):
 
-  ```
-  OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-name>.pem –nodes -nokeys
-  ```
+      ```
+      OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-name>.pem –nodes -nokeys
+      ```
 
-  ![Pem File Command No Key](Images/Local/PemCommandNoKey.png)
+      ![Pem File Command No Key](Images/Local/PemCommandNoKey.png)
 
   7. Upload the generated certificate to the Azure app registration.
 
-  ![Certificate Upload](Images/Local/CertificateUpload.png)
+      ![Certificate Upload](Images/Local/CertificateUpload.png)
 
   8. To read the certificate in the bot, the _pem_ file must include the key, then go to the certificate location and run the following command to generate a _pem_ file with key:
-  ```
-  OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-with-key-name>.pem –nodes
-  ```
+      ```
+      OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-with-key-name>.pem –nodes
+      ```
 
-  ![Pem Command With Key](Images/Local/PemCommandWithKey.png)
+      ![Pem Command With Key](Images/Local/PemCommandWithKey.png)
 
   9. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the local certificate and write the name of the certificate in _pem_ format inside the _CreateFromPemFile_ method.
   Be sure to comment out or remove the lines of code that use Azure KeyVault to avoid errors.
   > NOTE: Here the value of MicrosoftAppId and MicrosoftAppTenantId are needed to generate the credentials.
 
-  ![Certificate Reading](Images/Local/CertificateReading.png)
+      ![Certificate Reading](Images/Local/CertificateReading.png)
 
   ### Using KeyVault
   - This option requires the following app settings variables:
@@ -137,32 +137,32 @@ An SSL/TLS certificate is a digital object that allows systems to verify identit
 
   3. Under the Certificates section, hit on Generate/Import, complete the form, and create the certificate in _pem_ format.
 
-  ![Generate Certificate](Images/KeyVault/GenerateCertificate.png)
-  ![Create Certificate](Images/KeyVault/CreateCertificate.png)
+      ![Generate Certificate](Images/KeyVault/GenerateCertificate.png)
+      ![Create Certificate](Images/KeyVault/CreateCertificate.png)
 
   4. Go to the details of the certificate and download it in _CER_ format to avoid the export of the private key.
 
-  ![Certificate Details](Images/KeyVault/CertificateDetails.png)
-  ![alt text](Images/KeyVault/DownloadCertificate.png)
+      ![Certificate Details](Images/KeyVault/CertificateDetails.png)
+      ![alt text](Images/KeyVault/DownloadCertificate.png)
 
-  >NOTE: If you downloaded it in _PEM_ format, it will be neccesary to remove the private key by executing the following command:
-  ```
-  OpenSSL pkcs12 -in .\<certificate-name>.pem -export -out .\<certificate-without-key-name>.pem -nokeys
-  ```
+      >NOTE: If you downloaded it in _PEM_ format, it will be neccesary to remove the private key by executing the following command:
+      ```
+      OpenSSL pkcs12 -in .\<certificate-name>.pem -export -out .\<certificate-without-key-name>.pem -nokeys
+      ```
 
-  ![Remove Keys](Images/KeyVault/RemoveKeys.png)
+      ![Remove Keys](Images/KeyVault/RemoveKeys.png)
 
-  >NOTE: If you used _pkcs_ format in the creation step and downloaded it in _PFX_ format, follow the step 6 of the previous [section](#using-local-environment) to convert it to _pem_ format without keys.
+      >NOTE: If you used _pkcs_ format in the creation step and downloaded it in _PFX_ format, install OpenSSL and follow the step 6 of the previous [section](#using-local-environment) to convert it to _pem_ format without keys.
 
   5. Upload the certificate to the Azure app registration.
 
-  ![Upload Cer Certificate](Images/KeyVault/UploadCerCertificate.png)
+      ![Upload Cer Certificate](Images/KeyVault/UploadCerCertificate.png)
 
   6. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the keyvault certificate and verify that the keyvault credentials are completed in the [appsettings](appsettings.json) file.
   Be sure to comment out or remove the lines of code that use local certificate to avoid errors.
-  > NOTE: Here the value of MicrosoftAppId and MicrosoftAppTenantId are also needed to generate the credentials.
+      > NOTE: Here the value of MicrosoftAppId and MicrosoftAppTenantId are also needed to generate the credentials.
 
-  ![Certificate Reading](Images/KeyVault/CertificateReading.png)
+      ![Certificate Reading](Images/KeyVault/CertificateReading.png)
 
 - Run the bot from a terminal or from Visual Studio:
 
