@@ -114,7 +114,7 @@ An SSL/TLS certificate is a digital object that allows systems to verify identit
 
   9. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the local certificate and write the name of the certificate in _pem_ format inside the _CreateFromPemFile_ method.
   Be sure to comment out or remove the lines of code that use Azure KeyVault to avoid errors.
-  > NOTE: Here the value of MicrosoftAppId and MicrosoftAppTenantId are needed to generate the credentials.
+      > NOTE: Here the value of MicrosoftAppId and MicrosoftAppTenantId are needed to generate the credentials.
 
       ![Certificate Reading](Images/Local/CertificateReading.png)
 
@@ -143,7 +143,7 @@ An SSL/TLS certificate is a digital object that allows systems to verify identit
   4. Go to the details of the certificate and download it in _CER_ format to avoid the export of the private key.
 
       ![Certificate Details](Images/KeyVault/CertificateDetails.png)
-      ![alt text](Images/KeyVault/DownloadCertificate.png)
+      ![Download Certificate](Images/KeyVault/DownloadCertificate.png)
 
       >NOTE: If you downloaded it in _PEM_ format, it will be neccesary to remove the private key by executing the following command:
       ```
