@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using Microsoft.Bot.Builder;
+using System.Threading.Tasks;
+using System.Threading;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Connector.Authentication;
@@ -28,6 +31,11 @@ namespace Microsoft.BotBuilderSamples
                 // Send a trace activity, which will be displayed in the Bot Framework Emulator
                 await turnContext.TraceActivityAsync("OnTurnError Trace", exception.Message, "https://www.botframework.com/schemas/error", "TurnError");
             };
+        }
+
+        public async Task<InvokeResponse> CustomProcessActivityAsync(AuthenticateRequestResult authenticateRequestResult, Microsoft.Bot.Schema.Activity activity, BotCallbackHandler callback, CancellationToken cancellationToken)
+        {
+            return await ProcessActivityAsync(authenticateRequestResult, activity, callback, cancellationToken);
         }
     }
 }
