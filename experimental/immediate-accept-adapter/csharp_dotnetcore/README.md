@@ -28,7 +28,7 @@ New method in BotFrameworkHttpAdapter implementation:
 /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive
 ///     notice of cancellation.</param>
 /// <returns>A task that represents the work queued to execute.</returns>
-async Task IBotFrameworkHttpAdapter.ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default)
+public new async Task ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default)
 {
     if (httpRequest == null)
     {
@@ -72,10 +72,10 @@ async Task IBotFrameworkHttpAdapter.ProcessAsync(HttpRequest httpRequest, HttpRe
             try
             {
                 // If authentication passes, queue a work item to process the inbound activity with the bot
-                var claimsIdentity = await JwtTokenValidation.AuthenticateRequest(activity, authHeader, CredentialProvider, ChannelProvider, HttpClient).ConfigureAwait(false);
+                var authResult = await BotFrameworkAuthentication.AuthenticateRequestAsync(activity, authHeader, cancellationToken).ConfigureAwait(false);
 
                 // Queue the activity to be processed by the ActivityBackgroundService
-                _activityTaskQueue.QueueBackgroundActivity(claimsIdentity, activity);
+                _activityTaskQueue.QueueBackgroundActivity(authResult.ClaimsIdentity, activity);
 
                 // Activity has been queued to process, so return Ok immediately
                 httpResponse.StatusCode = (int)HttpStatusCode.OK;
@@ -87,7 +87,7 @@ async Task IBotFrameworkHttpAdapter.ProcessAsync(HttpRequest httpRequest, HttpRe
             }
         }
     }
-}	
+}
 ```
 
 ## Startup.cs
@@ -97,13 +97,16 @@ Register BackgroundServices and classes:
 ```cs
 public void ConfigureServices(IServiceCollection services)
 {
-    services.AddControllers().AddNewtonsoftJson();
+    services.AddHttpClient().AddControllers().AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.MaxDepth = HttpHelper.BotMessageSerializerSettings.MaxDepth;
+    });
 
     // Activity specific BackgroundService for processing athenticated activities.
     services.AddHostedService<HostedActivityService>();
     // Generic BackgroundService for processing tasks.
     services.AddHostedService<HostedTaskService>();
-            
+    
     // BackgroundTaskQueue and ActivityTaskQueue are the entry points for
     // the enqueueing activities or tasks to be processed by the BackgroundService.
     services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
@@ -112,17 +115,23 @@ public void ConfigureServices(IServiceCollection services)
     // Configure the ShutdownTimeout based on appsettings.
     services.Configure<HostOptions>(opts => opts.ShutdownTimeout = TimeSpan.FromSeconds(Configuration.GetValue<int>("ShutdownTimeoutSeconds")));
 
-    // Create the Bot Framework Adapter with error handling enabled.
+    // Create the Bot Framework Authentication to be used with the Bot Adapter.
+    services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
+
+    // Create the ImmediateAcceptAdapter.
+    // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.
     services.AddSingleton<ImmediateAcceptAdapter>();
+    services.AddSingleton<IBotFrameworkHttpAdapter>(sp => sp.GetService<ImmediateAcceptAdapter>());
+    services.AddSingleton<BotAdapter>(sp => sp.GetService<ImmediateAcceptAdapter>());
 
     // Create the bot. In this case the ASP Controller and ImmediateAcceptAdapter is expecting an IBot.
-    services.AddSingleton<IBot, EchoBot>();
+    services.AddTransient<IBot, EchoBot>();
 }
 ```
 
 ## Interacting with the Bot
 
-send: 4 seconds   ...  and the bot will pause for 4 seconds while processing your message.
+send: 4 pause   ...  and the bot will pause for 4 seconds while processing your message.
 send: 4 background   ...  and the bot will push your message to an additional background thread to process for 4 seconds.
 
 ## Additional Resources

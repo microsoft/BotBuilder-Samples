@@ -103,7 +103,7 @@ namespace ImmediateAcceptBot.BackgroundQueue
                         }
                         else
                         {
-                            _logger.LogError("Work item not processed.  Server is shutting down.", nameof(BackgroundProcessing));
+                            _logger.LogError("Work item not processed.  Server is shutting down.");
                         }
                     }
                     finally
@@ -127,7 +127,7 @@ namespace ImmediateAcceptBot.BackgroundQueue
                     catch (Exception ex)
                     {
                         // Bot Errors should be processed in the Adapter.OnTurnError.
-                        _logger.LogError(ex, "Error occurred executing WorkItem.", nameof(HostedTaskService));
+                        _logger.LogError(ex, "Error occurred executing WorkItem.");
                     }
                 }, stoppingToken);
         }

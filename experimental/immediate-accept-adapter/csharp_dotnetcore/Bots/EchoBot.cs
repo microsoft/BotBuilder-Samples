@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-//
-// Generated with Bot Builder V4 SDK Template for Visual Studio EchoBot v4.9.2
 
 using System;
 using System.Collections.Generic;
@@ -74,7 +72,7 @@ namespace ImmediateAcceptBot.Bots
             // validate seconds were received in the text
             if (seconds < 1 || seconds > _shutdownTimeoutSeconds)
             {
-                await turnContext.SendActivityAsync($"Please enter seconds < {_shutdownTimeoutSeconds} > 0, and processing type.  Example: 4 seconds or 4 background", cancellationToken: cancellationToken).ConfigureAwait(false);
+                await turnContext.SendActivityAsync($"Please enter seconds < {_shutdownTimeoutSeconds} > 0, and processing type.  Example: 4 pause or 4 background", cancellationToken: cancellationToken).ConfigureAwait(false);
             }
             else
             {
@@ -93,7 +91,7 @@ namespace ImmediateAcceptBot.Bots
                 if (text.Contains("pause"))
                 {
                     await turnContext.SendActivityAsync($"okay, pausing {seconds} seconds", cancellationToken: cancellationToken);
-                    Thread.Sleep(TimeSpan.FromSeconds(seconds));
+                    await Task.Delay(TimeSpan.FromSeconds(seconds), cancellationToken);
                     await turnContext.SendActivityAsync($"finished pausing {seconds} seconds {message}", cancellationToken: cancellationToken);
                 }
                 else
@@ -120,7 +118,7 @@ namespace ImmediateAcceptBot.Bots
 
         private async Task SendHelp(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            await turnContext.SendActivityAsync(MessageFactory.Text("send: 4 seconds   ...  and i will pause for 4 seconds while processing your message."), cancellationToken);
+            await turnContext.SendActivityAsync(MessageFactory.Text("send: 4 pause   ...  and i will pause for 4 seconds while processing your message."), cancellationToken);
             await turnContext.SendActivityAsync(MessageFactory.Text("send: 4 background   ...  and i will push your message to an additional background thread to process for 4 seconds."), cancellationToken);
         }
 

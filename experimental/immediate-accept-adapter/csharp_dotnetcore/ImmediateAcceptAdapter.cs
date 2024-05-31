@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-//
-// Generated with Bot Builder V4 SDK Template for Visual Studio CoreBot v4.9.2
 
 using System;
 using System.Net;
@@ -14,7 +12,6 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace ImmediateAcceptBot
@@ -25,10 +22,10 @@ namespace ImmediateAcceptBot
     /// </summary>
     /// <remarks>
     /// If the activity is Not an Invoke, and DeliveryMode is Not ExpectReplies, and this
-    /// is NOT a Get request to upgrade to WebSockets, then the activity will be enqueuedto be processed
+    /// is NOT a Get request to upgrade to WebSockets, then the activity will be enqueued to be processed
     /// on a background thread.
     /// </remarks>
-    public class ImmediateAcceptAdapter : BotFrameworkHttpAdapter, IBotFrameworkHttpAdapter
+    public class ImmediateAcceptAdapter : CloudAdapter
     {
         private readonly IActivityTaskQueue _activityTaskQueue;
 
@@ -38,8 +35,8 @@ namespace ImmediateAcceptBot
         /// <param name="configuration"></param>
         /// <param name="logger"></param>
         /// <param name="activityTaskQueue"></param>
-        public ImmediateAcceptAdapter(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, IActivityTaskQueue activityTaskQueue)
-            : base(configuration, logger)
+        public ImmediateAcceptAdapter(BotFrameworkAuthentication auth, ILogger<IBotFrameworkHttpAdapter> logger, IActivityTaskQueue activityTaskQueue)
+            : base(auth, logger)
         {
             _activityTaskQueue = activityTaskQueue;
 
@@ -72,7 +69,7 @@ namespace ImmediateAcceptBot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive
         ///     notice of cancellation.</param>
         /// <returns>A task that represents the work queued to execute.</returns>
-        async Task IBotFrameworkHttpAdapter.ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default)
+        public new async Task ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default)
         {
             if (httpRequest == null)
             {
@@ -116,10 +113,10 @@ namespace ImmediateAcceptBot
                     try
                     {
                         // If authentication passes, queue a work item to process the inbound activity with the bot
-                        var claimsIdentity = await JwtTokenValidation.AuthenticateRequest(activity, authHeader, CredentialProvider, ChannelProvider, HttpClient).ConfigureAwait(false);
+                        var authResult = await BotFrameworkAuthentication.AuthenticateRequestAsync(activity, authHeader, cancellationToken).ConfigureAwait(false);
 
                         // Queue the activity to be processed by the ActivityBackgroundService
-                        _activityTaskQueue.QueueBackgroundActivity(claimsIdentity, activity);
+                        _activityTaskQueue.QueueBackgroundActivity(authResult.ClaimsIdentity, activity);
 
                         // Activity has been queued to process, so return Ok immediately
                         httpResponse.StatusCode = (int)HttpStatusCode.OK;
