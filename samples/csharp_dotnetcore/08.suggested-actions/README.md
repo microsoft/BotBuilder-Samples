@@ -2,11 +2,11 @@
 
 Bot Framework v4 using adaptive cards bot sample
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to use suggested actions.  Suggested actions enable your bot to present buttons that the user can tap to provide input.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to use suggested actions. Suggested actions enable your bot to present buttons that the user can tap to provide input.
 
 ## Prerequisites
 
-- [.NET SDK](https://dotnet.microsoft.com/download) version 6.0
+- [.NET SDK](https://dotnet.microsoft.com/download) version 8.0
 
   ```bash
   # determine dotnet version
@@ -17,9 +17,9 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 - Clone the repository
 
-    ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
-    ```
+  ```bash
+  git clone https://github.com/Microsoft/botbuilder-samples.git
+  ```
 
 - Run the bot from a terminal or from Visual Studio:
 
