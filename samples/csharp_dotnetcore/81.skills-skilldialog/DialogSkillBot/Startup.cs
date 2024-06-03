@@ -96,7 +96,6 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot
                 .UseStaticFiles()
                 .UseWebSockets()
                 .UseRouting()
-                .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();
