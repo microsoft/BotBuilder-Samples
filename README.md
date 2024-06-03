@@ -135,6 +135,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [cs#43]:samples/csharp_dotnetcore/43.complex-dialog
 [cs#44]:samples/csharp_dotnetcore/44.prompt-users-for-input
 [cs#45]:samples/csharp_dotnetcore/45.state-management
+[cs#48]:samples/csharp_dotnetcore/48.customQABot-all-features
 [cs#60]:samples/csharp_dotnetcore/60.slack-adapter
 [cs#61]:samples/csharp_dotnetcore/61.facebook-adapter
 [cs#62]:samples/csharp_dotnetcore/62.webex-adapter
