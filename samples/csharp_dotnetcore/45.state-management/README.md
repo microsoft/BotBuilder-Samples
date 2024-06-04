@@ -9,24 +9,24 @@ Memory Storage is great for testing purposes, but in a production scenario you w
 
 Startup.cs contains commented examples of using Azure Blob Storage or Cosmos DB instead.
 
-# Azure Blob Storage
+## Azure Blob Storage
 
 To use Azure Blob Storage, create a Blob Storage account in your Azure subscription. You can then use the following code to
 create your storage layer, passing in your Blob Storage connection string and a blob container name.
 
-***Note: You do not need to create the container manually, the bot will create the container for you if it does not exist.***
+**_Note: You do not need to create the container manually, the bot will create the container for you if it does not exist._**
 
 ```cs
     var storage = new AzureBlobStorage("<blob-storage-connection-string>", "bot-state");
 ```
 
-# CosmosDB Storage
+## CosmosDB Storage
 
 To use CosmosDB Storage, you need to create a CosmosDB instance in your Azure subscription. You can then use the following code to
 create your storage layer.
 
-***Note: It is your responsibility to create an appropriate database within your CosmosDB instance. However, you should **not**
-create the container within the database, as the bot will do this for you and ensure the container is configured correctly.***
+**\*Note: It is your responsibility to create an appropriate database within your CosmosDB instance. However, you should **not**
+create the container within the database, as the bot will do this for you and ensure the container is configured correctly.\***
 
 ```cs
     var cosmosDbStorageOptions = new CosmosDbPartitionedStorageOptions()
@@ -44,9 +44,9 @@ create the container within the database, as the bot will do this for you and en
 
 - Clone the repository
 
-    ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
-    ```
+  ```bash
+  git clone https://github.com/Microsoft/botbuilder-samples.git
+  ```
 
 - Run the bot from a terminal or from Visual Studio:
 
