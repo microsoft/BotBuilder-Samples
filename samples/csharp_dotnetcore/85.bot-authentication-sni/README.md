@@ -2,7 +2,7 @@
 
 Bot Framework v4 bot authentication using Subject Name/Issuer
 
-This bot has been created using Bot Framework, is shows how to use the bot authentication capabilities of Azure Bot Service. In this sample, we use a local or KeyVault certificate and the MSAL Subject Name/Issuer configuration to create the Bot Framework Authentication.
+This bot has been created using Bot Framework, it shows how to use the bot authentication capabilities of Azure Bot Service. In this sample, we use a local or KeyVault certificate and the MSAL Subject Name/Issuer configuration to create the Bot Framework Authentication.
 >NOTE: Microsoft's first-party resources are required to test this sample.
 
 ## Interacting with the bot
@@ -104,6 +104,11 @@ Certificate Subject Name and Issuer (SNI) based authentication is currently avai
 
       ![Certificate Reading](Images/Local/CertificateReading.png)
 
+  6. In the current sample context, log into Azure to obtain the default credentials by executing the following command.
+      ```
+      az login
+      ```
+
   ### Using KeyVault
   - This option requires the following app settings variables:
 
@@ -145,6 +150,11 @@ Certificate Subject Name and Issuer (SNI) based authentication is currently avai
       > NOTE: Here the value of MicrosoftAppId is also needed to generate the credentials.
 
       ![Certificate Reading](Images/KeyVault/CertificateReading.png)
+
+  5. In the current sample context, log into Azure to obtain the default credentials by executing the following command.
+      ```
+      az login
+      ```
 
 - Run the bot from a terminal or from Visual Studio:
 

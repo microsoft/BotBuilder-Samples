@@ -2,7 +2,7 @@
 
 Bot Framework v4 bot authentication using Certificate
 
-This bot has been created using [Bot Framework](https://dev.botframework.com/), is shows how to use the bot authentication capabilities of Azure Bot Service. In this sample, we use a local or KeyVault certificate to create the Bot Framework Authentication.
+This bot has been created using [Bot Framework](https://dev.botframework.com/), it shows how to use the bot authentication capabilities of Azure Bot Service. In this sample, we use a local or KeyVault certificate to create the Bot Framework Authentication.
 
 ## Interacting with the bot
 
@@ -118,6 +118,11 @@ An SSL/TLS certificate is a digital object that allows systems to verify identit
 
       ![Certificate Reading](Images/Local/CertificateReading.png)
 
+  10. In the current sample context, log into Azure to obtain the default credentials by executing the following command.
+      ```
+      az login
+      ```
+
   ### Using KeyVault
   - This option requires the following app settings variables:
 
@@ -163,6 +168,11 @@ An SSL/TLS certificate is a digital object that allows systems to verify identit
       > NOTE: Here the value of MicrosoftAppId and MicrosoftAppTenantId are also needed to generate the credentials.
 
       ![Certificate Reading](Images/KeyVault/CertificateReading.png)
+
+  7. In the current sample context, log into Azure to obtain the default credentials by executing the following command.
+      ```
+      az login
+      ```
 
 - Run the bot from a terminal or from Visual Studio:
 
