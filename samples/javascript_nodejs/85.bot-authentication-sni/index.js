@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const path = require('path');
-const fs = require('fs');
+// const fs = require('fs');
 const { createPrivateKey } = require('crypto');
 const dotenv = require('dotenv');
 const restify = require('restify');
@@ -31,7 +31,7 @@ const { AuthBot } = require('./authBot');
         server.use(restify.plugins.bodyParser());
 
         server.listen(process.env.port || process.env.PORT || 3978, () => {
-            console.log(`\n${server.name} listening to ${server.url}`);
+            console.log(`\n${ server.name } listening to ${ server.url }`);
             console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
             console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
         });
@@ -41,7 +41,7 @@ const { AuthBot } = require('./authBot');
         const credential = new DefaultAzureCredential();
 
         const vaultName = process.env.KeyVaultName;
-        const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+        const keyVaultUrl = `https://${ vaultName }.vault.azure.net`;
 
         const certificateName = process.env.CertificateName;
 
@@ -58,7 +58,7 @@ const { AuthBot } = require('./authBot');
 
         // Create a private key object from the certificate
         var certificateKey = createPrivateKey(cert);
-        //Convert the private key object to a string format
+        // Convert the private key object to a string format
         const privateKey = certificateKey.export({
             type: 'pkcs8', // Can also be 'pkcs1' depending on your format requirements
             format: 'pem'
@@ -70,7 +70,7 @@ const { AuthBot } = require('./authBot');
             cert,
             privateKey,
             process.env.MicrosoftAppTenantId
-        )
+        );
 
         const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env, serviceClientCredentialsFactory);
 
@@ -83,12 +83,12 @@ const { AuthBot } = require('./authBot');
             // NOTE: In production environment, you should consider logging this to Azure
             //       application insights. See https://aka.ms/bottelemetry for telemetry
             //       configuration instructions.
-            console.error(`\n [onTurnError] unhandled error: ${error}`);
+            console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
             // Send a trace activity, which will be displayed in Bot Framework Emulator
             await context.sendTraceActivity(
                 'OnTurnError Trace',
-                `${error}`,
+                `${ error }`,
                 'https://www.botframework.com/schemas/error',
                 'TurnError'
             );
