@@ -154,7 +154,7 @@ An SSL/TLS certificate is a digital object that allows systems to verify identit
 
       ![Upload Cer Certificate](Images/KeyVault/UploadCerCertificate.png)
 
-  6. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the keyvault certificate and verify that the keyvault credentials are completed in the [appsettings](appsettings.json) file.
+  6. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the keyvault certificate and verify that the keyvault credentials are completed in the [.env](.env) file.
   Be sure to comment out or remove the lines of code that use local certificate to avoid errors.
       > NOTE: Here the value of MicrosoftAppId and CertificateThumbprint are also needed to generate the credentials.
 
