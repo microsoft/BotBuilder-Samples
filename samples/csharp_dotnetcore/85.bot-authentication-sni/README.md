@@ -104,11 +104,6 @@ Certificate Subject Name and Issuer (SNI) based authentication is currently avai
 
       ![Certificate Reading](Images/Local/CertificateReading.png)
 
-  6. In the current sample context, log into Azure to obtain the default credentials by executing the following command.
-      ```
-      az login
-      ```
-
   ### Using KeyVault
   - This option requires the following app settings variables:
 

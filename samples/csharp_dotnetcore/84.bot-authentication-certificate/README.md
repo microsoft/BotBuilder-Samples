@@ -118,11 +118,6 @@ An SSL/TLS certificate is a digital object that allows systems to verify identit
 
       ![Certificate Reading](Images/Local/CertificateReading.png)
 
-  10. In the current sample context, log into Azure to obtain the default credentials by executing the following command.
-      ```
-      az login
-      ```
-
   ### Using KeyVault
   - This option requires the following app settings variables:
 
