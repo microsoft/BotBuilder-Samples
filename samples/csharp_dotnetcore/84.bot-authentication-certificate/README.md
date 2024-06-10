@@ -33,6 +33,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com/), 
 
   - CertificateName: Name of the certificate in the KeyVault.
 
+
 - Run the bot from a terminal or from Visual Studio:
 
   A) From a terminal, navigate to `samples/csharp_dotnetcore/84.bot-authentication-certificate`
@@ -78,33 +79,33 @@ There are two possible options to create SSL/TSL certificate. Below is a step-by
 
 1. Run the following command in a local PowerShell
 
-    ```powershell
-    $cert = New-SelfSignedCertificate -CertStoreLocation "<directory-to-store-certificate>" -Subject "CN=<certificate-name>" -KeySpec KeyExchange
-    ```
+```
+$cert = New-SelfSignedCertificate -CertStoreLocation "<directory-to-store-certificate>" -Subject "CN=<certificate-name>" -KeySpec KeyExchange
+```
 
 1. Then, type _Manage User Certificates_ in the Windows search bar and hit enter
 
-1. The certificate will be located in the _user certificates_ folder, under _personal_ directory.
+2. The certificate will be located in the _user certificates_ folder, under _personal_ directory.
 
-1. Export the certificate to _pfx_ format including the key(The default location is _system32_ folder).
+3. Export the certificate to _pfx_ format including the key(The default location is _system32_ folder).
 
-1. Go to the certificate location and run the following command to generate a _pem_ file:
+4. Go to the certificate location and run the following command to generate a _pem_ file:
 
-    ```bash
-    OpenSSL pkcs12 -in <certificate-name>.pfx -out c:\<certificate-name>.pem –nodes
-    ```
+```
+OpenSSL pkcs12 -in <certificate-name>.pfx -out c:\<certificate-name>.pem –nodes
+```
 
-1. Upload the generated certificate to the Azure app registration.
+5. Upload the generated certificate to the Azure app registration.
 
 ### Using KeyVault
 
 1. Create a KeyVault resource and assign _the KeyVault Administrator_ role to have permission to create a new certificate.
 
-1. Under the Certificates section, hit on Generate/Import, complete the form, and create the certificate in PEM format.
+2. Under the Certificates section, hit on Generate/Import, complete the form, and create the certificate in PEM format.
 
-1. Go to the details of the certificate that you created and enable it.
+3. Go to the details of the certificate that you created and enable it.
 
-1. Download the certificate in CER format and then upload it to the Azure app registration.
+4. Download the certificate in CER format and then upload it to the Azure app registration.
 
 ## Deploy the bot to Azure
 

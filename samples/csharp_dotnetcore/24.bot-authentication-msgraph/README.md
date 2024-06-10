@@ -20,20 +20,20 @@ NOTE: Microsoft Teams currently differs slightly in the way auth is integrated w
   dotnet --version
   ```
 
-- Update `appsettings.json` with required configuration settings
-  | Property | Value Description |
-  |----------------------|-----------|
-  | MicrosoftAppId | Set the value of your Azure bot's app ID. |
-  | MicrosoftAppPassword | Set the Azure Active Directory app client secret value. |
-  | ConnectionName | Set the configured bot's OAuth connection name. |
+- Update `appsettings.json` with required configuration settings 
+    | Property                  | Value Description     | 
+    |----------------------|-----------|
+    | MicrosoftAppId       | Set the value of your Azure bot's app ID.  |
+    | MicrosoftAppPassword | Set the Azure Active Directory app client secret value.      | 
+    | ConnectionName       | Set the configured bot's OAuth connection name.      |
 
 ## To try this sample
 
 - Clone the repository
 
-  ```bash
-  git clone https://github.com/microsoft/botbuilder-samples.git
-  ```
+    ```bash
+    git clone https://github.com/microsoft/botbuilder-samples.git
+    ```
 
 - Run the bot from a terminal or from Visual Studio:
 
