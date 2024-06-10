@@ -1,3 +1,4 @@
+#sudo su 
 
 # ![Bot Framework Samples](./docs/media/BotFrameworkSamples_header.png)
 
