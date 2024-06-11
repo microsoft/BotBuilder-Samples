@@ -10,7 +10,7 @@ This bot has been created using Bot Framework, it shows how to use the bot authe
 > [!IMPORTANT]
 > Microsoft's first-party resources are required to test this sample.
 
-In this guide, we'll explain how to create and consume a certificate in Bot Framework with the following options:
+In this guide, we'll explain how to consume a certificate in Bot Framework with the following options:
 1. [Local environment][#LocalEnv]
 2. [KeyVault][#KeyVaultEnv]
 
