@@ -1,4 +1,8 @@
-﻿# Authentication Bot using Subject Name/Issuer
+﻿[#LocalEnv]:#using-local-environment
+[#KeyVaultEnv]:#using-keyvault
+[#TrySample]:#to-try-this-sample
+
+# Authentication Bot using Subject Name/Issuer
 
 Bot Framework v4 bot authentication using Subject Name/Issuer
 
@@ -6,21 +10,13 @@ This bot has been created using Bot Framework, it shows how to use the bot authe
 > [!IMPORTANT]
 > Microsoft's first-party resources are required to test this sample.
 
+In this guide, we'll explain how to create and consume a certificate in Bot Framework with the following options:
+1. [Local environment][#LocalEnv]
+2. [KeyVault][#KeyVaultEnv]
+
 ## Interacting with the bot
 
 This sample uses the bot authentication capabilities of Azure Bot Service, providing features to make it easier to develop a bot that authenticates users using digital security certificates. You just need to provide the certificate data linked to the managed identity and run the bot, then communicate with it to validate its correct authentication.
-
-
-## Prerequisites
-
-- [.NET SDK](https://dotnet.microsoft.com/download) version 6.0
-
-  ```bash
-  # determine dotnet version
-  dotnet --version
-  ```
-
-- [Ngrok](https://ngrok.com/) latest version.
 
 ## SSL/TLS certificate
 
@@ -30,23 +26,31 @@ An SSL/TLS certificate is a digital object that allows systems to verify identit
 
 Certificate Subject Name and Issuer (SNI) based authentication is currently available only for Microsoft internal (first-party) applications. External (third-party) apps cannot use SNI because SNI is based on the assumption that the certificate issuer is the same as the tenant owner. This can be guaranteed for some first-party tenants, but not for third-party. So there are no plans to bring SNI to third-party apps. For more details about this feature and code examples see this [SNI issue](https://github.com/AzureAD/microsoft-authentication-library-for-python/issues/60) and a [wiki page](https://aadwiki.windows-int.net/index.php?title=Subject_Name_and_Issuer_Authentication).
 
+## Prerequisites
+
+- [Ngrok](https://ngrok.com/) latest version.
+- [.NET SDK](https://dotnet.microsoft.com/download) version 8.0
+
+  ```bash
+  # determine dotnet version
+  dotnet --version
+  ```
+
 ## To try this sample
 
 - Setup ngrok
-  1. Run ngrok - point to port 3978
-
-    ```bash
-    ngrok http --host-header=rewrite 3978
-    ```
-
+    1. Follow this [guide](https://ngrok.com/docs/getting-started/?os=windows) to install and configure ngrok in your environment.
+    2. Run ngrok with the following command.
+       ```bash
+       ngrok http --host-header=rewrite 3978
+       ```
+       
 - Setup a Bot
-  1. Register a bot with Azure Bot Service, following the instructions [here](https://docs.microsoft.com/azure/bot-service/bot-service-quickstart-registration?view=azure-bot-service-3.0).
-
-  2. While registering the bot, use `https://<your_tunnel_domain>/api/messages` as the messaging endpoint.
-      > NOTE: When you create your bot you will create a Microsoft App ID - make sure you keep this for later.
+    1. Register a bot with Azure Bot Service, following the instructions [here](https://docs.microsoft.com/azure/bot-service/bot-service-quickstart-registration?view=azure-bot-service-3.0).
+    2. After registering the bot, use `<NGROK_FORWARDING_DOMAIN>/api/messages` as the messaging endpoint.
+        > NOTE: make sure to take note of the Microsoft App Id as we'll need this for later.
 
 - Clone the repository
-
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
@@ -54,114 +58,107 @@ Certificate Subject Name and Issuer (SNI) based authentication is currently avai
 - Configure the SSL/TSL certificate. This sample requires an existing certificate issued by an integrated CA. We have two options to configure it in the bot. Below is a step-by-step description of each one:
 
   ### Using local environment
-  - This option requires the following app settings variables:
+  1. Configure the following app settings variables:
+     - MicrosoftAppId: App Id of your bot (gathered from the [Setup a Bot][#TrySample] step).
+     - MicrosoftAppType: Type of the App (optional for MultiTenant apps).
+     - MicrosoftAppTenantId: Tenant Id to which your bot belongs (optional for MultiTenant apps).
 
-    - MicrosoftAppId: App Id of your bot.
-
-    - MicrosoftAppType: Type of the App(optional).
-
-    - MicrosoftAppTenantId: Tenant Id to which your bot belongs(optional).
-
-  1. Intall and configure [OpenSSL](https://www.openssl.org/source/) with the latest version
+  2. Intall and configure [OpenSSL](https://www.openssl.org/source/) with the latest version
     - Download the latest version source and add the folder to the [environment variables](https://www.java.com/en/download/help/path.html) path.
       ```bash
       setx path "%path%;<OpenSSL path here> 
-      i.e
+      e.g
       setx path "%path%;C:\Program Files\openssl-3.3.0"
       ```
 
-  2. Generate a _pem_ file without key:
+  3. Generate a _pem_ file without key:
       - If your certificate is in _pfx_ format execute the following command:
-      ```
+      ```powershell
       OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-name>.pem –nodes -nokeys
       ```
-
-      ![Pem File Command No Key](Images/Local/PemCommandNoKey.png)
+      e.g:
+        ![Pem File Command No Key](Images/Local/PemCommandNoKey.png)
 
       - If your certificate is in _pem_ format and includes the key, execute the following command to remove the key:
-      ```
+      ```powershell
       OpenSSL pkcs12 -in .\<certificate-name>.pem -export -out .\<certificate-without-key-name>.pem -nokeys
       ```
+      e.g:
+        ![Pem Export No Key](Images/Local/PemExportNoKey.png)
 
-      ![Pem Export No Key](Images/Local/PemExportNoKey.png)
-
-  3. Upload the generated certificate to the Azure app registration.
+  4. Upload the generated certificate to the Azure app registration.
 
       ![Certificate Upload](Images/Local/CertificateUpload.png)
 
-  4. To read the certificate in the bot, the _pem_ file must include the key, then if your certificate is in _pfx_ format go to the certificate location and run the following command to generate a _pem_ file with key:
+  5. To read the certificate in the bot, the _pem_ file must include the key, then if your certificate is in _pfx_ format go to the certificate location and run the following command to generate a _pem_ file with key:
 
-      ```
+      ```powershell
       OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-with-key-name>.pem –nodes
       ```
-
-      ![Pem Command With Key](Images/Local/PemCommandWithKey.png)
+      e.g
+        ![Pem Command With Key](Images/Local/PemCommandWithKey.png)
 
   5. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the local certificate and write the name of the certificate in _pem_ format inside the _CreateFromPemFile_ method. 
   Be sure to comment out or remove the lines of code that use Azure KeyVault to avoid errors.
   Keep in mind that the SNI authentication works with the sendX5C flag, keep its value in _true_.
   
-      > NOTE: Here the value of MicrosoftAppId is needed to generate the credentials.
+      > NOTE: Here the value of `MicrosoftAppId` is needed to generate the credentials.
 
       ![Certificate Reading](Images/Local/CertificateReading.png)
 
   ### Using KeyVault
-  - This option requires the following app settings variables:
+  1. This option requires the following app settings variables:
+     - KeyVaultName: Name of the KeyVault containing the certificate.
+     - CertificateName: Name of the certificate in the KeyVault.
+     - MicrosoftAppId: App Id of your bot (gathered from the [Setup a Bot][#TrySample] step).
+     - MicrosoftAppType: Type of the App (optional for MultiTenant apps).
+     - MicrosoftAppTenantId: Tenant Id to which your bot belongs (optional for MultiTenant apps).
 
-    - MicrosoftAppId: App Id of your bot.
-
-    - KeyVaultName: Name of the KeyVault containing the certificate.
-
-    - CertificateName: Name of the certificate in the KeyVault.
-
-    - MicrosoftAppType: Type of the App(optional).
-
-    - MicrosoftAppTenantId: Tenant Id to which your bot belongs(optional).
-
-  1. Import the certificate under the Certificates section, hit on Generate/Import, complete the form, and upload the certificate.
+  2. Import the certificate under the Certificates section, hit on Generate/Import, complete the form, and upload the certificate.
 
       ![Generate Import Certificate](Images/KeyVault/GenerateImportCertificate.png)
       ![Import Certificate](Images/KeyVault/ImportCertificate.png)
 
-  2. Go to the details of the certificate and download it in _CER_ format to avoid the export of the private key.
+  3. Go to the details of the certificate and download it in _CER_ format to avoid the export of the private key.
 
       ![Certificate Details](Images/KeyVault/CertificateDetails.png)
       ![Download Certificate](Images/KeyVault/DownloadCertificate.png)
 
       >NOTE: If you downloaded it in _PFX/PEM_ format, it will be neccesary to remove the private key by executing one the following commands:
-      ```
+      ```powershell
       OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-name>.pem –nodes -nokeys
       OpenSSL pkcs12 -in .\<certificate-name>.pem -export -out .\<certificate-without-key-name>.pem -nokeys
       ```
-      ![Pem File Command No Key](Images/Local/PemCommandNoKey.png)
-      ![Pem Export No Key](Images/Local/PemExportNoKey.png)
+      e.g:
+        ![Pem File Command No Key](Images/Local/PemCommandNoKey.png)
+        ![Pem Export No Key](Images/Local/PemExportNoKey.png)
 
-  3. Upload the certificate to the Azure app registration.
+  4. Upload the certificate to the Azure app registration.
 
       ![Upload Cer Certificate](Images/KeyVault/UploadCerCertificate.png)
 
-  4. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the keyvault certificate and verify that the keyvault credentials are completed in the [appsettings](appsettings.json) file.
+  5. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the keyvault certificate and verify that the keyvault credentials are completed in the [appsettings](appsettings.json) file.
   Be sure to comment out or remove the lines of code that use local certificate to avoid errors.
   Keep in mind that the SNI authentication works with the sendX5C flag, keep its value in _true_.
-      > NOTE: Here the value of MicrosoftAppId is also needed to generate the credentials.
+      > NOTE: Here the value of `MicrosoftAppId` is also needed to generate the credentials.
 
       ![Certificate Reading](Images/KeyVault/CertificateReading.png)
 
-  5. In the current sample context, log into Azure to obtain the default credentials by executing the following command.
-      ```
+  6. In the current sample context, log into Azure to obtain the default credentials by executing the following command.
+      ```powershell
       az login
       ```
 
-- Run the bot from a terminal or from Visual Studio:
+### Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal, navigate to `samples/csharp_dotnetcore/85.bot-authentication-sn`
+  - From a terminal, navigate to `samples/csharp_dotnetcore/85.bot-authentication-sn`
 
   ```bash
   # run the bot
   dotnet run
   ```
 
-  B) Or from Visual Studio
+  - Or from Visual Studio
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution

@@ -86,36 +86,36 @@ Create and configure the SSL/TSL certificate. In this sample we use two possible
      
       ![User Certificate Search](Images/Local/CertificateSearch.png)
 
-  6. The certificate will be located in the _user certificates_ folder, under _personal_ directory.
+  5. The certificate will be located in the _user certificates_ folder, under _personal_ directory.
      
       ![Certificate Directory](Images/Local/CertificateDirectory.png)
 
-  8. Export the certificate to _pfx_ format including the key.
+  6. Export the certificate to _pfx_ format including the key.
      
       ![Certificate Export Steps](Images/Local/CertificateExportSteps1.png)
       ![Certificate Export Steps](Images/Local/CertificateExportSteps2.png)
 
-  10. Go to the certificate location and run the following command to generate a _pem_ file (the command will ask for the password generated in the previous step):
+  7. Go to the certificate location and run the following command to generate a _pem_ file (the command will ask for the password generated in the previous step):
       ```powershell
       OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-name>.pem –nodes -nokeys
       ```
       e.g:
         ![Pem File Command No Key](Images/Local/PemCommandNoKey.png)
 
-  11. Upload the generated certificate to the Azure app registration.
+  8. Upload the generated certificate to the Azure app registration.
       
       ![Certificate Upload](Images/Local/CertificateUpload.png)
 
-  13. To read the certificate in the bot, the _pem_ file must include the key, then go to the certificate location and run the following command to generate a _pem_ file with key:
+  9. To read the certificate in the bot, the _pem_ file must include the key, then go to the certificate location and run the following command to generate a _pem_ file with key:
       ```powershell
       OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-with-key-name>.pem –nodes
       ```
       e.g:
         ![Pem Command With Key](Images/Local/PemCommandWithKey.png)
 
-  14. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the local certificate and write the name of the certificate in _pem_ format inside the _CreateFromPemFile_ method.
+  10. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the local certificate and write the name of the certificate in _pem_ format inside the _CreateFromPemFile_ method.
   Be sure to comment out or remove the lines of code that use Azure KeyVault to avoid errors.
-      > NOTE: Here the value of MicrosoftAppId and MicrosoftAppTenantId are needed to generate the credentials.
+      > NOTE: Here the value of `MicrosoftAppId` and `MicrosoftAppTenantId` are needed to generate the credentials.
 
       ![Certificate Reading](Images/Local/CertificateReading.png)
 
