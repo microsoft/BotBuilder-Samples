@@ -3,7 +3,8 @@
 Bot Framework v4 bot authentication using Subject Name/Issuer
 
 This bot has been created using Bot Framework, it shows how to use the bot authentication capabilities of Azure Bot Service. In this sample, we use a local or KeyVault certificate and the MSAL Subject Name/Issuer configuration to create the Bot Framework Authentication.
->NOTE: Microsoft's first-party resources are required to test this sample.
+> [!IMPORTANT]
+> Microsoft's first-party resources are required to test this sample.
 
 ## Interacting with the bot
 
