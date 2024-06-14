@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -19,6 +20,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Streaming;
 using Microsoft.Bot.Streaming.Transport.WebSockets;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -31,12 +33,14 @@ namespace Microsoft.BotBuilderSamples.Controllers
         private readonly IBotFrameworkHttpAdapter _adapter;
         private readonly IBot _bot;
         private readonly ILogger _logger;
+        private readonly IConfiguration _configuration;
 
-        public DirectlineController(IBotFrameworkHttpAdapter adapter, IBot bot, ILogger<DirectlineController> logger)
+        public DirectlineController(IBotFrameworkHttpAdapter adapter, IBot bot, ILogger<DirectlineController> logger, IConfiguration configuration)
         {
             _adapter = adapter;
             _bot = bot;
             _logger = logger;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -137,7 +141,7 @@ namespace Microsoft.BotBuilderSamples.Controllers
                 // This may not necessarily be an AdapterWithErrorHandler, but we need to access the custom ProcessActivityAsync method
                 if (_adapter is AdapterWithErrorHandler adapterWithErrorHandler)
                 {
-                    var directlineClientRequestHander = new DirectlineRequestHandler(adapterWithErrorHandler, _bot, user, conversationId);
+                    var directlineClientRequestHander = new DirectlineRequestHandler(adapterWithErrorHandler, _bot, user, conversationId, _configuration);
                     var wbServer = new WebSocketServer(webSocket, directlineClientRequestHander);
                     directlineClientRequestHander.WebSocketServer = wbServer;
                     await wbServer.StartAsync();
@@ -177,15 +181,17 @@ namespace Microsoft.BotBuilderSamples.Controllers
         private ChannelAccount _user;
         private readonly string channelId = "webchat";
         private readonly string _conversationId;
+        private readonly string _appId;
 
         public WebSocketServer WebSocketServer { get; set; }
 
-        public DirectlineRequestHandler(AdapterWithErrorHandler adapter, IBot bot, ChannelAccount user, string conversationId)
+        public DirectlineRequestHandler(AdapterWithErrorHandler adapter, IBot bot, ChannelAccount user, string conversationId, IConfiguration configuration)
         {
             _adapter = adapter;
             _bot = bot;
             _user = user;
             _conversationId = conversationId;
+            _appId = configuration["MicrosoftAppId"] ?? string.Empty;
         }
 
         public override Task<StreamingResponse> ProcessRequestAsync(ReceiveRequest request, ILogger<RequestHandler> logger, object context = null, CancellationToken cancellationToken = default)
@@ -226,7 +232,7 @@ namespace Microsoft.BotBuilderSamples.Controllers
 
             return streamResponse;
         }
-         
+
         private async Task<StreamingResponse> ProcessPostActivityRequestAsync(ReceiveRequest request, ILogger<RequestHandler> logger, object context, string conversationId, ChannelAccount user, CancellationToken cancellationToken)
         {
             var activity = await request.ReadBodyAsJsonAsync<Activity>().ConfigureAwait(false);
@@ -262,11 +268,17 @@ namespace Microsoft.BotBuilderSamples.Controllers
 
         private async Task<InvokeResponse> SendActivityToBot(ReceiveRequest requestContext, Activity activity, ILogger logger, CancellationToken cancellationToken)
         {
+            var claimsIdentity = new ClaimsIdentity(new List<Claim>
+            {
+                new Claim("aud", _appId),
+                new Claim("appid", _appId)
+            });
+
             var authenticationRequestResult = new AuthenticateRequestResult()
             {
                 // It might be helpful to fill more meaningful data here for logging 
                 Audience = "https://api.botframework.com",
-                ClaimsIdentity = new ClaimsIdentity(),
+                ClaimsIdentity = claimsIdentity
             };
             authenticationRequestResult.ConnectorFactory = new StreamingConnectionFactory(WebSocketServer, logger);
             return await _adapter.CustomProcessActivityAsync(authenticationRequestResult, activity, _bot.OnTurnAsync, cancellationToken);
