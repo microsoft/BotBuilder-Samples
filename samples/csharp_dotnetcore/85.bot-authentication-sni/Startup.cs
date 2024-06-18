@@ -53,9 +53,10 @@ namespace Microsoft.BotBuilderSamples
 
             // MSAL certificate auth.
             services.AddSingleton(
-                serviceProvider => ConfidentialClientApplicationBuilder.Create(_configuration["MicrosoftAppId"])
-                    .WithCertificate(certificate, sendX5C)
-                    .Build());
+                new CertificateServiceClientCredentialsFactory(
+                    certificate, _configuration["MicrosoftAppId"], _configuration["MicrosoftAppTenantId"], null, null, sendX5C
+                    )
+                );
 
             // MSAL credential factory: regardless of secret, cert or custom auth, need to add the line below to enable MSAL.
             services.AddSingleton<ServiceClientCredentialsFactory, MsalServiceClientCredentialsFactory>();

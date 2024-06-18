@@ -102,7 +102,7 @@ Certificate Subject Name and Issuer (SNI) based authentication is currently avai
   Be sure to comment out or remove the lines of code that use Azure KeyVault to avoid errors.
   Keep in mind that the SNI authentication works with the sendX5C flag, keep its value in _true_.
   
-      > NOTE: Here the value of `MicrosoftAppId` is needed to generate the credentials.
+      > NOTE: Here the values of `MicrosoftAppId` and `MicrosoftTenantId` are needed to generate the credentials.
 
       ![Certificate Reading](Images/Local/CertificateReading.png)
 
@@ -140,7 +140,7 @@ Certificate Subject Name and Issuer (SNI) based authentication is currently avai
   5. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the keyvault certificate and verify that the keyvault credentials are completed in the [appsettings](appsettings.json) file.
   Be sure to comment out or remove the lines of code that use local certificate to avoid errors.
   Keep in mind that the SNI authentication works with the sendX5C flag, keep its value in _true_.
-      > NOTE: Here the value of `MicrosoftAppId` is also needed to generate the credentials.
+      > NOTE: Here the values of `MicrosoftAppId` and `MicrosoftTenantId` are also needed to generate the credentials.
 
       ![Certificate Reading](Images/KeyVault/CertificateReading.png)
 
