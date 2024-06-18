@@ -21,47 +21,48 @@ This bot has been created using [Bot Framework](https://dev.botframework.com/), 
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- Set app settings variables
+- Open from Visual Studio
+  - Launch Visual Studio
+  - File -> Open -> Project/Solution
+  - Navigate to `samples/csharp_dotnetcore/85.bot-authentication-sni` folder
+  - Select `AuthSNIBot.csproj` file
 
-  - MicrosoftAppType: Type of the App.
+- Create an SSL/TLS certificate using KeyVault
+  1. Create a KeyVault resource and assign _the KeyVault Administrator_ role to have permission to create a new certificate.
 
-  - MicrosoftAppId: App Id of your bot.
+  2. Under the Certificates section, hit on Generate/Import, complete the form, and create the certificate in PEM format.
 
-  - MicrosoftAppTenantId: Tenant Id to which your bot belongs.
+  3. Go to the details of the certificate that you created and enable it and record the subject name
+
+- Create Azure App and Bot
+  - Create App Registration
+    - This can be either Single or Multi tenant
+    - Record the Application ID
+    - Add this to the Manifest
+      "trustedCertificateSubjects": [
+          {
+              "authorityId": "00000000-0000-0000-0000-000000000001",
+  
+              "subjectName": "certificate_subject_name",
+ 
+              "revokedCertificateIdentifiers": []
+          }
+      ]
+  - Create an Azure Bot in the desired resource group. Use the App Registration from the previous step.
+
+- Set appsettings.json variables
+
+  - MicrosoftAppType: {SingTenant | MultiTenant}
+
+  - MicrosoftAppId: {appId}
+
+  - MicrosoftAppTenantId: {tenantId}
 
   - KeyVaultName: Name of the KeyVault containing the certificate.
 
   - CertificateName: Name of the certificate in the KeyVault.
 
-
-- Run the bot from a terminal or from Visual Studio:
-
-  A) From a terminal, navigate to `samples/csharp_dotnetcore/85.bot-authentication-sni`
-
-  ```bash
-  # run the bot
-  dotnet run
-  ```
-
-  B) Or from Visual Studio
-
-  - Launch Visual Studio
-  - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/85.bot-authentication-sni` folder
-  - Select `AuthSNIBot.csproj` file
-  - Press `F5` to run the project
-
-## Testing the bot using Bot Framework Emulator
-
-[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
-
-- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
-
-### Connect to the bot using Bot Framework Emulator
-
-- Launch Bot Framework Emulator
-- File -> Open Bot
-- Enter a Bot URL of `http://localhost:3978/api/messages`
+- Run the bot from Visual Studio:
 
 ## Interacting with the bot
 
@@ -70,42 +71,6 @@ This sample uses the bot authentication capabilities of Azure Bot Service, provi
 ## SSL/TLS certificate
 
 An SSL/TLS certificate is a digital object that allows systems to verify identity and subsequently establish an encrypted network connection with another system using the Secure Sockets Layer/Transport Layer Security (SSL/TLS) protocol. Certificates are issued using a cryptographic system known as public key infrastructure (PKI). PKI allows one party to establish the identity of another through the use of certificates if they both trust a third party, known as a certificate authority. SSL/TLS certificates therefore function as digital identity documents that protect network communications and establish the identity of websites on the Internet as well as resources on private networks.
-
-## How to create an SSL/TLS certificate
-
-There are two possible options to create SSL/TSL certificate. Below is a step-by-step description of each one:
-
-### Using local environment
-
-1. Run the following command in a local PowerShell
-
-```
-$cert = New-SelfSignedCertificate -CertStoreLocation "<directory-to-store-certificate>" -Subject "CN=<certificate-name>" -KeySpec KeyExchange
-```
-
-1. Then, type _Manage User Certificates_ in the Windows search bar and hit enter
-
-2. The certificate will be located in the _user certificates_ folder, under _personal_ directory.
-
-3. Export the certificate to _pfx_ format including the key(The default location is _system32_ folder).
-
-4. Go to the certificate location and run the following command to generate a _pem_ file:
-
-```
-OpenSSL pkcs12 -in <certificate-name>.pfx -out c:\<certificate-name>.pem –nodes
-```
-
-5. Upload the generated certificate to the Azure app registration.
-
-### Using KeyVault
-
-1. Create a KeyVault resource and assign _the KeyVault Administrator_ role to have permission to create a new certificate.
-
-2. Under the Certificates section, hit on Generate/Import, complete the form, and create the certificate in PEM format.
-
-3. Go to the details of the certificate that you created and enable it.
-
-4. Download the certificate in CER format and then upload it to the Azure app registration.
 
 ## Deploy the bot to Azure
 

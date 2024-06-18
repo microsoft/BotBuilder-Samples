@@ -33,7 +33,15 @@ namespace Microsoft.BotBuilderSamples
                 options.SerializerSettings.MaxDepth = HttpHelper.BotMessageSerializerSettings.MaxDepth;
             });
 
-            //Set sendX5C value to true to use SNI auhtentication.
+
+            //
+            // NOTE
+            //
+            // This is a provisional sample for SN+I.  It is likely to change in the future as this
+            // functionality is rolled into BF SDK.
+            //
+
+            // Set sendX5C value to true to use SNI authentication.
             var sendX5C = true;
 
             // Using KeyVault.
@@ -43,36 +51,19 @@ namespace Microsoft.BotBuilderSamples
             var credential = new DefaultAzureCredential();
             var client = new CertificateClient(new Uri(keyVaultUri), credential);
 
-            //Get certificate in X509Certificate format.
+            // Get certificate in X509Certificate format.
             var certificateName = _configuration["CertificateName"];
             var certificate = client.DownloadCertificate(certificateName).Value;
 
-            // Using a local certificate.
-            //var certificate = X509Certificate2.CreateFromPemFile(@"{Pem file path}");
-
-            // MSAL certificate auth.
-            services.AddSingleton(
-                serviceProvider => ConfidentialClientApplicationBuilder.Create(_configuration["MicrosoftAppId"])
-                    .WithCertificate(certificate, sendX5C)
-                    .Build());
-
-            // MSAL credential factory: regardless of secret, cert or custom auth, need to add the line below to enable MSAL.
-            services.AddSingleton<ServiceClientCredentialsFactory, MsalServiceClientCredentialsFactory>();
+            // Register CertificateServiceClientCredentialsFactory
+            services.AddSingleton<ServiceClientCredentialsFactory>(
+                new CertificateServiceClientCredentialsFactory(certificate, _configuration["MicrosoftAppId"], _configuration["MicrosoftAppTenantId"], null, null, sendX5C));
 
             // Create the Bot Framework Authentication to be used with the Bot Adapter.
             services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
 
             // Create the Bot Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
-
-            // Create the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)
-            services.AddSingleton<IStorage, MemoryStorage>();
-
-            // Create the User state. (Used in this bot's Dialog implementation.)
-            services.AddSingleton<UserState>();
-
-            // Create the Conversation state. (Used by the Dialog system itself.)
-            services.AddSingleton<ConversationState>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, AuthSNIBot>();
@@ -93,8 +84,6 @@ namespace Microsoft.BotBuilderSamples
                 {
                     endpoints.MapControllers();
                 });
-
-            // app.UseHttpsRedirection();
         }
     }
 }
