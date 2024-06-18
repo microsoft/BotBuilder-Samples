@@ -56,7 +56,8 @@ const { AuthBot } = require('./authBot');
         const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication({
             MicrosoftAppId: process.env.MicrosoftAppId,
             CertificateThumbprint: process.env.CertificateThumbprint,
-            CertificatePrivateKey: certificateKey
+            CertificatePrivateKey: certificateKey,
+            MicrosoftAppTenantId: process.env.MicrosoftAppTenantId
         });
 
         // ---- Authenticate using local certificate
