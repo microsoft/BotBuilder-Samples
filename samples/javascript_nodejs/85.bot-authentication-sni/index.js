@@ -36,6 +36,13 @@ const { AuthBot } = require('./authBot');
             console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
         });
 
+        //
+        // NOTE
+        //
+        // This is a provisional sample for SN+I.  It is likely to change in the future as this
+        // functionality is rolled into BF SDK.
+        //
+
         // ---- Authenticate using key vault to obtain the certificate values.
         // Create an Azure credential to authenticate.
         const credential = new DefaultAzureCredential();

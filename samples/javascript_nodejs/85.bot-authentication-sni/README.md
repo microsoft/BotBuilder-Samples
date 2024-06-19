@@ -44,18 +44,33 @@ node --version
        ```bash
        ngrok http --host-header=rewrite 3978
        ```
-
+       
 - Setup a Bot
-  1. Register a bot with Azure Bot Service, following the instructions [here](https://docs.microsoft.com/azure/bot-service/bot-service-quickstart-registration?view=azure-bot-service-3.0).
+>  [!NOTE]
+>  The app registration used here can be Single or Multi tenant.
 
-  2. After registering the bot, use `<NGROK_FORWARDING_DOMAIN>/api/messages` as the messaging endpoint.
-        > NOTE: make sure to take note of the Microsoft App Id as we'll need this for later.
+1. Register a bot with Azure Bot Service, following the instructions [here](https://docs.microsoft.com/azure/bot-service/bot-service-quickstart-registration?view=azure-bot-service-3.0).
+2. After registering the bot, use `<NGROK_FORWARDING_DOMAIN>/api/messages` as the messaging endpoint.
+    > NOTE: make sure to take note of the Microsoft App Id as we'll need this for later.
 
 - Clone the repository
-
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
+
+- Setup the app registration 
+
+    Go to the app registration used by the azure bot and add the following configuration to the manifest: 
+      
+      "trustedCertificateSubjects": [
+          {
+              "authorityId": "00000000-0000-0000-0000-000000000001",
+
+              "subjectName": "certificate_subject_name",
+
+              "revokedCertificateIdentifiers": []
+          }
+      ]
 
 - Configure the SSL/TSL certificate. This sample requires an existing certificate issued by an integrated CA(Microsoft). We have two options to configure it in the bot. Below is a step-by-step description of each one:
 
