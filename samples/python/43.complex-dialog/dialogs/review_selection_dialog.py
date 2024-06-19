@@ -95,5 +95,5 @@ class ReviewSelectionDialog(ComponentDialog):
 
         # Otherwise, repeat this dialog, passing in the selections from this iteration.
         return await step_context.replace_dialog(
-            ReviewSelectionDialog.__name__, selected
+            self.initial_dialog_id, selected
         )

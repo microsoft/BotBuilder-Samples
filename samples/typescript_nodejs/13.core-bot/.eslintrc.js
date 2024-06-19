@@ -1,6 +1,7 @@
 /* eslint-disable */
 module.exports = {
     "extends": "standard",
+    "parser": "@typescript-eslint/parser",
     "rules": {    
         "semi": [2, "always"],
         "indent": [2, 4],
@@ -10,7 +11,10 @@ module.exports = {
             "anonymous": "never",
             "asyncArrow": "always"
         }],
-        "template-curly-spacing": [2, "always"]
+        "template-curly-spacing": [2, "always"],
+        "no-useless-constructor": 0,
+        "prefer-const": 0,
+        "array-callback-return": 0
     },
     "env": {
         "commonjs": true,

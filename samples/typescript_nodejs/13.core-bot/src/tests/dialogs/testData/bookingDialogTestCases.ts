@@ -89,17 +89,17 @@ module.exports = [
         expectedResult: {
             destination: 'Seattle',
             origin: 'Bahamas',
-            travelDate:  bookingDialogToday
+            travelDate: bookingDialogToday
         },
         expectedStatus: 'complete',
         initialData: {
             destination: 'Seattle',
             origin: 'Bahamas',
-            travelDate:  bookingDialogToday
+            travelDate: bookingDialogToday
         },
         name: 'All booking details given for today',
         steps: [
-            ['hi', `Please confirm, I have you traveling to: Seattle from: Bahamas on: ${  bookingDialogToday }. Is this correct? (1) Yes or (2) No`],
+            ['hi', `Please confirm, I have you traveling to: Seattle from: Bahamas on: ${ bookingDialogToday }. Is this correct? (1) Yes or (2) No`],
             ['yes', null]
         ]
     },

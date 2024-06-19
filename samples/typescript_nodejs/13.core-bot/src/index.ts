@@ -3,11 +3,6 @@
 
 import * as path from 'path';
 
-import { config } from 'dotenv';
-// Note: Ensure you have a .env file and include LuisAppId, LuisAPIKey and LuisAPIHostName.
-const ENV_FILE = path.join(__dirname, '..', '.env');
-config({ path: ENV_FILE });
-
 import * as restify from 'restify';
 
 import { INodeSocket } from 'botframework-streaming';
@@ -31,10 +26,15 @@ import { MainDialog } from './dialogs/mainDialog';
 
 // The bot's booking dialog
 import { BookingDialog } from './dialogs/bookingDialog';
-const BOOKING_DIALOG = 'bookingDialog';
 
 // The helper-class recognizer that calls LUIS
 import { FlightBookingRecognizer } from './dialogs/flightBookingRecognizer';
+
+import { config } from 'dotenv';
+// Note: Ensure you have a .env file and include LuisAppId, LuisAPIKey and LuisAPIHostName.
+const ENV_FILE = path.join(__dirname, '..', '.env');
+config({ path: ENV_FILE });
+const BOOKING_DIALOG = 'bookingDialog';
 
 const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env as ConfigurationBotFrameworkAuthenticationOptions);
 
@@ -80,11 +80,10 @@ conversationState = new ConversationState(memoryStorage);
 userState = new UserState(memoryStorage);
 
 // If configured, pass in the FlightBookingRecognizer. (Defining it externally allows it to be mocked for tests)
-let luisRecognizer;
 const { LuisAppId, LuisAPIKey, LuisAPIHostName } = process.env;
 const luisConfig: LuisApplication = { applicationId: LuisAppId, endpointKey: LuisAPIKey, endpoint: `https://${ LuisAPIHostName }` };
 
-luisRecognizer = new FlightBookingRecognizer(luisConfig);
+const luisRecognizer = new FlightBookingRecognizer(luisConfig);
 
 // Create the main dialog.
 const bookingDialog = new BookingDialog(BOOKING_DIALOG);

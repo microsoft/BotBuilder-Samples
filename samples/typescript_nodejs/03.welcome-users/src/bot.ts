@@ -34,7 +34,7 @@ export class WelcomeBot extends ActivityHandler {
                 // The channel should send the user name in the 'From' object
                 const userName = context.activity.from.name;
                 await context.sendActivity('You are seeing this message because this was your first message ever sent to this bot.');
-                await context.sendActivity(`It is a good practice to welcome the user and provide personal greeting. For example, welcome ${userName}.`);
+                await context.sendActivity(`It is a good practice to welcome the user and provide personal greeting. For example, welcome ${ userName }.`);
 
                 // Set the flag indicating the bot handled the user's first message.
                 await this.welcomedUserProperty.set(context, true);
@@ -43,18 +43,18 @@ export class WelcomeBot extends ActivityHandler {
                 // Consider using LUIS or QnA for Natural Language Processing.
                 const text = context.activity.text.toLowerCase();
                 switch (text) {
-                    case 'hello':
-                    case 'hi':
-                        await context.sendActivity(`You said "${context.activity.text}"`);
-                        break;
-                    case 'intro':
-                    case 'help':
-                        await this.sendIntroCard(context);
-                        break;
-                    default:
-                        await context.sendActivity(`This is a simple Welcome Bot sample. You can say 'intro' to
-                                                    see the introduction card. If you are running this bot in the Bot
-                                                    Framework Emulator, press the 'Start Over' button to simulate user joining a bot or a channel`);
+                case 'hello':
+                case 'hi':
+                    await context.sendActivity(`You said "${ context.activity.text }"`);
+                    break;
+                case 'intro':
+                case 'help':
+                    await this.sendIntroCard(context);
+                    break;
+                default:
+                    await context.sendActivity(`This is a simple Welcome Bot sample. You can say 'intro' to
+                                                see the introduction card. If you are running this bot in the Bot
+                                                Framework Emulator, press the 'Start Over' button to simulate user joining a bot or a channel`);
                 }
             }
             // Save state changes
@@ -75,7 +75,7 @@ export class WelcomeBot extends ActivityHandler {
                 // bot was added to the conversation, and the opposite indicates this is a user.
                 if (context.activity.membersAdded[idx].id !== context.activity.recipient.id) {
                     await context.sendActivity('Welcome to the \'Welcome User\' Bot. This bot will introduce you to welcoming and greeting users.');
-                    await context.sendActivity(`You are seeing this message because the bot received at least one 'ConversationUpdate' ` +
+                    await context.sendActivity('You are seeing this message because the bot received at least one \'ConversationUpdate\' ' +
                         'event, indicating you (and possibly others) joined the conversation. If you are using the emulator, ' +
                         'pressing the \'Start Over\' button to trigger this event again. The specifics of the \'ConversationUpdate\' ' +
                         'event depends on the channel. You can read more information at https://aka.ms/about-botframework-welcome-user');

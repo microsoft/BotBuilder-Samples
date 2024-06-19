@@ -11,12 +11,10 @@ class DefaultConfig:
     """ Bot Configuration """
 
     PORT = 3978
-    APP_ID = os.environ.get(
-        "MicrosoftAppId", ""
-    )
-    APP_PASSWORD = os.environ.get(
-        "MicrosoftAppPassword", ""
-    )
+    APP_ID = os.environ.get("MicrosoftAppId", "")
+    APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
+    APP_TYPE = os.environ.get("MicrosoftAppType", "MultiTenant")
+    APP_TENANTID = os.environ.get("MicrosoftAppTenantId", "")
     SKILL_HOST_ENDPOINT = "http://localhost:3978/api/skills"
     SKILLS = [
         {

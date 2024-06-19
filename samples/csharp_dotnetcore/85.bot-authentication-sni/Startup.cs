@@ -34,13 +34,6 @@ namespace Microsoft.BotBuilderSamples
                 options.SerializerSettings.MaxDepth = HttpHelper.BotMessageSerializerSettings.MaxDepth;
             });
 
-            //
-            // NOTE
-            //
-            // This is a provisional sample for SN+I.  It is likely to change in the future as this
-            // functionality is rolled into BF SDK.
-            //
-
             //Set sendX5C value to true to use SNI auhtentication.
             var sendX5C = true;
 
@@ -51,22 +44,16 @@ namespace Microsoft.BotBuilderSamples
             var credential = new DefaultAzureCredential();
             var client = new CertificateClient(new Uri(keyVaultUri), credential);
 
-            //Get certificate in X509Certificate format.
+            // Get certificate in X509Certificate format.
             var certificateName = _configuration["CertificateName"];
             var certificate = client.DownloadCertificate(certificateName).Value;
 
             // Using a local certificate.
             //var certificate = X509Certificate2.CreateFromPemFile(@"{Pem file path}");
 
-            // MSAL certificate auth.
-            services.AddSingleton(
-                new CertificateServiceClientCredentialsFactory(
-                    certificate, _configuration["MicrosoftAppId"], _configuration["MicrosoftAppTenantId"], null, null, sendX5C
-                    )
-                );
-
-            // MSAL credential factory: regardless of secret, cert or custom auth, need to add the line below to enable MSAL.
-            services.AddSingleton<ServiceClientCredentialsFactory, MsalServiceClientCredentialsFactory>();
+            // Register CertificateServiceClientCredentialsFactory
+            services.AddSingleton<ServiceClientCredentialsFactory>(
+                new CertificateServiceClientCredentialsFactory(certificate, _configuration["MicrosoftAppId"], _configuration["MicrosoftAppTenantId"], null, null, sendX5C));
 
             // Create the Bot Framework Authentication to be used with the Bot Adapter.
             services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
@@ -89,7 +76,6 @@ namespace Microsoft.BotBuilderSamples
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseRouting()
-                .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();

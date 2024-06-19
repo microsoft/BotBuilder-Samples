@@ -38,7 +38,7 @@ export class ConsoleAdapter extends BotAdapter {
         this.reference = {
             bot: { id: 'bot', name: 'Bot' },
             channelId: 'console',
-            conversation:  { id: 'convo1', name: '', isGroup: false },
+            conversation: { id: 'convo1', name: '', isGroup: false },
             serviceUrl: '',
             user: { id: 'user', name: 'User1' },
             ...reference
@@ -123,12 +123,12 @@ export class ConsoleAdapter extends BotAdapter {
      * @param logic A function handler that will be called to perform the bots logic after the the adapters middleware has been run.
      */
     public continueConversation(reference: ConversationReference, logic: (context: TurnContext) => Promise<void>): Promise<void> {
-            // Create context and run middleware pipe
-            const activity: Partial<Activity> = TurnContext.applyConversationReference({}, reference, true);
-            const context: TurnContext = new TurnContext(this, activity);
+        // Create context and run middleware pipe
+        const activity: Partial<Activity> = TurnContext.applyConversationReference({}, reference, true);
+        const context: TurnContext = new TurnContext(this, activity);
 
-            return this.runMiddleware(context, logic)
-                       .catch((err: Error) => { this.printError(err.toString()); });
+        return this.runMiddleware(context, logic)
+            .catch((err: Error) => { this.printError(err.toString()); });
     }
 
     /**
@@ -143,25 +143,26 @@ export class ConsoleAdapter extends BotAdapter {
      */
     public async sendActivities(context: TurnContext, activities: Array <Partial<Activity>>): Promise<ResourceResponse[]> {
         const responses: ResourceResponse[] = [];
-        for(const activity of activities) {
+        for (const activity of activities) {
             responses.push({} as ResourceResponse);
 
             switch (activity.type) {
-                case 'delay' as ActivityTypes:
-                    await this.sleep(activity.value);
-                    break;
-                case ActivityTypes.Message:
-                    if (activity.attachments && activity.attachments.length > 0) {
-                        const append: string = activity.attachments.length === 1
-                            ? `(1 attachment)` : `(${activity.attachments.length} attachments)`;
-                        this.print(`${activity.text} ${append}`);
-                    } else {
-                        this.print(activity.text || '');
-                    }
-                    break;
-                default:
-                    this.print(`[${activity.type}]`);
-                    break;
+            case 'delay' as ActivityTypes:
+                await this.sleep(activity.value);
+                break;
+            case ActivityTypes.Message:
+                if (activity.attachments && activity.attachments.length > 0) {
+                    const append: string = activity.attachments.length === 1
+                        ? '(1 attachment)'
+                        : `(${ activity.attachments.length } attachments)`;
+                    this.print(`${ activity.text } ${ append }`);
+                } else {
+                    this.print(activity.text || '');
+                }
+                break;
+            default:
+                this.print(`[${ activity.type }]`);
+                break;
             }
         }
         return responses;
@@ -172,7 +173,7 @@ export class ConsoleAdapter extends BotAdapter {
      * will result an error being returned.
      */
     public updateActivity(context: TurnContext, activity: Partial<Activity>): Promise<void> {
-        return Promise.reject(new Error(`ConsoleAdapter.updateActivity(): not supported.`));
+        return Promise.reject(new Error('ConsoleAdapter.updateActivity(): not supported.'));
     }
 
     /**
@@ -180,7 +181,7 @@ export class ConsoleAdapter extends BotAdapter {
      * will result an error being returned.
      */
     public deleteActivity(context: TurnContext, reference: Partial<ConversationReference>): Promise<void> {
-        return Promise.reject(new Error(`ConsoleAdapter.deleteActivity(): not supported.`));
+        return Promise.reject(new Error('ConsoleAdapter.deleteActivity(): not supported.'));
     }
 
     /**

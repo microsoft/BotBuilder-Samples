@@ -112,7 +112,6 @@ namespace Microsoft.BotBuilderSamples.SSORootBot
 
             app.UseWebSockets();
 
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

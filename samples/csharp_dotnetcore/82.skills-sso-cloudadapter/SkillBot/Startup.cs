@@ -93,7 +93,6 @@ namespace Microsoft.BotBuilderSamples.SSOSkillBot
                 .UseStaticFiles()
                 .UseWebSockets()
                 .UseRouting()
-                .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();

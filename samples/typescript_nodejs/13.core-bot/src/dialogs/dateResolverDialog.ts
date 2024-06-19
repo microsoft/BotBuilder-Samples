@@ -10,7 +10,6 @@ const DATETIME_PROMPT = 'datetimePrompt';
 const WATERFALL_DIALOG = 'waterfallDialog';
 
 export class DateResolverDialog extends CancelAndHelpDialog {
-
     private static async dateTimePromptValidator(promptContext: PromptValidatorContext<DateTimeResolution>): Promise<boolean> {
         if (promptContext.recognized.succeeded) {
             // This value will be a TIMEX. And we are only interested in a Date so grab the first result and drop the Time part.

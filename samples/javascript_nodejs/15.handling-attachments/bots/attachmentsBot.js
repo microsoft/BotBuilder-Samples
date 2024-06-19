@@ -78,8 +78,10 @@ class AttachmentsBot extends ActivityHandler {
      * @param {Object} attachment
      */
     async downloadAttachmentAndWrite(attachment) {
-        // Retrieve the attachment via the attachment's contentUrl.
-        const url = attachment.contentUrl;
+        // Retrieve the attachment via url.
+        // Use content.downloadURL if available as that contains needed auth token for working with ms teams
+        const url = attachment.content?.downloadUrl || attachment.contentUrl;
+
 
         // Local file path for the bot to save the attachment.
         const localFileName = path.join(__dirname, attachment.name);

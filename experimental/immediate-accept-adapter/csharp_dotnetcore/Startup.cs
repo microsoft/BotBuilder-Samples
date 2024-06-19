@@ -9,6 +9,8 @@ using ImmediateAcceptBot.Bots;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,7 +29,10 @@ namespace ImmediateAcceptBot
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddHttpClient().AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.MaxDepth = HttpHelper.BotMessageSerializerSettings.MaxDepth;
+            });
 
             // Activity specific BackgroundService for processing athenticated activities.
             services.AddHostedService<HostedActivityService>();
@@ -42,11 +47,17 @@ namespace ImmediateAcceptBot
             // Configure the ShutdownTimeout based on appsettings.
             services.Configure<HostOptions>(opts => opts.ShutdownTimeout = TimeSpan.FromSeconds(Configuration.GetValue<int>("ShutdownTimeoutSeconds")));
 
-            // Create the Bot Framework Adapter with error handling enabled.
+            // Create the Bot Framework Authentication to be used with the Bot Adapter.
+            services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
+
+            // Create the ImmediateAcceptAdapter.
+            // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.
             services.AddSingleton<ImmediateAcceptAdapter>();
+            services.AddSingleton<IBotFrameworkHttpAdapter>(sp => sp.GetService<ImmediateAcceptAdapter>());
+            services.AddSingleton<BotAdapter>(sp => sp.GetService<ImmediateAcceptAdapter>());
 
             // Create the bot. In this case the ASP Controller and ImmediateAcceptAdapter is expecting an IBot.
-            services.AddSingleton<IBot, EchoBot>();
+            services.AddTransient<IBot, EchoBot>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

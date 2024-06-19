@@ -3,10 +3,6 @@
 
 import * as path from 'path';
 
-import { config } from 'dotenv';
-const ENV_FILE = path.join(__dirname, '..', '.env');
-config({ path: ENV_FILE });
-
 import * as restify from 'restify';
 
 import { INodeSocket } from 'botframework-streaming';
@@ -15,7 +11,6 @@ import { INodeSocket } from 'botframework-streaming';
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 import {
     CloudAdapter,
-    ConfigurationServiceClientCredentialFactory,
     ConfigurationBotFrameworkAuthentication,
     ConfigurationBotFrameworkAuthenticationOptions
 } from 'botbuilder';
@@ -23,11 +18,15 @@ import {
 // This bot's main dialog.
 import { EchoBot } from './bot';
 
+import { config } from 'dotenv';
+const ENV_FILE = path.join(__dirname, '..', '.env');
+config({ path: ENV_FILE });
+
 // Create HTTP server.
 const server = restify.createServer();
 server.use(restify.plugins.bodyParser());
 server.listen(process.env.port || process.env.PORT || 3978, () => {
-    console.log(`\n${server.name} listening to ${server.url}`);
+    console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
     console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
 });
