@@ -58,7 +58,8 @@ Certificate Subject Name and Issuer (SNI) based authentication is currently avai
     ```
 
 - Setup the app registration 
-      Go to the app registration used by the azure bot and add the following configuration to the manifest: 
+
+    Go to the app registration used by the azure bot and add the following configuration to the manifest: 
       
       "trustedCertificateSubjects": [
           {
