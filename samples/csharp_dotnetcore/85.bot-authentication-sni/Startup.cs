@@ -34,6 +34,13 @@ namespace Microsoft.BotBuilderSamples
                 options.SerializerSettings.MaxDepth = HttpHelper.BotMessageSerializerSettings.MaxDepth;
             });
 
+            //
+            // NOTE
+            //
+            // This is a provisional sample for SN+I.  It is likely to change in the future as this
+            // functionality is rolled into BF SDK.
+            //
+
             //Set sendX5C value to true to use SNI auhtentication.
             var sendX5C = true;
 
