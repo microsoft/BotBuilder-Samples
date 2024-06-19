@@ -46,14 +46,29 @@ Certificate Subject Name and Issuer (SNI) based authentication is currently avai
        ```
        
 - Setup a Bot
-    1. Register a bot with Azure Bot Service, following the instructions [here](https://docs.microsoft.com/azure/bot-service/bot-service-quickstart-registration?view=azure-bot-service-3.0).
-    2. After registering the bot, use `<NGROK_FORWARDING_DOMAIN>/api/messages` as the messaging endpoint.
-        > NOTE: make sure to take note of the Microsoft App Id as we'll need this for later.
+>  [!NOTE]
+>  The app registration used here can be Single or Multi tenant.
 
+1. Register a bot with Azure Bot Service, following the instructions [here](https://docs.microsoft.com/azure/bot-service/bot-service-quickstart-registration?view=azure-bot-service-3.0).
+2. After registering the bot, use `<NGROK_FORWARDING_DOMAIN>/api/messages` as the messaging endpoint.
+    > NOTE: make sure to take note of the Microsoft App Id as we'll need this for later.
 - Clone the repository
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
+
+- Setup the app registration 
+      Go to the app registration used by the azure bot and add the following configuration to the manifest: 
+      
+      "trustedCertificateSubjects": [
+          {
+              "authorityId": "00000000-0000-0000-0000-000000000001",
+
+              "subjectName": "certificate_subject_name",
+
+              "revokedCertificateIdentifiers": []
+          }
+      ]
 
 - Configure the SSL/TSL certificate. This sample requires an existing certificate issued by an integrated CA. We have two options to configure it in the bot. Below is a step-by-step description of each one:
 
@@ -98,7 +113,7 @@ Certificate Subject Name and Issuer (SNI) based authentication is currently avai
       e.g
         ![Pem Command With Key](Images/Local/PemCommandWithKey.png)
 
-  5. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the local certificate and write the name of the certificate in _pem_ format inside the _CreateFromPemFile_ method. 
+  6. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the local certificate and write the name of the certificate in _pem_ format inside the _CreateFromPemFile_ method. 
   Be sure to comment out or remove the lines of code that use Azure KeyVault to avoid errors.
   Keep in mind that the SNI authentication works with the sendX5C flag, keep its value in _true_.
   

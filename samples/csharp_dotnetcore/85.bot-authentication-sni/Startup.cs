@@ -34,6 +34,13 @@ namespace Microsoft.BotBuilderSamples
                 options.SerializerSettings.MaxDepth = HttpHelper.BotMessageSerializerSettings.MaxDepth;
             });
 
+            //
+            // NOTE
+            //
+            // This is a provisional sample for SN+I.  It is likely to change in the future as this
+            // functionality is rolled into BF SDK.
+            //
+
             //Set sendX5C value to true to use SNI auhtentication.
             var sendX5C = true;
 
@@ -67,15 +74,6 @@ namespace Microsoft.BotBuilderSamples
             // Create the Bot Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
-            // Create the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)
-            services.AddSingleton<IStorage, MemoryStorage>();
-
-            // Create the User state. (Used in this bot's Dialog implementation.)
-            services.AddSingleton<UserState>();
-
-            // Create the Conversation state. (Used by the Dialog system itself.)
-            services.AddSingleton<ConversationState>();
-
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, AuthSNIBot>();
         }
@@ -96,8 +94,6 @@ namespace Microsoft.BotBuilderSamples
                 {
                     endpoints.MapControllers();
                 });
-
-            // app.UseHttpsRedirection();
         }
     }
 }

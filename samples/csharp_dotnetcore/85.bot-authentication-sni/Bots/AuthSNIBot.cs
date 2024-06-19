@@ -11,21 +11,22 @@ namespace Microsoft.BotBuilderSamples
 {
     public class AuthSNIBot : ActivityHandler
     {
+        protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        {
+            var replyText = $"Echo: {turnContext.Activity.Text}";
+            await turnContext.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
+        }
+
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
+            var welcomeText = "Welcome to the Bot with Subject Name/Issuer Authentication.";
             foreach (var member in turnContext.Activity.MembersAdded)
             {
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
-                    await turnContext.SendActivityAsync(MessageFactory.Text("Welcome to the Bot with Subject Name/Issuer Authentication."), cancellationToken);
+                    await turnContext.SendActivityAsync(MessageFactory.Text(welcomeText, welcomeText), cancellationToken);
                 }
             }
-        }
-
-        protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
-        {
-            var replyText = "Running dialog with bot authenticated";
-            await turnContext.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
-        }
+        }     
     }
 }
