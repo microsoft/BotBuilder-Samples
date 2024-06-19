@@ -58,6 +58,7 @@ node --version
     - MicrosoftAppId: App Id of your bot (gathered from the [Setup a Bot][#TrySample] step).
     - CertificateThumbprint: Thumbprint of the certificate uploaded to the app registration.
     - MicrosoftAppTenantId: Tenant Id to which your bot belongs (optional for MultiTenant apps).
+    - MicrosoftAppType: Type of the App (optional for MultiTenant apps).
 
   2. Intall and configure [OpenSSL](https://www.openssl.org/source/) with the latest version
     - Download the latest version source and add the folder to the [environment variables](https://www.java.com/en/download/help/path.html) path.
@@ -127,6 +128,7 @@ node --version
      - MicrosoftAppId: App Id of your bot (gathered from the [Setup a Bot][#TrySample] step).
      - CertificateThumbprint: Thumbprint of the certificate uploaded to the app registration.
      - MicrosoftAppTenantId: Tenant Id to which your bot belongs (optional for MultiTenant apps).
+     - MicrosoftAppType: Type of the App (optional for MultiTenant apps).
 
   2. Create a [KeyVault](https://learn.microsoft.com/en-us/azure/key-vault/general/quick-create-portal) resource.
     

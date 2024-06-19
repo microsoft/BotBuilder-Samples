@@ -57,7 +57,8 @@ const { AuthBot } = require('./authBot');
             MicrosoftAppId: process.env.MicrosoftAppId,
             CertificateThumbprint: process.env.CertificateThumbprint,
             CertificatePrivateKey: certificateKey,
-            MicrosoftAppTenantId: process.env.MicrosoftAppTenantId
+            MicrosoftAppTenantId: process.env.MicrosoftAppTenantId,
+            MicrosoftAppType: process.env.MicrosoftAppType
         });
 
         // ---- Authenticate using local certificate
