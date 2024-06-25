@@ -58,7 +58,8 @@
       "defaultValue": "MultiTenant",
       "allowedValues": [
         "MultiTenant",
-        "SingleTenant"
+        "SingleTenant",
+        "UserAssignedMSI"
       ],
       "metadata": {
         "description": "Type of Bot Authentication. set as MicrosoftAppType in the Web App's Application Settings. Allowed values are: MultiTenant, SingleTenant, UserAssignedMSI. Defaults to \"MultiTenant\"."
@@ -72,8 +73,23 @@
     },
     "appSecret": {
       "type": "string",
+      "defaultValue": "",
       "metadata": {
-        "description": "Active Directory App Password, set as MicrosoftAppPassword in the Web App's Application Settings. Required for MultiTenant and SingleTenant app types."
+        "description": "Active Directory App Password, set as MicrosoftAppPassword in the Web App's Application Settings. Required for MultiTenant and SingleTenant app types. Defaults to \"\"."
+      }
+    },
+    "UMSIName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The User-Assigned Managed Identity Resource used for the Bot's Authentication. Defaults to \"\"."
+      }
+    },
+    "UMSIResourceGroupName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The User-Assigned Managed Identity Resource Group used for the Bot's Authentication. Defaults to \"\"."
       }
     }
   },
@@ -92,6 +108,15 @@
       "SingleTenant": {
         "tenantId": "[variables('tenantId')]",
         "identity": { "type": "None" }
+      },
+      "UserAssignedMSI": {
+        "tenantId": "[variables('tenantId')]",
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "[variables('msiResourceId')]": {}
+          }
+        }
       }
     },
     "appType": {
@@ -256,7 +281,7 @@
                 "autoHealEnabled": false,
                 "vnetName": "",
                 "minTlsVersion": "1.2",
-                "ftpsState": "AllAllowed",
+                "ftpsState": "Disabled",
                 "reservedInstanceCount": 0
               }
             }

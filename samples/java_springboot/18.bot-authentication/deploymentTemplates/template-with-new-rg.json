@@ -255,7 +255,7 @@
                                 "scmIpSecurityRestrictionsUseMain": false,
                                 "http20Enabled": false,
                                 "minTlsVersion": "1.2",
-                                "ftpsState": "AllAllowed",
+                                "ftpsState": "Disabled",
                                 "reservedInstanceCount": 0
                             }
                         },

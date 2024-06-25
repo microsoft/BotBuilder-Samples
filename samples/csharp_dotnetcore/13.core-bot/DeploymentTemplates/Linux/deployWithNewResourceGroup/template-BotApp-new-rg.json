@@ -279,7 +279,7 @@
                 "autoHealEnabled": false,
                 "vnetName": "",
                 "minTlsVersion": "1.2",
-                "ftpsState": "AllAllowed",
+                "ftpsState": "Disabled",
                 "reservedInstanceCount": 0
               }
             }
