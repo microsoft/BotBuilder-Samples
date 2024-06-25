@@ -74,8 +74,16 @@ namespace Microsoft.BotBuilderSamples.SSORootBot
 
         private BotFrameworkSkill GetCallingSkill(ClaimsIdentity claimsIdentity)
         {
-            var botAppIdClaim = claimsIdentity.Claims?.FirstOrDefault(claim => claim.Type == AuthenticationConstants.AppIdClaim);
-            var appId = botAppIdClaim?.Value;
+            var version = claimsIdentity.Claims.FirstOrDefault(claim => claim.Type == AuthenticationConstants.VersionClaim)?.Value;
+            var appId = claimsIdentity.Claims?.FirstOrDefault(claim =>
+            {
+                if (version == "2.0")
+                {
+                    return claim.Type == AuthenticationConstants.AuthorizedParty;
+                }
+
+                return claim.Type == AuthenticationConstants.AppIdClaim;
+            })?.Value;
             if (string.IsNullOrWhiteSpace(appId))
             {
                 return null;
