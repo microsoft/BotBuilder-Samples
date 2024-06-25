@@ -2,11 +2,11 @@
 
 Bot Framework v4 multi-turn prompt bot sample
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to use the prompts classes included in `botbuilder-dialogs`.  This bot will ask for the user's name and age, then store the responses. It demonstrates a multi-turn dialog flow using a text prompt, a number prompt, and state accessors to store and retrieve values.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to use the prompts classes included in `botbuilder-dialogs`. This bot will ask for the user's name and age, then store the responses. It demonstrates a multi-turn dialog flow using a text prompt, a number prompt, and state accessors to store and retrieve values.
 
 ## Prerequisites
 
-- [.NET SDK](https://dotnet.microsoft.com/download) version 6.0
+- [.NET SDK](https://dotnet.microsoft.com/download) version 8.0
 
   ```bash
   # determine dotnet version
@@ -17,9 +17,9 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 - Clone the repository
 
-    ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
-    ```
+  ```bash
+  git clone https://github.com/Microsoft/botbuilder-samples.git
+  ```
 
 - Run the bot from a terminal or from Visual Studio:
 

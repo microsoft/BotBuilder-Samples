@@ -6,7 +6,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ## Prerequisites
 
-- [.NET SDK](https://dotnet.microsoft.com/download) version 6.0
+- [.NET SDK](https://dotnet.microsoft.com/download) version 8.0
 
   ```bash
   # determine dotnet version
@@ -17,9 +17,9 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 - Clone the repository
 
-    ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
-    ```
+  ```bash
+  git clone https://github.com/Microsoft/botbuilder-samples.git
+  ```
 
 - Run the bot from a terminal or from Visual Studio:
 
@@ -54,7 +54,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 Card authors describe their content as a simple JSON object. That content can then be rendered natively inside a host application, automatically adapting to the look and feel of the host. For example, Contoso Bot can author an Adaptive Card through the Bot Framework, and when delivered to Cortana, it will look and feel like a Cortana card. When that same payload is sent to Microsoft Teams, it will look and feel like Microsoft Teams. As more host apps start to support Adaptive Cards, that same payload will automatically light up inside these applications, yet still feel entirely native to the app. Users win because everything feels familiar. Host apps win because they control the user experience. Card authors win because their content gets broader reach without any additional work.
 
-The Bot Framework provides support for Adaptive Cards.  See the following to learn more about Adaptive Cards.
+The Bot Framework provides support for Adaptive Cards. See the following to learn more about Adaptive Cards.
 
 - [Adaptive card](http://adaptivecards.io)
 - [Send an Adaptive card](https://docs.microsoft.com/en-us/azure/bot-service/nodejs/bot-builder-nodejs-send-rich-cards?view=azure-bot-service-3.0&viewFallbackFrom=azure-bot-service-4.0#send-an-adaptive-card)
