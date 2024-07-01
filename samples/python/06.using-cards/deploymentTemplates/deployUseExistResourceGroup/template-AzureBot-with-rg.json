@@ -34,7 +34,8 @@
       "defaultValue": "MultiTenant",
       "allowedValues": [
         "MultiTenant",
-        "SingleTenant"
+        "SingleTenant",
+        "UserAssignedMSI"
       ],
       "metadata": {
         "description": "Type of Bot Authentication. set as MicrosoftAppType in the Web App's Application Settings. Allowed values are: MultiTenant, SingleTenant, UserAssignedMSI. Defaults to \"MultiTenant\"."
@@ -44,6 +45,20 @@
       "type": "string",
       "metadata": {
         "description": "Active Directory App ID or User-Assigned Managed Identity Client ID, set as MicrosoftAppId in the Web App's Application Settings."
+      }
+    },
+    "UMSIName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The User-Assigned Managed Identity Resource used for the Bot's Authentication."
+      }
+    },
+    "UMSIResourceGroupName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The User-Assigned Managed Identity Resource Group used for the Bot's Authentication."
       }
     },
     "tenantId": {
@@ -57,6 +72,7 @@
   "variables": {
     "botEndpoint": "[if(empty(parameters('botEndpoint')), concat('https://', parameters('azureBotId'), '.azurewebsites.net/api/messages'), parameters('botEndpoint'))]",
     "tenantId": "[if(empty(parameters('tenantId')), subscription().tenantId, parameters('tenantId'))]",
+    "msiResourceId": "[if(empty(parameters('UMSIName')), '', concat(subscription().id, '/resourceGroups/', parameters('UMSIResourceGroupName'), '/providers/', 'Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('UMSIName')))]",
     "appTypeDef": {
       "MultiTenant": {
         "tenantId": "",
@@ -65,10 +81,15 @@
       "SingleTenant": {
         "tenantId": "[variables('tenantId')]",
         "msiResourceId": ""
+      },
+      "UserAssignedMSI": {
+        "tenantId": "[variables('tenantId')]",
+        "msiResourceId": "[variables('msiResourceId')]"
       }
     },
     "appType": {
-      "tenantId": "[variables('appTypeDef')[parameters('appType')].tenantId]"
+      "tenantId": "[variables('appTypeDef')[parameters('appType')].tenantId]",
+      "msiResourceId": "[variables('appTypeDef')[parameters('appType')].msiResourceId]"
     }
   },
   "resources": [
@@ -88,6 +109,7 @@
         "endpoint": "[variables('botEndpoint')]",
         "msaAppId": "[parameters('appId')]",
         "msaAppTenantId": "[variables('appType').tenantId]",
+        "msaAppMSIResourceId": "[variables('appType').msiResourceId]",
         "msaAppType": "[parameters('appType')]",
         "luisAppIds": [],
         "schemaTransformationVersion": "1.3",
