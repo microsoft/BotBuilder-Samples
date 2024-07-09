@@ -1,0 +1,4 @@
+botbuilder-integration-aiohttp>=4.16.1
+azure-identity==1.17.1
+azure-keyvault-certificates==4.8.0
+azure-keyvault-secrets==4.8.0

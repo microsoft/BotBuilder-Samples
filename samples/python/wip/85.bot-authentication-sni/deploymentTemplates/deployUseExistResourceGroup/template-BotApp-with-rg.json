@@ -1,0 +1,278 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appServiceName": {
+      "type": "string",
+      "metadata": {
+        "description": "The globally unique name of the Web App."
+      }
+    },
+    "existingAppServicePlanName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Name of the existing App Service Plan used to create the Web App for the bot."
+      }
+    },
+    "existingAppServicePlanLocation": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The location of the App Service Plan."
+      }
+    },
+    "newAppServicePlanName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The name of the new App Service Plan."
+      }
+    },
+    "newAppServicePlanLocation": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The location of the App Service Plan."
+      }
+    },
+    "newAppServicePlanSku": {
+      "type": "object",
+      "defaultValue": {
+        "name": "S1",
+        "tier": "Standard",
+        "size": "S1",
+        "family": "S",
+        "capacity": 1
+      },
+      "metadata": {
+        "description": "The SKU of the App Service Plan. Defaults to Standard values."
+      }
+    },
+    "appType": {
+      "type": "string",
+      "defaultValue": "MultiTenant",
+      "allowedValues": [
+        "MultiTenant",
+        "SingleTenant",
+        "UserAssignedMSI"
+      ],
+      "metadata": {
+        "description": "Type of Bot Authentication. set as MicrosoftAppType in the Web App's Application Settings. Allowed values are: MultiTenant, SingleTenant, UserAssignedMSI. Defaults to \"MultiTenant\"."
+      }
+    },
+    "appId": {
+      "type": "string",
+      "metadata": {
+        "description": "Active Directory App ID or User-Assigned Managed Identity Client ID, set as MicrosoftAppId in the Web App's Application Settings."
+      }
+    },
+    "appSecret": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Active Directory App Password, set as MicrosoftAppPassword in the Web App's Application Settings. Required for MultiTenant and SingleTenant app types. Defaults to \"\"."
+      }
+    },
+    "UMSIName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The User-Assigned Managed Identity Resource used for the Bot's Authentication. Defaults to \"\"."
+      }
+    },
+    "UMSIResourceGroupName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The User-Assigned Managed Identity Resource Group used for the Bot's Authentication. Defaults to \"\"."
+      }
+    },
+    "tenantId": {
+      "type": "string",
+      "defaultValue": "[subscription().tenantId]",
+      "metadata": {
+        "description": "The Azure AD Tenant ID to use as part of the Bot's Authentication. Only used for SingleTenant and UserAssignedMSI app types. Defaults to \"Subscription Tenant ID\"."
+      }
+    }
+  },
+  "variables": {
+    "tenantId": "[if(empty(parameters('tenantId')), subscription().tenantId, parameters('tenantId'))]",
+    "useExistingServicePlan": "[not(empty(parameters('existingAppServicePlanName')))]",
+    "servicePlanName": "[if(variables('useExistingServicePlan'), parameters('existingAppServicePlanName'), parameters('newAppServicePlanName'))]",
+    "servicePlanLocation": "[if(variables('useExistingServicePlan'), parameters('existingAppServicePlanLocation'), parameters('newAppServicePlanLocation'))]",
+    "msiResourceId": "[if(empty(parameters('UMSIName')), '', concat(subscription().id, '/resourceGroups/', parameters('UMSIResourceGroupName'), '/providers/', 'Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('UMSIName')))]",
+    "appTypeDef": {
+      "MultiTenant": {
+        "tenantId": "",
+        "identity": { "type": "None" }
+      },
+      "SingleTenant": {
+        "tenantId": "[variables('tenantId')]",
+        "identity": { "type": "None" }
+      },
+      "UserAssignedMSI": {
+        "tenantId": "[variables('tenantId')]",
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "[variables('msiResourceId')]": {}
+          }
+        }
+      }
+    },
+    "appType": {
+      "tenantId": "[variables('appTypeDef')[parameters('appType')].tenantId]",
+      "identity": "[variables('appTypeDef')[parameters('appType')].identity]"
+    }
+  },
+  "resources": [
+    {
+      "comments": "Create a new App Service Plan if no existing App Service Plan name was passed in.",
+      "type": "Microsoft.Web/serverfarms",
+      "condition": "[not(variables('useExistingServicePlan'))]",
+      "name": "[variables('servicePlanName')]",
+      "apiVersion": "2018-02-01",
+      "location": "[parameters('newAppServicePlanLocation')]",
+      "sku": "[parameters('newAppServicePlanSku')]",
+      "kind": "linux",
+      "properties": {
+        "name": "[variables('servicePlanName')]",
+        "perSiteScaling": false,
+        "reserved": true,
+        "targetWorkerCount": 0,
+        "targetWorkerSizeId": 0
+      }
+    },
+    {
+      "comments": "Create a Web App using an App Service Plan",
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2015-08-01",
+      "location": "[variables('servicePlanLocation')]",
+      "kind": "app,linux",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]"
+      ],
+      "name": "[parameters('appServiceName')]",
+      "identity": "[variables('appType').identity]",
+      "properties": {
+        "name": "[parameters('appServiceName')]",
+        "enabled": true,
+        "hostNameSslStates": [
+          {
+            "name": "[concat(parameters('appServiceName'), '.azurewebsites.net')]",
+            "sslState": "Disabled",
+            "hostType": "Standard"
+          },
+          {
+            "name": "[concat(parameters('appServiceName'), '.scm.azurewebsites.net')]",
+            "sslState": "Disabled",
+            "hostType": "Repository"
+          }
+        ],
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
+        "reserved": true,
+        "scmSiteAlsoStopped": false,
+        "clientAffinityEnabled": false,
+        "clientCertEnabled": false,
+        "hostNamesDisabled": false,
+        "containerSize": 0,
+        "dailyMemoryTimeQuota": 0,
+        "httpsOnly": false,
+        "siteConfig": {
+          "appSettings": [
+            {
+              "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
+              "value": "true"
+            },
+            {
+              "name": "MicrosoftAppType",
+              "value": "[parameters('appType')]"
+            },
+            {
+              "name": "MicrosoftAppId",
+              "value": "[parameters('appId')]"
+            },
+            {
+              "name": "MicrosoftAppPassword",
+              "value": "[parameters('appSecret')]"
+            },
+            {
+              "name": "MicrosoftAppTenantId",
+              "value": "[variables('appType').tenantId]"
+            }
+          ],
+          "cors": {
+            "allowedOrigins": [
+              "https://botservice.hosting.portal.azure.net",
+              "https://hosting.onecloud.azure-test.net/"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/config",
+      "apiVersion": "2016-08-01",
+      "name": "[concat(parameters('appServiceName'), '/web')]",
+      "location": "[variables('servicePlanLocation')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('appServiceName'))]"
+      ],
+      "properties": {
+        "numberOfWorkers": 1,
+        "defaultDocuments": [
+          "Default.htm",
+          "Default.html",
+          "Default.asp",
+          "index.htm",
+          "index.html",
+          "iisstart.htm",
+          "default.aspx",
+          "index.php",
+          "hostingstart.html"
+        ],
+        "netFrameworkVersion": "v4.0",
+        "phpVersion": "",
+        "pythonVersion": "",
+        "nodeVersion": "",
+        "linuxFxVersion": "PYTHON|3.9",
+        "requestTracingEnabled": false,
+        "remoteDebuggingEnabled": false,
+        "remoteDebuggingVersion": "VS2017",
+        "httpLoggingEnabled": true,
+        "logsDirectorySizeLimit": 35,
+        "detailedErrorLoggingEnabled": false,
+        "publishingUsername": "[concat('$', parameters('appServiceName'))]",
+        "scmType": "None",
+        "use32BitWorkerProcess": true,
+        "webSocketsEnabled": false,
+        "alwaysOn": false,
+        "appCommandLine": "gunicorn --bind 0.0.0.0 --worker-class aiohttp.worker.GunicornWebWorker --timeout 600 app:APP",
+        "managedPipelineMode": "Integrated",
+        "virtualApplications": [
+          {
+            "virtualPath": "/",
+            "physicalPath": "site\\wwwroot",
+            "preloadEnabled": false,
+            "virtualDirectories": null
+          }
+        ],
+        "winAuthAdminState": 0,
+        "winAuthTenantState": 0,
+        "customAppPoolIdentityAdminState": false,
+        "customAppPoolIdentityTenantState": false,
+        "loadBalancing": "LeastRequests",
+        "routingRules": [],
+        "experiments": {
+          "rampUpRules": []
+        },
+        "autoHealEnabled": false,
+        "vnetName": "",
+        "minTlsVersion": "1.2",
+        "ftpsState": "Disabled",
+        "reservedInstanceCount": 0
+      }
+    }
+  ]
+}
