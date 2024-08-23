@@ -44,13 +44,13 @@
         "botbuilder-testing": "~4.22.1",
         "dotenv": "^8.2.0",
         "replace": "~1.2.0",
-        "restify": "~8.6.0"
+        "restify": "~10.0.0"
     },
     "devDependencies": {
         "@types/dotenv": "6.1.1",
         "@types/mocha": "^7.0.2",
         "@types/node": "^16.11.6",
-        "@types/restify": "8.4.2",
+        "@types/restify": "8.5.12",
         "@typescript-eslint/eslint-plugin": "^7.8.0",
         "@typescript-eslint/parser": "^7.8.0",
         "eslint": "^8.57.0",
