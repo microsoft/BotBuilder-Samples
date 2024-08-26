@@ -43,6 +43,7 @@
         "botbuilder-dialogs": "~4.22.1",
         "botbuilder-testing": "~4.22.1",
         "dotenv": "^8.2.0",
+        "moment": "^2.30.1",
         "replace": "~1.2.0",
         "restify": "~10.0.0"
     },
