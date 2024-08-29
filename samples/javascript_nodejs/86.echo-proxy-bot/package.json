@@ -17,7 +17,7 @@
     },
     "dependencies": {
         "@azure/msal-node": "^1.18.4",
-        "botbuilder": "~4.22.1",
+        "botbuilder": "~4.23.0",
         "dotenv": "^8.2.0",
         "node-global-proxy": "^1.0.1",
         "restify": "~10.0.0"
