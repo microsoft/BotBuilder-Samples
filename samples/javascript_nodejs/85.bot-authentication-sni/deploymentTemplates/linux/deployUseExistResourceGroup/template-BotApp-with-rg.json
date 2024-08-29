@@ -51,7 +51,7 @@
     },
     "linuxFxVersion": {
       "type": "string",
-      "defaultValue": "NODE|20-LTS.20"
+      "defaultValue": "NODE|20-LTS"
     },
     "appId": {
       "type": "string",
