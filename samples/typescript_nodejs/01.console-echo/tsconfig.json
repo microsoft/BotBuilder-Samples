@@ -9,6 +9,7 @@
     "sourceMap": true,
     "strict": true,
     "incremental": true,
-    "tsBuildInfoFile": "./lib/.tsbuildinfo"
+    "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "esModuleInterop": true
   }
 }
