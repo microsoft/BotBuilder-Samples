@@ -6,7 +6,7 @@ The bot maintains user state to track the user's answers.
 
 ## Prerequisites
 
-- Node.js version 16.16.0 or higher.
+- Node.js version 18 or higher.
 
     ```bash
     # determine node version

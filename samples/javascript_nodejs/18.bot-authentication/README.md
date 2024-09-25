@@ -10,7 +10,7 @@ NOTE: Microsoft Teams currently differs slightly in the way auth is integrated w
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org) version 16.16.0 or higher
+- [Node.js](https://nodejs.org) version 18 or higher
 
     ```bash
     # determine node version
