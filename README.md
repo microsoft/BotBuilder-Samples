@@ -77,6 +77,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 |46|Teams authentication    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/csharp) | [JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation-sso-quickstart/js)   |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/python)|[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/java)
 |84|Certificate authentication            | Demonstrates how to use Certificates to authenticate the bot     | [.NET&nbsp;Core][cs#84] |[JavaScript][js#84] | |
 |85|Subject name/issuer authentication            | Demonstrates how to use the subject name/issuer authentication in a bot     | [.NET&nbsp;Core][cs#85] | [JavaScript][js#85] | |
+|86|Federated Credentials authentication            | Demonstrates how to use the FIC in a bot authentication     | [.NET&nbsp;Core][cs#86] | | |
 
 ### Custom question answering samples
 
@@ -145,6 +146,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [cs#82]:samples/csharp_dotnetcore/82.skills-sso-cloudadapter
 [cs#84]:samples/csharp_dotnetcore/84.bot-authentication-certificate
 [cs#85]:samples/csharp_dotnetcore/85.bot-authentication-sni
+[cs#86]:samples/csharp_dotnetcore/86.bot-authentication-fic
 
 [wa#13]:samples/csharp_webapi/13.core-bot
 
