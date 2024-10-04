@@ -1,7 +1,7 @@
 {
-    "name": "echoproxybot",
+    "name": "bot-authentication-fic",
     "version": "1.0.0",
-    "description": "Bot Builder v4 echo proxy bot sample",
+    "description": "Bot Builder v4 bot authentication with Federation Identity Certificate (FIC) sample",
     "author": "Microsoft",
     "license": "MIT",
     "main": "index.js",
@@ -16,10 +16,8 @@
         "url": "https://github.com"
     },
     "dependencies": {
-        "@azure/msal-node": "^1.18.4",
-        "botbuilder": "~4.23.0",
+        "botbuilder": "^4.23.0",
         "dotenv": "^8.2.0",
-        "node-global-proxy": "^1.0.1",
         "restify": "~10.0.0"
     },
     "devDependencies": {
@@ -30,5 +28,5 @@
         "eslint-plugin-promise": "^4.2.1",
         "eslint-plugin-standard": "^4.0.1",
         "nodemon": "~2.0.4"
-    }    
+    }
 }
