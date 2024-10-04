@@ -86,7 +86,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthCertificateBot", "84.bo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthSNIBot", "85.bot-authentication-sni\AuthSNIBot.csproj", "{95AA9E48-B2A4-40B2-B3D2-DA4B3C1AD652}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchoFICBot", "86.bot-authentication-fic\EchoFICBot.csproj", "{14316F6B-1488-449C-B56E-C55A4236A059}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthFederatedCredBot", "86.bot-authentication-fic\AuthFederatedCredBot.csproj", "{14316F6B-1488-449C-B56E-C55A4236A059}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

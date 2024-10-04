@@ -20,7 +20,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com/), 
 
 ## To try this sample
 
-- In a terminal, navigate to `EchoFICBot`
+- In a terminal, navigate to `AuthFederatedCredBot`
 
     ```bash
     # change into project folder
@@ -32,7 +32,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com/), 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
   - Navigate to `samples/csharp_dotnetcore/86.bot-authentication-fic` folder
-  - Select `EchoFICBot.csproj` file
+  - Select `AuthFederatedCredBot.csproj` file
 
 - Create an user assigned managed identity.
   - Record the client ID of the managed identity and add the same to appsettings.json.
@@ -82,7 +82,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com/), 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
   - Navigate to `86.bot-authentication-fic` folder
-  - Select `EchoFICBot.csproj` file
+  - Select `AuthFederatedCredBot.csproj` file
   - Press `F5` to run the project
 
 ## Deploy the bot to Azure
