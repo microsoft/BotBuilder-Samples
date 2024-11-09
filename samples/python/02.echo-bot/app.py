@@ -61,8 +61,25 @@ BOT = EchoBot()
 
 # Listen for incoming requests on /api/messages
 async def messages(req: Request) -> Response:
-    return await ADAPTER.process(req, BOT)
+    # Main bot message handler.
+    if "application/json" in req.headers["Content-Type"]:
+        body = await req.json()
 
+        # Start the reverse string
+        print(body)
+        body["text"] = body["text"][::-1]
+        body["text"] = "The reverse of the input string in upper case is:" + body["text"].upper() 
+        print(body)
+        # End reverse string
+    
+    else:
+        return Response(status=HTTPStatus.UNSUPPORTED_MEDIA_TYPE)
+    activity =Activity().deserialize(body)
+    auth_header = req.headers["Authorization"] if "Authorization" in req.headers else ""
+    response = await ADAPTER.process_activity(auth_header, activity, BOT.on_turn)
+    if response:
+            return json_response(data=response.body, status=response.status)
+    return Response(status=HTTPStatus.OK)
 
 APP = web.Application(middlewares=[aiohttp_error_middleware])
 APP.router.add_post("/api/messages", messages)
