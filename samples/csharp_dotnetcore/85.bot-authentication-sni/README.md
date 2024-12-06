@@ -57,21 +57,19 @@ Certificate Subject Name and Issuer (SNI) based authentication is currently avai
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- Setup the app registration 
-
-    Go to the app registration used by the azure bot and add the following configuration to the manifest: 
+- Configure the SSL/TSL certificate. This sample requires an existing certificate issued by OneCert. The first step is to configure the app registration with the certificate subject name, then go to the app registration used by the azure bot and add the following configuration to the manifest: 
       
       "trustedCertificateSubjects": [
           {
               "authorityId": "00000000-0000-0000-0000-000000000001",
 
-              "subjectName": "certificate_subject_name",
+              "subjectName": "<certificate_subject_name>",
 
               "revokedCertificateIdentifiers": []
           }
       ]
 
-- Configure the SSL/TSL certificate. This sample requires an existing certificate issued by an integrated CA. We have two options to configure it in the bot. Below is a step-by-step description of each one:
+-  We have two options to configure the certificate in the bot. Below is a step-by-step description of each one:
 
   ### Using local environment
   1. Configure the following app settings variables:
@@ -87,26 +85,7 @@ Certificate Subject Name and Issuer (SNI) based authentication is currently avai
       setx path "%path%;C:\Program Files\openssl-3.3.0"
       ```
 
-  3. Generate a _pem_ file without key:
-      - If your certificate is in _pfx_ format execute the following command:
-      ```powershell
-      OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-name>.pem –nodes -nokeys
-      ```
-      e.g:
-        ![Pem File Command No Key](Images/Local/PemCommandNoKey.png)
-
-      - If your certificate is in _pem_ format and includes the key, execute the following command to remove the key:
-      ```powershell
-      OpenSSL pkcs12 -in .\<certificate-name>.pem -export -out .\<certificate-without-key-name>.pem -nokeys
-      ```
-      e.g:
-        ![Pem Export No Key](Images/Local/PemExportNoKey.png)
-
-  4. Upload the generated certificate to the Azure app registration.
-
-      ![Certificate Upload](Images/Local/CertificateUpload.png)
-
-  5. To read the certificate in the bot, the _pem_ file must include the key, then if your certificate is in _pfx_ format go to the certificate location and run the following command to generate a _pem_ file with key:
+  3. To read the certificate in the bot, the _pem_ file must include the key, then if your certificate is in _pfx_ format go to the certificate location and run the following command to generate a _pem_ file with key:
 
       ```powershell
       OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-with-key-name>.pem –nodes
@@ -114,7 +93,7 @@ Certificate Subject Name and Issuer (SNI) based authentication is currently avai
       e.g
         ![Pem Command With Key](Images/Local/PemCommandWithKey.png)
 
-  6. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the local certificate and write the name of the certificate in _pem_ format inside the _CreateFromPemFile_ method. 
+  4. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the local certificate and write the name of the certificate in _pem_ format inside the _CreateFromPemFile_ method. 
   Be sure to comment out or remove the lines of code that use Azure KeyVault to avoid errors.
   Keep in mind that the SNI authentication works with the sendX5C flag, keep its value in _true_.
   
@@ -135,32 +114,14 @@ Certificate Subject Name and Issuer (SNI) based authentication is currently avai
       ![Generate Import Certificate](Images/KeyVault/GenerateImportCertificate.png)
       ![Import Certificate](Images/KeyVault/ImportCertificate.png)
 
-  3. Go to the details of the certificate and download it in _CER_ format to avoid the export of the private key.
-
-      ![Certificate Details](Images/KeyVault/CertificateDetails.png)
-      ![Download Certificate](Images/KeyVault/DownloadCertificate.png)
-
-      >NOTE: If you downloaded it in _PFX/PEM_ format, it will be neccesary to remove the private key by executing one the following commands:
-      ```powershell
-      OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-name>.pem –nodes -nokeys
-      OpenSSL pkcs12 -in .\<certificate-name>.pem -export -out .\<certificate-without-key-name>.pem -nokeys
-      ```
-      e.g:
-        ![Pem File Command No Key](Images/Local/PemCommandNoKey.png)
-        ![Pem Export No Key](Images/Local/PemExportNoKey.png)
-
-  4. Upload the certificate to the Azure app registration.
-
-      ![Upload Cer Certificate](Images/KeyVault/UploadCerCertificate.png)
-
-  5. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the keyvault certificate and verify that the keyvault credentials are completed in the [appsettings](appsettings.json) file.
+  3. In the sample code, go to the [Startup](Startup.cs) class and uncomment the line of code that reads the keyvault certificate and verify that the keyvault credentials are completed in the [appsettings](appsettings.json) file.
   Be sure to comment out or remove the lines of code that use local certificate to avoid errors.
   Keep in mind that the SNI authentication works with the sendX5C flag, keep its value in _true_.
       > NOTE: Here the values of `MicrosoftAppId` and `MicrosoftTenantId` are also needed to generate the credentials.
 
       ![Certificate Reading](Images/KeyVault/CertificateReading.png)
 
-  6. In the current sample context, log into Azure to obtain the default credentials by executing the following command.
+  4. In the current sample context, log into Azure to obtain the default credentials by executing the following command.
       ```powershell
       az login
       ```
