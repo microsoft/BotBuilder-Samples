@@ -60,7 +60,7 @@ node --version
     - MicrosoftAppTenantId: Tenant Id to which your bot belongs (optional for MultiTenant apps).
     - MicrosoftAppType: Type of the App (optional for MultiTenant apps).
 
-  2. Intall and configure [OpenSSL](https://www.openssl.org/source/) with the latest version
+  2. Install and configure [OpenSSL](https://www.openssl.org/source/) with the latest version
     - Download the latest version source and add the folder to the [environment variables](https://www.java.com/en/download/help/path.html) path.
       ```bash
       setx path "%path%;<OpenSSL path here> 
@@ -99,7 +99,7 @@ node --version
   7. Go to the certificate location and run the following command to generate a _pem_ file (the command will ask for the password generated in the previous step):
 
       ```powershell
-      OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-name>.pem –nodes -nokeys
+      OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-name>.pem �nodes -nokeys
       ```
       e.g:
         ![Pem File Command No Key](images/local/PemCommandNoKey.png)
@@ -110,7 +110,7 @@ node --version
 
   9. To read the certificate in the bot, the _pem_ file must include the key, then go to the certificate location and run the following command to generate a _pem_ file with key:
       ```powershell
-      OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-with-key-name>.pem –nodes
+      OpenSSL pkcs12 -in .\<certificate-name>.pfx -out <certificate-with-key-name>.pem �nodes
       ```
 
       ![Pem Command With Key](images/local/PemCommandWithKey.png)

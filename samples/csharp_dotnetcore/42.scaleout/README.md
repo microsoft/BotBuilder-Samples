@@ -8,7 +8,7 @@ The custom storage solution is implemented against memory for testing purposes a
 
 ## Prerequisites
 
-- [.NET SDK](https://dotnet.microsoft.com/download) version 6.0
+- [.NET SDK](https://dotnet.microsoft.com/download) version 8.0
 
   ```bash
   # determine dotnet version

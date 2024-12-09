@@ -4,10 +4,9 @@ Bot Framework v4 using cards bot sample
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that uses rich cards to enhance your bot design.
 
-
 ## Prerequisites
 
-- [.NET SDK](https://dotnet.microsoft.com/download) version 6.0
+- [.NET SDK](https://dotnet.microsoft.com/download) version 8.0
 
   ```bash
   # determine dotnet version
@@ -18,9 +17,9 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 - Clone the repository
 
-    ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
-    ```
+  ```bash
+  git clone https://github.com/Microsoft/botbuilder-samples.git
+  ```
 
 - Run the bot from a terminal or from Visual Studio:
 
@@ -39,7 +38,6 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
   - Select `CardsBot.csproj` file
   - Press `F5` to run the project
 
-
 ## Testing the bot using Bot Framework Emulator
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
@@ -54,7 +52,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ## Interacting with the bot
 
-Most channels support rich content.  In this sample we explore the different types of rich cards your bot may use.  A key to good bot design is to send interactive media, such as Rich Cards. There are several different types of Rich Cards, which are as follows:
+Most channels support rich content. In this sample we explore the different types of rich cards your bot may use. A key to good bot design is to send interactive media, such as Rich Cards. There are several different types of Rich Cards, which are as follows:
 
 - Animation Card
 - Audio Card

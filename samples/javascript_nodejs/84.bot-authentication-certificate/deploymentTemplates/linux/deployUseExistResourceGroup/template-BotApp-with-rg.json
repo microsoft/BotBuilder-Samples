@@ -51,7 +51,7 @@
     },
     "linuxFxVersion": {
       "type": "string",
-      "defaultValue": "NODE|16"
+      "defaultValue": "NODE|20-LTS"
     },
     "appId": {
       "type": "string",
@@ -151,7 +151,7 @@
           "appSettings": [
             {
               "name": "WEBSITE_NODE_DEFAULT_VERSION",
-              "value": "~16"
+              "value": "~20"
             },
             {
               "name": "MicrosoftAppType",
@@ -227,7 +227,7 @@
         "autoHealEnabled": false,
         "vnetName": "",
         "minTlsVersion": "1.2",
-        "ftpsState": "AllAllowed",
+        "ftpsState": "Disabled",
         "reservedInstanceCount": 0
       }
     }

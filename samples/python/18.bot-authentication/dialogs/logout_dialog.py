@@ -4,6 +4,7 @@
 from botbuilder.dialogs import DialogTurnResult, ComponentDialog, DialogContext
 from botbuilder.core import BotFrameworkAdapter
 from botbuilder.schema import ActivityTypes
+from botframework.connector.auth.user_token_client import UserTokenClient
 
 
 class LogoutDialog(ComponentDialog):
@@ -12,7 +13,9 @@ class LogoutDialog(ComponentDialog):
 
         self.connection_name = connection_name
 
-    async def on_begin_dialog(self, inner_dc: DialogContext, options: object) -> DialogTurnResult:
+    async def on_begin_dialog(
+        self, inner_dc: DialogContext, options: object
+    ) -> DialogTurnResult:
         result = await self._interrupt(inner_dc)
         if result:
             return result
@@ -28,7 +31,13 @@ class LogoutDialog(ComponentDialog):
         if inner_dc.context.activity.type == ActivityTypes.message:
             text = inner_dc.context.activity.text.lower()
             if text == "logout":
-                bot_adapter: BotFrameworkAdapter = inner_dc.context.adapter
-                await bot_adapter.sign_out_user(inner_dc.context, self.connection_name)
+                user_token_client: UserTokenClient = inner_dc.context.turn_state.get(
+                    UserTokenClient.__name__, None
+                )
+                await user_token_client.sign_out_user(
+                    inner_dc.context.activity.from_property.id,
+                    self.connection_name,
+                    inner_dc.context.activity.channel_id,
+                )
                 await inner_dc.context.send_activity("You have been signed out.")
                 return await inner_dc.cancel_all_dialogs()

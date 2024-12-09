@@ -17,7 +17,7 @@ This sample **requires** prerequisites in order to run.
 
 This bot uses [LUIS](https://www.luis.ai), an AI based cognitive service, to implement language understanding.
 
-- [Node.js](https://nodejs.org) version 16.16.0 or higher
+- [Node.js](https://nodejs.org) version 18 or higher
 
     ```bash
     # determine node version

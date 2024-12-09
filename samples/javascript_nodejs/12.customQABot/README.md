@@ -9,7 +9,7 @@ This bot has been created using the [Bot Framework SDK][BF], it shows how to cre
 ## Prerequisites
 - This project requires a [Language service resource](https://aka.ms/create-language-resource) with Custom question answering enabled.
 
-- [Node.js](https://nodejs.org) version 16.16.0 or higher
+- [Node.js](https://nodejs.org) version 18 or higher
 
     ```bash
     # determine node version

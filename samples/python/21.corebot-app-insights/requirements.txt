@@ -1,5 +1,5 @@
 asyncio>=3.4.3
-requests==2.31.0
+requests==2.32.2
 botbuilder-core>=4.15.0
 botframework-connector>=4.15.0
 botbuilder-schema>=4.15.0

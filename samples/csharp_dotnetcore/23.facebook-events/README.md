@@ -8,7 +8,7 @@ More information about configuring a bot for Facebook Messenger can be found her
 
 ## Prerequisites
 
-- [.NET SDK](https://dotnet.microsoft.com/download) version 6.0
+- [.NET SDK](https://dotnet.microsoft.com/download) version 8.0
 
   ```bash
   # determine dotnet version

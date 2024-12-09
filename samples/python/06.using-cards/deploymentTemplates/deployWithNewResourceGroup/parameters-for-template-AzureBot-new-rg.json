@@ -22,12 +22,18 @@
         },
         "appType": {
             "value": "MultiTenant"
-          },
-          "appId": {
-              "value": ""
-          },
-          "tenantId": {
+        },
+        "appId": {
             "value": ""
-          }
-      }
+        },
+        "UMSIName": {
+            "value": ""
+        },
+        "UMSIResourceGroupName": {
+            "value": ""
+        },
+        "tenantId": {
+          "value": ""
+        }
+    }
 }

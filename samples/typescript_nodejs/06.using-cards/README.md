@@ -6,7 +6,7 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to cr
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org) version 10.14 or higher
+- [Node.js](https://nodejs.org) version 18 or higher
 
     ```bash
     # determine node version

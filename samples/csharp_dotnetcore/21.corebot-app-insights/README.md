@@ -21,7 +21,7 @@ and [Application Insights](https://docs.microsoft.com/azure/azure-monitor/app/cl
 
 ### Install .NET Core CLI
 
-- [.NET SDK](https://dotnet.microsoft.com/download) version 6.0
+- [.NET SDK](https://dotnet.microsoft.com/download) version 8.0
 
   ```bash
   # determine dotnet version

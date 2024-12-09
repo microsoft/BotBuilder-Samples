@@ -8,7 +8,7 @@ More information about configuring a bot for Facebook Messenger can be found her
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org) version 16.16.0 or higher
+- [Node.js](https://nodejs.org) version 18 or higher
 
     ```bash
     # determine node version

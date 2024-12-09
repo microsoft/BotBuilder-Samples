@@ -54,7 +54,8 @@
       "defaultValue": "MultiTenant",
       "allowedValues": [
         "MultiTenant",
-        "SingleTenant"
+        "SingleTenant",
+        "UserAssignedMSI"
       ],
       "metadata": {
         "description": "Type of Bot Authentication. set as MicrosoftAppType in the Web App's Application Settings. Allowed values are: MultiTenant, SingleTenant, UserAssignedMSI. Defaults to \"MultiTenant\"."
@@ -73,6 +74,20 @@
         "description": "Active Directory App Password, set as MicrosoftAppPassword in the Web App's Application Settings. Required for MultiTenant and SingleTenant app types. Defaults to \"\"."
       }
     },
+    "UMSIName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The User-Assigned Managed Identity Resource used for the Bot's Authentication. Defaults to \"\"."
+      }
+    },
+    "UMSIResourceGroupName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The User-Assigned Managed Identity Resource Group used for the Bot's Authentication. Defaults to \"\"."
+      }
+    },
     "tenantId": {
       "type": "string",
       "defaultValue": "[subscription().tenantId]",
@@ -86,6 +101,7 @@
     "useExistingServicePlan": "[not(empty(parameters('existingAppServicePlanName')))]",
     "servicePlanName": "[if(variables('useExistingServicePlan'), parameters('existingAppServicePlanName'), parameters('newAppServicePlanName'))]",
     "servicePlanLocation": "[if(variables('useExistingServicePlan'), parameters('existingAppServicePlanLocation'), parameters('newAppServicePlanLocation'))]",
+    "msiResourceId": "[if(empty(parameters('UMSIName')), '', concat(subscription().id, '/resourceGroups/', parameters('UMSIResourceGroupName'), '/providers/', 'Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('UMSIName')))]",
     "appTypeDef": {
       "MultiTenant": {
         "tenantId": "",
@@ -94,6 +110,15 @@
       "SingleTenant": {
         "tenantId": "[variables('tenantId')]",
         "identity": { "type": "None" }
+      },
+      "UserAssignedMSI": {
+        "tenantId": "[variables('tenantId')]",
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "[variables('msiResourceId')]": {}
+          }
+        }
       }
     },
     "appType": {
@@ -131,6 +156,7 @@
       "name": "[parameters('appServiceName')]",
       "identity": "[variables('appType').identity]",
       "properties": {
+        "name": "[parameters('appServiceName')]",
         "enabled": true,
         "hostNameSslStates": [
           {
@@ -244,7 +270,7 @@
         "autoHealEnabled": false,
         "vnetName": "",
         "minTlsVersion": "1.2",
-        "ftpsState": "AllAllowed",
+        "ftpsState": "Disabled",
         "reservedInstanceCount": 0
       }
     }
