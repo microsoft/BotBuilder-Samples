@@ -77,7 +77,7 @@ Certificate Subject Name and Issuer (SNI) based authentication is currently avai
      - MicrosoftAppType: Type of the App (optional for MultiTenant apps).
      - MicrosoftAppTenantId: Tenant Id to which your bot belongs (optional for MultiTenant apps).
 
-  2. Intall and configure [OpenSSL](https://www.openssl.org/source/) with the latest version
+  2. Install and configure [OpenSSL](https://www.openssl.org/source/) with the latest version
     - Download the latest version source and add the folder to the [environment variables](https://www.java.com/en/download/help/path.html) path.
       ```bash
       setx path "%path%;<OpenSSL path here> 
