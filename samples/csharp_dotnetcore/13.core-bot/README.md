@@ -19,7 +19,7 @@ This bot uses [LUIS](https://www.luis.ai), an AI based cognitive service, to imp
 
 ### Install .NET Core CLI
 
-- [.NET SDK](https://dotnet.microsoft.com/download) version 6.0
+- [.NET SDK](https://dotnet.microsoft.com/download) version 8.0
 
   ```bash
   # determine dotnet version
@@ -42,9 +42,9 @@ Once you created the LUIS model, update `appsettings.json` with your `LuisAppId`
 
 - Clone the repository
 
-    ```bash
-    git clone https://github.com/microsoft/botbuilder-samples.git
-    ```
+  ```bash
+  git clone https://github.com/microsoft/botbuilder-samples.git
+  ```
 
 - Run the bot from a terminal or from Visual Studio:
 

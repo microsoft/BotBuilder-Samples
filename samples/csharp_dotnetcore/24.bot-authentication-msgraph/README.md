@@ -13,7 +13,7 @@ NOTE: Microsoft Teams currently differs slightly in the way auth is integrated w
 
 ## Prerequisites
 
-- [.NET SDK](https://dotnet.microsoft.com/download) version 6.0
+- [.NET SDK](https://dotnet.microsoft.com/download) version 8.0
 
   ```bash
   # determine dotnet version

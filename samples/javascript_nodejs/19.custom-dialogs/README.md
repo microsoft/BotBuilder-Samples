@@ -8,7 +8,7 @@ BotFramework provides a built-in base class called `Dialog`. By subclassing `Dia
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org) version 16.16.0 or higher
+- [Node.js](https://nodejs.org) version 18 or higher
 
     ```bash
     # determine node version

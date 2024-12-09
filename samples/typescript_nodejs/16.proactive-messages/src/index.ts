@@ -67,9 +67,9 @@ const conversationReferences = {};
 const myBot = new EchoBot(conversationReferences);
 
 // Listen for incoming requests.
-server.post('/api/messages', async (req, res) => {
+server.post('/api/messages', (req, res, next) => {
     // Route received a request to adapter for processing
-    await adapter.process(req, res, (context) => myBot.run(context));
+    adapter.process(req, res, async (context) => await myBot.run(context));
 });
 
 // Listen for Upgrade requests for Streaming.
@@ -84,9 +84,9 @@ server.on('upgrade', async (req, socket, head) => {
 });
 
 // Listen for incoming notifications and send proactive messages to users.
-server.get('/api/notify', async (req, res) => {
+server.get('/api/notify', (req, res, next) => {
     for (const conversationReference of Object.values(conversationReferences)) {
-        await adapter.continueConversationAsync(process.env.MicrosoftAppId, conversationReference, async (context) => {
+        adapter.continueConversationAsync(process.env.MicrosoftAppId, conversationReference, async (context) => {
             await context.sendActivity('proactive hello');
         });
     }
@@ -97,10 +97,10 @@ server.get('/api/notify', async (req, res) => {
 });
 
 // Listen for incoming custom notifications and send proactive messages to users.
-server.post('/api/notify', async (req, res) => {
+server.post('/api/notify', (req, res, next) => {
     for (const msg of req.body) {
         for (const conversationReference of Object.values(conversationReferences)) {
-            await adapter.continueConversationAsync(process.env.MicrosoftAppId, conversationReference, async (turnContext) => {
+            adapter.continueConversationAsync(process.env.MicrosoftAppId, conversationReference, async (turnContext) => {
                 await turnContext.sendActivity(msg);
             });
         }

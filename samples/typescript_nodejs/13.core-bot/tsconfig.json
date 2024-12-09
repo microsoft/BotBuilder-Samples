@@ -11,5 +11,6 @@
     "sourceMap": true,
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "esModuleInterop": true
   }
 }

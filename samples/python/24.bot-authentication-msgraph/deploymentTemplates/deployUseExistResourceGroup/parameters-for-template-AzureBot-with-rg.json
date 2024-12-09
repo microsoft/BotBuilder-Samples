@@ -20,6 +20,12 @@
         "appId": {
             "value": ""
         },
+        "UMSIName": {
+            "value": ""
+        },
+        "UMSIResourceGroupName": {
+            "value": ""
+        },
         "tenantId": {
           "value": ""
         }

@@ -4,17 +4,16 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 A number of topics are covered within this readme.
 
-* [Concepts introduced in this sample](#Concepts-introduced-in-this-sample)
-* [To try this sample](#to-try-this-sample)
-* [Testing the bot using Bot Framework Emulator](#Testing-the-bot-using-Bot-Framework-Emulator)
-* [Experimenting with Recognizers](#experimenting-with-recognizers)
-* [Representing ambiguity](#representing-ambiguity)
-* [Representing duration](#representing-duration)
-* [Representing ranges](#representing-ranges)
-* [Special concepts](#special-concepts)
-* [Limitations](#limitations)
-* [Resolution](#resolution)
-* [TIMEX resolution using the TimexExpressions library](#TIMEX-resolution-using-the-TimexExpressions-library)
+- [Concepts introduced in this sample](#concepts-introduced-in-this-sample)
+- [To try this sample](#to-try-this-sample)
+- [Experimenting with Recognizers](#experimenting-with-recognizers)
+- [Representing ambiguity](#representing-ambiguity)
+- [Representing duration](#representing-duration)
+- [Representing ranges](#representing-ranges)
+- [Special concepts](#special-concepts)
+- [Limitations](#limitations)
+- [Resolution](#resolution)
+- [TIMEX resolution using the TimexExpressions library](#timex-resolution-using-the-timexexpressions-library)
 
 ## Concepts introduced in this sample
 
@@ -30,11 +29,12 @@ TIMEX expressions can be additionally described with a type. The notion of type 
 
 - Clone the repository
 
-    ```bash
-    git clone https://github.com/microsoft/botbuilder-samples.git
-    ```
-Unlike many of the other Bot Buildersamples,
-the code in this sample is not a bot. It is a console application that demonstrates some significant aspects of the TIMEX helper library. To run this sample:
+  ```bash
+  git clone https://github.com/microsoft/botbuilder-samples.git
+  ```
+
+  Unlike many of the other Bot Buildersamples,
+  the code in this sample is not a bot. It is a console application that demonstrates some significant aspects of the TIMEX helper library. To run this sample:
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
@@ -46,7 +46,7 @@ the code in this sample is not a bot. It is a console application that demonstra
 
 TIMEX has been introduced into the bot authoring platform by the [Text Recognizers](https://github.com/Microsoft/Recognizers-Text) package. One of the best ways to understand the TIMEX behavior is to experiment directly with the Recognizers. You can do this by install the appropriate Recognizer package, instantiating the date time recognizer and calling it with your test string. In Node you can use the following 3 lines of code, but the behavior is identical in C#, Python and Java.
 
-```
+```csharp
   const Recognizer = require('@microsoft/recognizers-text-date-time')
   const result = Recognizer.recognizeDateTime("next Wednesday 4pm", Recognizer.Culture.English);
   console.log(JSON.stringify(result, null, 2));
@@ -58,12 +58,13 @@ Alternatively you can use [LUIS](https://www.luis.ai/home). When you add a datet
 
 We'll start with an example. The computer scientist Alan Turning was born on June 23rd in 1912. The ISO 8601 representation of this date would be:
 
-```
+```plaintext
 1912-06-23
 ```
+
 and this happens to also be the correct TIMEX respresentation. However, with TIMEX we can also represent Alan's birthday:
 
-```
+```plaintext
 XXXX-06-23
 ```
 
@@ -73,7 +74,7 @@ TIMEX introduces its own syntax here as an extension to the ISO 8601 format. The
 
 A time can also be included, for example, 4pm:
 
-```
+```plaintext
 XXXX-06-23T16
 ```
 
@@ -81,21 +82,21 @@ This wildcard mechanism is only defined for the date part and not the time part.
 
 In terms of type, all the examples so far have been dates and date-times. (When we say "type" it is just something we have inferred from the underlying TIMEX expression - its does not add any additional semantics, it just might be a classificaton application logic could make use of. For example, if you know you have a date when you wanted a datetime then you know you are missing the time component.) It is possible to also just have the time component by itself, for example 4pm would be represented as:
 
-```
+```plaintext
 T16
 ```
 
 The use of X to blank out the characters is also applies to the representation of weeks, for example, "Monday," blanks out both the year and the ISO week number:
 
-```
+```plaintext
 XXXX-WXX-1
 ```
 
-Here XXXX means *any* year and WXX means *any* week, so what remains is the day component. And with the ISO week starting on a Monday and indexing from 1 we get Monday. 
+Here XXXX means _any_ year and WXX means _any_ week, so what remains is the day component. And with the ISO week starting on a Monday and indexing from 1 we get Monday.
 
 The Text.Recognizers are written to attempt to resolve to a specific date if they can. This can result in some surprisingly subtle behavior. For exampe, if we had said "this Monday" it would have resolved to a specific date such as this:
 
-```
+```plaintext
 2020-06-15
 ```
 
@@ -103,15 +104,15 @@ Although we onlt had a small change in the text, we ended out with quite a signi
 
 Similarly for weeks, the Text.Recognizers will attempt to resolve when they see a word like "this" that grounds things. For example, the phrase "this week" might result to a TIMEX like this:
 
-```
+```plaintext
 2020-W25
 ```
 
 In general care should be taken with logic based around weeks of the year as this can be a source of bugs in application code. How the ISO standard defines this is well documented online. Its important to note the ISO week (and therefore the TIMEX week) starts on a Monday with days of the week being numbered from 1.
 
-Note TIMEX also applies the ISO 8601 syntax of week number to describe the week *within* a month. Representing "the first week of June" as follows:
+Note TIMEX also applies the ISO 8601 syntax of week number to describe the week _within_ a month. Representing "the first week of June" as follows:
 
-```
+```plaintext
 XXXX-06-W01
 ```
 
@@ -122,49 +123,56 @@ TIMEX expressions can represent duration. There are both date durations and time
 Here are some examples:
 
 1 week is:
-```
+
+```plaintext
 P1W
 ```
+
 16 years is:
-```
+
+```plaintext
 P16Y
 ```
+
 Decimal is supported, so the recognizers would take the string "three and a half months" and return the TIMEX:
 
-```
+```plaintext
 P3.5M
 ```
 
 30 second is:
-```
+
+```plaintext
 PT30S
 ```
+
 and 4 hours is:
-```
+
+```plaintext
 PT4H
 ```
 
 Given the nature of the problem and the fact that decimal is supported, means there are many different ways to express the same duration, for example PT0.5H is the same as PT30M just as P1W is the same as P7D. The Text.Recognizers make no attempt to normalize such things, instead they just try to render the original natural language utterance as directly as possible. The Text.Recognizers also don't try to merge separate durations they find in the input. For example, the text "4 hours 30 minutes" will result in two results.
 
-## Representing Ranges 
+## Representing Ranges
 
 ### Date Ranges
 
 TIMEX expressions often represent ranges. For example the TIMEX expression:
 
-```
+```plaintext
 1912
 ```
 
 is intended to represents all the possible dates in the year 1912. As such it is described as a daterange. The month of June in that year is represented as follows:
 
-```
+```plaintext
 1912-06
 ```
 
 This is also a daterange and intended to represent all the dates of June in 1912. The year could be blanked out here too, as follows:
 
-```
+```plaintext
 XXXX-06
 ```
 
@@ -174,7 +182,7 @@ TIMEX breaks with the ISO 8601 pattern when it comes to representing seasons and
 
 More complex data ranges are captured with a begin, end and duration structure. Each of these components in themselves is a TIMEX expression. For example, teh American President JFK was born on May 29th 1917 and died November 22nd 1963, his lifespan can can be captured with the following TIMEX:
 
-```
+```plaintext
 (1917-05-29,1963-11-22,P16978D)
 ```
 
@@ -182,7 +190,7 @@ The start and end dates should be read as inclusive.
 
 Natural language contains many different ways to refer to date ranges, for example a Text Recognizer can take the natural language phrase "next two weeks" and assuming today as the start would produce the following TIMEX:
 
-```
+```plaintext
 (2020-06-19,2020-07-03,P2W)
 ```
 
@@ -192,13 +200,13 @@ Expressing the duration in addition to the begin and end seems redundant but tha
 
 Time ranges are very similar, for example given the text "9am to 5pm" the Text.Recognizers would produce the following:
 
-```
+```plaintext
 (T09,T17,PT8H)
 ```
 
 There are a number of well known time range constants in TIMEX. These represent the concepts of morning, afternoon, evening, daytime and nighttime, encoded as two characters MO, AF, EV, DT and NI respectively. Although these are time ranges they don't bother with the (start, end, duration) syntax, they simply start with a T followed by the two character code. For example, morning is respresents like this:
 
-```
+```plaintext
 TMO
 ```
 
@@ -206,19 +214,19 @@ TMO
 
 Date and time can be combined in the same range and the Text.Recognizers would recognize the text "this friday 9am to next friday 5pm" as the TIMEX:
 
-```
+```plaintext
 (2020-06-19T09,2020-06-26T17,PT176H)
 ```
 
 When the time component of a date time range can be represented with the shortened 2 characters the resulting expression is simplified appropriately. For example "this afternoon" is a date time range that would resemble this:
 
-```
+```plaintext
 2020-06-19TAF
 ```
 
 If there is ambiguity in the date portion that will follow the blanking out approach described earlier. For example, "friday evening" because it doesn't say which Friday is ambiguous and evening is a time range, so we end up with a date time range TIMEX that looks like this:
 
-```
+```plaintext
 XXXX-WXX-5TEV
 ```
 
@@ -226,7 +234,7 @@ XXXX-WXX-5TEV
 
 TIMEX includes a special representation "now" meaning the present moment. It looks like this:
 
-```
+```plaintext
 PRESENT_REF
 ```
 
@@ -234,9 +242,9 @@ PRESENT_REF
 
 TIMEX as it is currently defined and implemented has some inherent limitations. Perhaps the most obvious is that although TIMEX manages to capture ambiguity in the date component it can't in the time component.
 
-Consider the text "Wednesday 4 O'clock," we are not saying which particular Wednesday, it could be *any* Wednesday. As we saw in the earlier examples TIMEX deals with this by blanking out the parts of a date that could vary, specifically for Wednesday we have:
+Consider the text "Wednesday 4 O'clock," we are not saying which particular Wednesday, it could be _any_ Wednesday. As we saw in the earlier examples TIMEX deals with this by blanking out the parts of a date that could vary, specifically for Wednesday we have:
 
-```
+```plaintext
 XXXX-WXX-3
 ```
 
@@ -246,34 +254,34 @@ However, the language used for the time component is also ambiguous. When we see
 
 The solution in TIMEX is to provide multiple TIMEX expressions. In fact if you hand this string to the Text.Recognizers it will return two distinct TIMEX expressions in its results:
 
-```
+```plaintext
 XXXX-WXX-3T04
 XXXX-WXX-3T16
 ```
 
 It is instructive to compare that with the result if teh language had not beed ambiguous. Trying the Text.Recognizer with the text "next Wednesday 4pm" and we will see a result resembling this:
 
-```
+```plaintext
 2020-06-24T16
 ```
 
 Note the Text.Recognizers generally look for "last", "this" and "next" and include that in the scope when they can.
 
-This leads us to another conceptual limitation of the current TIMEX implementation and that is the concept of *relative time* is not captured. Specifically, looking at the last example, we said *next* Wednesday and this was recognized *and resolved* to a specific date. This is often what we want, however, sometimes we actually wanted to recognize the concept of *next* in and of itself rather than it being resolved. For example in a booking application we might want to travel out on a particular date and return on the "next Friday." We would want to calculate exactly which Friday the input refered to relative to the particular departure date and almost definitely not the not the current booking date! (Perhaps it would be more correct to have said "following Friday" but applying such strictness to our human users is a challenge. And anyhow, ultimately natural language is always understood by common usage in particular context rather than strict logical structures.)
+This leads us to another conceptual limitation of the current TIMEX implementation and that is the concept of _relative time_ is not captured. Specifically, looking at the last example, we said _next_ Wednesday and this was recognized _and resolved_ to a specific date. This is often what we want, however, sometimes we actually wanted to recognize the concept of _next_ in and of itself rather than it being resolved. For example in a booking application we might want to travel out on a particular date and return on the "next Friday." We would want to calculate exactly which Friday the input refered to relative to the particular departure date and almost definitely not the not the current booking date! (Perhaps it would be more correct to have said "following Friday" but applying such strictness to our human users is a challenge. And anyhow, ultimately natural language is always understood by common usage in particular context rather than strict logical structures.)
 
 ## Resolution
 
 A TIMEX expression such as:
 
-```
+```plaintext
 XXXX-WXX-3T16
 ```
 
-Means Wednesday 4PM, however, something like a travel booking scenario would generally require something less ambiguous, that is to say, we need to know exactly which Wednesday. That is, we need to *resolve* the TIMEX expression to a specific date time.
+Means Wednesday 4PM, however, something like a travel booking scenario would generally require something less ambiguous, that is to say, we need to know exactly which Wednesday. That is, we need to _resolve_ the TIMEX expression to a specific date time.
 
 This can be achieved by constraining the orignal TIMEX expression with a date range, naturally expressed in TIMEX. So for example, applying the TIMEX date range:
 
-```
+```plaintext
 2020-W27
 ```
 
@@ -281,7 +289,7 @@ Meaning the 27th week of the year.
 
 Will result in the specific or definite date time:
 
-```
+```plaintext
 2020-07-01T16
 ```
 
@@ -289,41 +297,41 @@ This idea generalizes to dealing with collections. Both the original TIMEX could
 
 As we could now have various differing time parts it makes sense to also have time ranges amongst the constraints.
 
-All the TIMEX expressions in the original data should be read as *or* and the TIMEX expressions in the constrains should be read as *and*.
+All the TIMEX expressions in the original data should be read as _or_ and the TIMEX expressions in the constrains should be read as _and_.
 
 For example give the original set of TIMEX expressions:
 
-```
+```plaintext
 XXXX-WXX-3T04
 XXXX-WXX-3T16
 ```
 
-Meaning Wednesday at 4AM *or* Wednesday ay 4PM.
+Meaning Wednesday at 4AM _or_ Wednesday ay 4PM.
 
 And applying the constraints:
 
-```
+```plaintext
 2020-W27
 TAF
 ```
 
-Meaning the 27th week of the year *and* in the afternoon.
+Meaning the 27th week of the year _and_ in the afternoon.
 
 And we get to the specific date:
 
-```
+```plaintext
 2020-07-01T16
 ```
 
 Another aspect to resolution is whether the original TIMEX expression is missing some part. For example, we might have just been given a date part to resolve. In this case the resolution is the process of adding the time part. For example, the original TIMEX expression:
 
-```
+```plaintext
 2020-07-01
 ```
 
 Can be resolved with the constraint of T14 to get to the specific date time of:
 
-```
+```plaintext
 2020-07-01T14
 ```
 

@@ -66,6 +66,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 |42|Scale out            | Demonstrates how you can build your own state solution from the ground up that supports scaled out deployment with ETag based optimistic locking. |[.NET&nbsp;Core][cs#42] |    |[Python][py#42]|[Java][java#42]
 |44|Basic custom prompts | Demonstrates how to implement your own _basic_ prompts to ask the user for information. |[.NET&nbsp;Core][cs#44]|[JavaScript][js#44]|[Python][py#44]|[Java][java#44]
 |47|Inspection&nbsp;middleware    | Demonstrates how to use middleware to allow the Bot Framework Emulator to debug traffic into and out of the bot in addition to looking at the current state of the bot. | [.NET&nbsp;Core][cs#47] | [JavaScript][js#47]   |[Python][py#47]|[Java][java#47]
+|49| Proxy echo bot    | Demonstrates how to configure the bot to use it behind a corporative proxy. | | [JavaScript][js#49]   ||
 |70|Styling webchat     | This sample shows how to create a web page with custom Web Chat component.|         | [ECMAScript&nbsp;6][es#70]         |
 
 ### Authentication samples
@@ -77,6 +78,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 |46|Teams authentication    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/csharp) | [JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation-sso-quickstart/js)   |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/python)|[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/java)
 |84|Certificate authentication            | Demonstrates how to use Certificates to authenticate the bot     | [.NET&nbsp;Core][cs#84] |[JavaScript][js#84] | |
 |85|Subject name/issuer authentication            | Demonstrates how to use the subject name/issuer authentication in a bot     | [.NET&nbsp;Core][cs#85] | [JavaScript][js#85] | |
+|86|Federated Credentials authentication            | Demonstrates how to use the FIC in a bot authentication     | [.NET&nbsp;Core][cs#86] | [JavaScript][js#86] | |
 
 ### Custom question answering samples
 
@@ -96,7 +98,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 |52|Messaging&nbsp;extensions&nbsp;- auth and config     | A Messaging Extension that has a configuration page, accepts search requests and returns results after the user has signed in.|[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-search-auth-config/csharp)|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-search-sso-config/nodejs)          | |
 |53|Messaging&nbsp;extensions&nbsp;- action preview     | Demonstrates how to create a Preview and Edit flow for a Messaging Extension.|[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-action-preview/csharp)|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-action-preview/nodejs)          |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-action-preview/python) |[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-action-preview/java)
 |54|Task module     | Demonstrates how to retrieve a Task Module, and values from cards in the Task Module, for a Messaging Extension.|[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-task-module/csharp)|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-task-module/nodejs)          |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-task-module/python) |[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-task-module/java)
-|55|Link unfurling     | A Messaging Extension that performs link unfurling.|[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-link-unfurling/csharp))|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-link-unfurling/nodejs)          |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-link-unfurling/python) |[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-link-unfurling/java)
+|55|Link unfurling     | A Messaging Extension that performs link unfurling.|[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-link-unfurling/csharp)|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-link-unfurling/nodejs)          |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-link-unfurling/python) |[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-link-unfurling/java)
 |56|File upload     | Demonstrates how to obtain file consent, and upload files to Teams from a bot. Also, how to receive a file sent to a bot.|[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-file-upload/csharp)|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-file-upload/nodejs)          |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-file-upload/python) |[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-file-upload/java)
 |57|Conversation bot     | Demonstrates various features of bots on Teams: message all members in a Team or Channel, @mention a user from a bot, update previously sent messages, etc. |[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation/csharp)|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation/nodejs)          |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation/python) |[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation/java)
 |58|Start new thread in a channel     | Demonstrates creating a new thread in a channel. |[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-initiate-thread-in-channel/csharp)|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-initiate-thread-in-channel/nodejs)          |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-initiate-thread-in-channel/python) |[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-initiate-thread-in-channel/java)
@@ -135,6 +137,8 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [cs#43]:samples/csharp_dotnetcore/43.complex-dialog
 [cs#44]:samples/csharp_dotnetcore/44.prompt-users-for-input
 [cs#45]:samples/csharp_dotnetcore/45.state-management
+[cs#47]:samples/csharp_dotnetcore/47.inspection
+[cs#48]:samples/csharp_dotnetcore/48.customQABot-all-features
 [cs#60]:samples/csharp_dotnetcore/60.slack-adapter
 [cs#61]:samples/csharp_dotnetcore/61.facebook-adapter
 [cs#62]:samples/csharp_dotnetcore/62.webex-adapter
@@ -144,6 +148,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [cs#82]:samples/csharp_dotnetcore/82.skills-sso-cloudadapter
 [cs#84]:samples/csharp_dotnetcore/84.bot-authentication-certificate
 [cs#85]:samples/csharp_dotnetcore/85.bot-authentication-sni
+[cs#86]:samples/csharp_dotnetcore/86.bot-authentication-fic
 
 [wa#13]:samples/csharp_webapi/13.core-bot
 
@@ -184,11 +189,13 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [js#45]:samples/javascript_nodejs/45.state-management
 [js#47]:samples/javascript_nodejs/47.inspection
 [js#48]:samples/javascript_nodejs/48.customQABot-all-features
+[js#49]:samples/javascript_nodejs/49.echo-proxy-bot
 [js#80]:samples/javascript_nodejs/80.skills-simple-bot-to-bot
 [js#81]:samples/javascript_nodejs/81.skills-skilldialog
 [js#82]:samples/javascript_nodejs/82.skills-sso-cloudadapter
 [js#84]:samples/javascript_nodejs/84.bot-authentication-certificate
 [js#85]:samples/javascript_nodejs/85.bot-authentication-sni
+[js#86]:samples/javascript_nodejs/86.bot-authentication-fic
 
 [py#1]:samples/python/01.console-echo
 [py#2]:samples/python/02.echo-bot
