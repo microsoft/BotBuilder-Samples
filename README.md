@@ -63,7 +63,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 |19|Custom dialogs      | Demonstrates complex conversation flow using the Dialogs library. |[.NET&nbsp;Core][cs#19]|[JavaScript][js#19]|[Python][py#19]|[Java][java#19]
 |21|Application&nbsp;Insights      | Demonstrates how to add telemetry logging to your bot, storing telemetry within Application Insights.|[.NET&nbsp;Core][cs#21] |[JavaScript][js#21] ||[Java][java#21]
 |23|Facebook events     | Integrate and consume Facebook specific payloads, such as post-backs, quick replies and opt-in events.|[.NET&nbsp;Core][cs#23] |[JavaScript][js#23] |[Python][py#23]|[Java][java#23]
-|42|Scale out            | Demonstrates how you can build your own state solution from the ground up that supports scaled out deployment with ETag based optimistic locking. |[.NET&nbsp;Core][cs#42] |    |[Python][py#42]|[Java][java#42]
+|42|Scale out            | Demonstrates how you can build your own state solution from the ground up that supports scaled out deployment with ETag based optimistic locking. |[.NET&nbsp;Core][cs#42] |[JavaScript][js#42] |[Python][py#42]|[Java][java#42]
 |44|Basic custom prompts | Demonstrates how to implement your own _basic_ prompts to ask the user for information. |[.NET&nbsp;Core][cs#44]|[JavaScript][js#44]|[Python][py#44]|[Java][java#44]
 |47|Inspection&nbsp;middleware    | Demonstrates how to use middleware to allow the Bot Framework Emulator to debug traffic into and out of the bot in addition to looking at the current state of the bot. | [.NET&nbsp;Core][cs#47] | [JavaScript][js#47]   |[Python][py#47]|[Java][java#47]
 |49| Proxy echo bot    | Demonstrates how to configure the bot to use it behind a corporative proxy. | | [JavaScript][js#49]   ||
@@ -184,6 +184,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [js#23]:samples/javascript_nodejs/23.facebook-events
 [js#24]:samples/javascript_nodejs/24.bot-authentication-msgraph
 [js#40]:samples/javascript_nodejs/40.timex-resolution
+[js#42]:samples/javascript_nodejs/42.scale-out
 [js#43]:samples/javascript_nodejs/43.complex-dialog
 [js#44]:samples/javascript_nodejs/44.prompt-for-user-input
 [js#45]:samples/javascript_nodejs/45.state-management
