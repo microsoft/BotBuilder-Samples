@@ -3,7 +3,7 @@
     "composite": true,
     "declaration": true,
     "target": "es2016",
-    "module": "commonjs",
+    "module": "NodeNext",
     "outDir": "./lib",
     "rootDir": "./src",
     "sourceMap": true,
