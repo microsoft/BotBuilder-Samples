@@ -17,36 +17,31 @@ This bot has been created using [Bot Framework](https://dev.botframework.com/), 
 
 ## To try this sample
 
-- In a terminal, navigate to `samples/javascript_nodejs/86.bot-authentication-fic`
-
-  ```bash
-  cd  samples/javascript_nodejs/86.bot-authentication-fic
-  ```
-
-- Install modules
-
-  ```bash
-  npm  install
-  ```
-
 - Create an user assigned managed identity.
+  - Record the client ID of the managed identity.
 
-  - Record the client ID of the managed identity and add the same to .env file.
-
-- Create Azure App and Bot
-
-  - Create App Registration
-    - This can be either Single or Multi tenant.
-    - Record the Application ID.
-    - Add the Federation Identity Certificate (FIC) to the App Registration.
-      - To create trust using the FIC, we need to link the managed identity to the App Registration.
-        - Click on the add credential under Federated Credential
-        - On the Add a credential page, select the Federated credential scenario as "Customer Managed Keys".
+- For a new bot
+  - Create Azure App and Bot
+    - Create App Registration
+      - This can be either Single or Multi tenant.
+      - Record the Application and Tenant ID's.
+      - To create trust using the FIC, we need to link the managed identity to the App Registration.  On the App Registration:
+        - Click on the add credential under **Certificates & Secrets**, **Federated credentials**
+        - On the Add a credential page, select the Federated credential scenario as **Customer Managed Keys**.
         - Select the managed identity that you created in the previous step.
         - Enter name for the credential and click on Add.
-  - Create an Azure Bot in the desired resource group. Use the App Registration from the previous step.
+        
+    - Create an **Azure Bot** in the desired resource group and use the App Registration from the previous step.
 
-  - Add the User managed identity created in previous step to the Azure App Service under Configuration -> Identity -> User Assigned Managed Identity.
+- For an existing bot
+   - Navigate to the **App Registration** for the **Azure Bot**
+     - To create trust using the FIC, we need to link the managed identity to the App Registration.  On the App Registration:
+      - Click on the add credential under **Certificates & Secrets**, **Federated credentials**
+      - On the Add a credential page, select the Federated credential scenario as **Customer Managed Keys**.
+      - Select the managed identity that you created in the previous step.
+      - Enter name for the credential and click on Add.
+   - Navigate to the **App Service** for the bot 
+     - Add the User managed identity created in previous step to the Azure App Service under Configuration -> Identity -> User Assigned Managed Identity.
 
 - Set .env variables
 
@@ -58,11 +53,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com/), 
 
   - MicrosoftAppClientId: {clientId of managed identity}
 
-- Start the bot
-
-  ```bash
-  npm  start
-  ```
+- A bot using Federated Credentials, like UserManagedIdentity, cannot be run locally.  It must be deployed to Azure.
 
 ## Deploy the bot to Azure
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Security.Cryptography.X509Certificates;
 using Azure.Identity;
 using Azure.Security.KeyVault.Certificates;
 using Microsoft.AspNetCore.Builder;
@@ -33,7 +34,6 @@ namespace Microsoft.BotBuilderSamples
                 options.SerializerSettings.MaxDepth = HttpHelper.BotMessageSerializerSettings.MaxDepth;
             });
 
-
             //
             // NOTE
             //
@@ -41,7 +41,7 @@ namespace Microsoft.BotBuilderSamples
             // functionality is rolled into BF SDK.
             //
 
-            // Set sendX5C value to true to use SNI authentication.
+            //Set sendX5C value to true to use SNI auhtentication.
             var sendX5C = true;
 
             // Using KeyVault.
@@ -54,6 +54,9 @@ namespace Microsoft.BotBuilderSamples
             // Get certificate in X509Certificate format.
             var certificateName = _configuration["CertificateName"];
             var certificate = client.DownloadCertificate(certificateName).Value;
+
+            // Using a local certificate.
+            //var certificate = X509Certificate2.CreateFromPemFile(@"{Pem file path}");
 
             // Register CertificateServiceClientCredentialsFactory
             services.AddSingleton<ServiceClientCredentialsFactory>(
