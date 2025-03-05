@@ -1,10 +1,10 @@
-﻿# Authentication Bot using Federation Identity Certificate (FIC)
+﻿# Bot using Federation Identity Credentials
 
+Bot Framework v4 bot authentication using Federation Identity Credentials (FIC). Currently, FIC feature is supported single tenant bots only.
 
+This bot has been created using [Bot Framework](https://dev.botframework.com/), is shows how to use the bot authentication capabilities of Azure Bot Service. In this sample, we use federated identity certificate configuration to create the Bot Framework Authentication.
 
-Bot Framework v4 bot authentication using Federation Identity Certificate (FIC). Currently, FIC feature is supported for Microsoft tenants only. 
-
-This bot has been created using [Bot Framework](https://dev.botframework.com/), is shows how to use the bot authencation capabilities of Azure Bot Service. In this sample, we use federated identity certificate configuration to create the Bot Framework Authentication.
+This bot uses `FederatedServiceClientCredentialsFactory` which is registered in Startup.cs.
 
 ## Prerequisites
 
@@ -45,7 +45,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com/), 
       - Enter name for the credential and click on Add.
    - Navigate to the **App Service** for the bot 
      - Add the User managed identity created in previous step to the Azure App Service under Configuration -> Identity -> User Assigned Managed Identity.
-
+   
 - Set appsettings.json variables
 
   - MicrosoftAppType: {SingTenant | MultiTenant}
@@ -69,8 +69,5 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
-- [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 - [Azure Portal](https://portal.azure.com)
-- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
-- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)

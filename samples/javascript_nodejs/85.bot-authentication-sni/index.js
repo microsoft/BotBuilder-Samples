@@ -3,12 +3,12 @@
 
 const path = require('path');
 // const fs = require('fs');
+const { createPrivateKey } = require('crypto');
 const dotenv = require('dotenv');
 const restify = require('restify');
-const msal = require('@azure/msal-node');
 const { DefaultAzureCredential } = require('@azure/identity');
 const { SecretClient } = require('@azure/keyvault-secrets');
-const { MsalServiceClientCredentialsFactory } = require('botframework-connector');
+const { CertificateServiceClientCredentialsFactory } = require('botframework-connector');
 
 // Import required bot configuration.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -36,7 +36,12 @@ const { AuthBot } = require('./authBot');
             console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
         });
 
-        const authorityUrl = 'https://login.microsoftonline.com/botframework.com';
+        //
+        // NOTE
+        //
+        // This is a provisional sample for SN+I.  It is likely to change in the future as this
+        // functionality is rolled into BF SDK.
+        //
 
         // ---- Authenticate using key vault to obtain the certificate values.
         // Create an Azure credential to authenticate.
@@ -52,31 +57,26 @@ const { AuthBot } = require('./authBot');
 
         // Assuming you've already created a Key Vault certificate,
         // and that certificateName contains the name of your certificate.
-        const certificateSecret = await secretClient.getSecret(certificateName);
-
-        // Here we can find both the private key and the public certificate, in PKCS 12 format:
-        const certificateKey = certificateSecret.value;
+        const cert = (await secretClient.getSecret(certificateName)).value;
 
         // ---- Authenticate using local certificate.
-        // const key = fs.readFileSync('{KeyPath}.pem', 'utf8');
+        // //Read the certificate from the file
+        // const cert = fs.readFileSync('{KeyPath}.pem', 'utf8');
 
-        // Extract x5c value from the key string to use the SNI authentication.
-        const x5cValue = certificateKey.split('-----BEGIN CERTIFICATE-----\n').pop().split('\n-----END CERTIFICATE-----')[0];
+        // Create a private key object from the certificate
+        var certificateKey = createPrivateKey(cert);
+        // Convert the private key object to a string format
+        const privateKey = certificateKey.export({
+            type: 'pkcs8', // Can also be 'pkcs1' depending on your format requirements
+            format: 'pem'
+        });
 
         // Create client credentials using SNI authentication from MSAL.
-        const serviceClientCredentialsFactory = new MsalServiceClientCredentialsFactory(
+        const serviceClientCredentialsFactory = new CertificateServiceClientCredentialsFactory(
             process.env.MicrosoftAppId,
-            new msal.ConfidentialClientApplication({
-                auth: {
-                    clientId: process.env.MicrosoftAppId,
-                    authority: authorityUrl,
-                    clientCertificate: {
-                        thumbprint: process.env.CertificateThumbprint,
-                        privateKey: certificateKey,
-                        x5c: x5cValue
-                    }
-                }
-            })
+            cert,
+            privateKey,
+            process.env.MicrosoftAppTenantId
         );
 
         const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env, serviceClientCredentialsFactory);

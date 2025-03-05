@@ -51,11 +51,8 @@ namespace Microsoft.BotBuilderSamples
             // Create the Conversation state. (Used by the Dialog system itself.)
             services.AddSingleton<ConversationState>();
 
-            // The Dialog that will be run by the bot.
-            services.AddSingleton<MainDialog>();
-
              // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, AuthBotFIC<MainDialog>>();
+            services.AddTransient<IBot, AuthBotFIC>();
 
             services.AddHttpClient().AddControllers().AddNewtonsoftJson(options =>
             {

@@ -239,7 +239,7 @@
         "linuxFxVersion": "PYTHON|3.9",
         "requestTracingEnabled": false,
         "remoteDebuggingEnabled": false,
-        "remoteDebuggingVersion": "VS2017",
+        "remoteDebuggingVersion": "VS2022",
         "httpLoggingEnabled": true,
         "logsDirectorySizeLimit": 35,
         "detailedErrorLoggingEnabled": false,

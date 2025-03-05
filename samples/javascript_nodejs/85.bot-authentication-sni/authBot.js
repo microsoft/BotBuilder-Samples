@@ -8,7 +8,7 @@ class AuthBot extends ActivityHandler {
         super();
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         this.onMessage(async (context, next) => {
-            const replyText = 'Running dialog with bot authenticated';
+            const replyText = `Echo: ${ context.activity.text }`;
             const message = MessageFactory.text(replyText, replyText);
             await context.sendActivity(message);
             // By calling next() you ensure that the next BotHandler is run.
