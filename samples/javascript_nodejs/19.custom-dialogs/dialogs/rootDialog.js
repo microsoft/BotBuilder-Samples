@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const {
     ComponentDialog,
     DialogSet,
@@ -12,10 +14,12 @@ const {
 const { SlotDetails } = require('./slotDetails');
 const { SlotFillingDialog } = require('./slotFillingDialog');
 
+/** @import { UserState } from 'botbuilder' */
+
 class RootDialog extends ComponentDialog {
     /**
      * SampleBot defines the core business logic of this bot.
-     * @param {ConversationState} conversationState A ConversationState object used to store dialog state.
+     * @param {UserState} userState A ConversationState object used to store dialog state.
      */
     constructor(userState) {
         super('root');
@@ -25,23 +29,25 @@ class RootDialog extends ComponentDialog {
 
         // Set up a series of questions for collecting the user's name.
         const fullnameSlots = [
-            new SlotDetails('first', 'text', 'Please enter your first name.'),
-            new SlotDetails('last', 'text', 'Please enter your last name.')
+            new SlotDetails('first', 'text', 'Please enter your first name.', ''),
+            new SlotDetails('last', 'text', 'Please enter your last name.', '')
         ];
 
         // Set up a series of questions to collect a street address.
         const addressSlots = [
-            new SlotDetails('street', 'text', 'Please enter your street address.'),
-            new SlotDetails('city', 'text', 'Please enter the city.'),
-            new SlotDetails('zip', 'text', 'Please enter your zipcode.')
+            new SlotDetails('street', 'text', 'Please enter your street address.', ''),
+            new SlotDetails('city', 'text', 'Please enter the city.', ''),
+            new SlotDetails('zip', 'text', 'Please enter your zipcode.', '')
         ];
 
         // Link the questions together into a parent group that contains references
         // to both the fullname and address questions defined above.
         const slots = [
+            // @ts-ignore
             new SlotDetails('fullname', 'fullname'),
-            new SlotDetails('age', 'number', 'Please enter your age.'),
+            new SlotDetails('age', 'number', 'Please enter your age.', ''),
             new SlotDetails('shoesize', 'shoesize', 'Please enter your shoe size.', 'You must enter a size between 0 and 16. Half sizes are acceptable.'),
+            // @ts-ignore
             new SlotDetails('address', 'address')
         ];
 
@@ -68,7 +74,7 @@ class RootDialog extends ComponentDialog {
     /**
      * The run method handles the incoming activity (in the form of a DialogContext) and passes it through the dialog system.
      * If no dialog is active, it will start the default dialog.
-     * @param {*} dialogContext
+     * @param {*} context The dialogContext.
      */
     async run(context, accessor) {
         const dialogSet = new DialogSet(accessor);

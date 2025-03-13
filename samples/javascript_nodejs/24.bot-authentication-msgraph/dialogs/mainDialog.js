@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ChoicePrompt, DialogSet, DialogTurnStatus, OAuthPrompt, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 const { LogoutDialog } = require('./logoutDialog');
 const { OAuthHelpers } = require('../oAuthHelpers');
@@ -15,7 +17,7 @@ class MainDialog extends LogoutDialog {
         super('MainDialog', process.env.connectionName);
         this.addDialog(new ChoicePrompt(CHOICE_PROMPT))
             .addDialog(new OAuthPrompt(OAUTH_PROMPT, {
-                connectionName: process.env.ConnectionName,
+                connectionName: process.env.ConnectionName ?? '',
                 text: 'Please login',
                 title: 'Login',
                 timeout: 300000
