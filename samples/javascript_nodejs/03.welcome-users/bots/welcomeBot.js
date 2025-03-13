@@ -1,8 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 // Import required Bot Framework classes.
 const { ActionTypes, ActivityHandler, CardFactory } = require('botbuilder');
+
+/** @import { UserState } from 'botbuilder' */
 
 // Welcomed User property name
 const WELCOMED_USER = 'welcomedUserProperty';
@@ -10,7 +14,7 @@ const WELCOMED_USER = 'welcomedUserProperty';
 class WelcomeBot extends ActivityHandler {
     /**
      *
-     * @param {UserState} User state to persist boolean flag to indicate
+     * @param {UserState} userState to persist boolean flag to indicate
      *                    if the bot had already welcomed the user
      */
     constructor(userState) {
