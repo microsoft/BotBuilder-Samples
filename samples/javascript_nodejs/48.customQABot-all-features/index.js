@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// @ts-check
+
 // index.js is used to setup and configure your bot
 
 // Import required packages
@@ -59,7 +61,7 @@ const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
 
 var endpointHostName = process.env.LanguageEndpointHostName;
-if (!endpointHostName.startsWith('https://')) {
+if (!endpointHostName?.startsWith('https://')) {
     endpointHostName = 'https://' + endpointHostName;
 }
 
@@ -68,13 +70,13 @@ const endpointKey = process.env.LanguageEndpointKey || process.env.QnAAuthKey;
 
 // Create the main dialog.
 const dialog = new RootDialog(
-    process.env.ProjectName,
-    endpointKey,
+    process.env.ProjectName ?? '',
+    endpointKey ?? '',
     endpointHostName,
-    process.env.DefaultAnswer,
-    process.env.EnablePreciseAnswer.toLowerCase(),
-    process.env.DisplayPreciseAnswerOnly.toLowerCase(),
-    process.env.UseTeamsAdaptiveCard.toLowerCase());
+    process.env.DefaultAnswer ?? '',
+    process.env.EnablePreciseAnswer?.toLowerCase() ?? 'false',
+    process.env.DisplayPreciseAnswerOnly?.toLowerCase() ?? 'false',
+    process.env.UseTeamsAdaptiveCard?.toLowerCase());
 
 // Create the bot's main handler.
 const bot = new CustomQABot(conversationState, userState, dialog);
