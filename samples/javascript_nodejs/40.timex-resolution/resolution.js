@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { valueResolver } = require('@microsoft/recognizers-text-data-types-timex-expression');
 
 // Given the TIMEX expressions it is easy to create the computed example values that the recognizer gives.

@@ -1,14 +1,19 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ActivityHandler } = require('botbuilder');
+
+/** @import { ConversationState, UserState } from 'botbuilder' */
+/** @import { MainDialog } from '../dialogs/mainDialog' */
 
 class DialogBot extends ActivityHandler {
     /**
      *
      * @param {ConversationState} conversationState
      * @param {UserState} userState
-     * @param {Dialog} dialog
+     * @param {MainDialog} dialog
      */
     constructor(conversationState, userState, dialog) {
         super();

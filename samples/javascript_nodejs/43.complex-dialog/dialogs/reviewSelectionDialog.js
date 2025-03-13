@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ChoicePrompt, ComponentDialog, WaterfallDialog } = require('botbuilder-dialogs');
 
 const REVIEW_SELECTION_DIALOG = 'REVIEW_SELECTION_DIALOG';
