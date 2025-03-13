@@ -87,11 +87,12 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 
 ### Skills samples
 
-|    | Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  | Java
-|:--:|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
-|80|Skills&nbsp;-&nbsp;simple&nbsp;bot&nbsp;to&nbsp;bot | This sample shows how to connect a skill to a skill consumer.       | [.NET&nbsp;Core][cs#80] | [JavaScript][js#80]     |[Python][py#80] 
-|81|Skills - skill dialog       | This sample shows how to connect a skill to a skill dialog consumer.| [.NET&nbsp;Core][cs#81] | [JavaScript][js#81]     |[Python][py#81] 
-|82|Skills - SSO with CloudAdapter       | This sample shows how use SSO with skills and CloudAdapter.| [.NET&nbsp;Core][cs#82] | [JavaScript][js#82]     |NA |NA
+|    | Sample Name                          | Description                                                   | .NET Core           | JavaScript         | Python            |
+|:--:|:-------------------------------------|:--------------------------------------------------------------|:--------------------|:-------------------|:------------------|
+| 80 | Skills&nbsp;-&nbsp;simple&nbsp;bot&nbsp;to&nbsp;bot           | This sample shows how to connect a skill to a skill consumer. | [.NET&nbsp;Core][cs#80]  | [JavaScript][js#80]     | [Python][py#80]   |
+| 81 | Skills - skill dialog                | This sample shows how to connect a skill to a skill dialog consumer. | [.NET&nbsp;Core][cs#81]  | [JavaScript][js#81]     | [Python][py#81]   |
+| 82 | Skills - SSO with CloudAdapter       | This sample shows how to use SSO with skills and CloudAdapter. | [.NET&nbsp;Core][cs#82]  | [JavaScript][js#82]     | NA                |
+
 ### Experimental / preview samples
 
 A [collection of **experimental** samples](./experimental) exist, intended to provide samples for features currently in preview or as a way to solicit feedback on a given design, approach, or technology being considered by the Bot Framework Team.
