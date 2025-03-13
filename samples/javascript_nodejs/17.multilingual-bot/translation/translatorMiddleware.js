@@ -1,17 +1,22 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ActivityTypes } = require('botbuilder');
 const { TranslationSettings } = require('./translationSettings');
 
 const DEFAULT_LANGUAGE = TranslationSettings.englishEnglish;
 
+/** @import { StatePropertyAccessor } from 'botbuilder' */
+/** @import { MicrosoftTranslator } from '../translation/microsoftTranslator' */
+
 class TranslatorMiddleware {
     /**
      * Middleware for translating text between the user and bot.
      * Uses the Microsoft Translator Text API.
-     * @param {BotStatePropertyAccessor} languagePreferenceProperty Accessor for language preference property in the user state.
-     * @param {string} translatorKey Microsoft Text Translation API key.
+     * @param {StatePropertyAccessor} languagePreferenceProperty Accessor for language preference property in the user state.
+     * @param {MicrosoftTranslator} translator Translator implementation to be used for text translation.
      */
     constructor(translator, languagePreferenceProperty) {
         if (!languagePreferenceProperty) {

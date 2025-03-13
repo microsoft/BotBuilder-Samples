@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ActivityHandler, ActionTypes, ActivityTypes, CardFactory } = require('botbuilder');
 const path = require('path');
-const axios = require('axios');
+const axios = require('axios').default;
 const fs = require('fs');
 
 class AttachmentsBot extends ActivityHandler {
@@ -11,7 +13,7 @@ class AttachmentsBot extends ActivityHandler {
         super();
 
         this.onMembersAdded(async (context, next) => {
-            const membersAdded = context.activity.membersAdded;
+            const membersAdded = context.activity.membersAdded ?? [];
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
                     // If the Activity is a ConversationUpdate, send a greeting message to the user.
@@ -81,7 +83,6 @@ class AttachmentsBot extends ActivityHandler {
         // Retrieve the attachment via url.
         // Use content.downloadURL if available as that contains needed auth token for working with ms teams
         const url = attachment.content?.downloadUrl || attachment.contentUrl;
-
 
         // Local file path for the bot to save the attachment.
         const localFileName = path.join(__dirname, attachment.name);
