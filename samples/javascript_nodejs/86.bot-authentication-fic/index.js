@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const path = require('path');
 const dotenv = require('dotenv');
 const restify = require('restify');
@@ -34,8 +36,8 @@ const { EchoBot } = require('./bot');
 
         // Create the Federated Service Client Credentials to be used as the ServiceClientCredentials for the Bot Framework SDK.
         const serviceClientCredentialsFactory = new FederatedServiceClientCredentialsFactory(
-            process.env.MicrosoftAppId,
-            process.env.MicrosoftAppClientId,
+            process.env.MicrosoftAppId ?? '',
+            process.env.MicrosoftAppClientId ?? '',
             process.env.MicrosoftAppTenantId
         );
 

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const path = require('path');
 // const fs = require('fs');
 const dotenv = require('dotenv');
@@ -41,7 +43,7 @@ const { AuthBot } = require('./authBot');
         const vaultName = process.env.KeyVaultName;
         const keyVaultUrl = `https://${ vaultName }.vault.azure.net`;
 
-        const certificateName = process.env.CertificateName;
+        const certificateName = process.env.CertificateName ?? '';
 
         // Using an Azure credential object and a keyVaultUrl, let's create a SecretClient
         const secretClient = new SecretClient(keyVaultUrl, credential);
