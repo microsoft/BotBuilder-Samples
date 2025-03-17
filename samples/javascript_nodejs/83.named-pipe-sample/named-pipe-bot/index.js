@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const path = require('path');
 
 const dotenv = require('dotenv');
@@ -46,7 +48,7 @@ adapter.connectNamedPipe(
     async (context) => {
         await myBot.run(context);
     },
-    process.env.MicrosoftAppId,
+    process.env.MicrosoftAppId ?? '',
     AuthenticationConstants.ToChannelFromBotOAuthScope);
 
 // Catch-all for errors.
@@ -122,10 +124,10 @@ server.post('/api/token/directlinease', async (req, res) => {
             console.log('Refreshing Direct Line ASE token');
         } else {
             console.log(
-                `Requesting Direct Line ASE token using secret "${ DIRECT_LINE_SECRET.substring(
+                `Requesting Direct Line ASE token using secret "${ DIRECT_LINE_SECRET?.substring(
                     0,
                     3
-                ) }...${ DIRECT_LINE_SECRET.substring(-3) }"`
+                ) }...${ DIRECT_LINE_SECRET?.substring(-3) }"`
             );
         }
     } catch (err) {

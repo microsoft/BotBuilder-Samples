@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ActivityTypes, InputHints, MessageFactory } = require('botbuilder');
 const { ComponentDialog, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
 const { SsoSkillDialog } = require('./ssoSkillDialog');
@@ -16,7 +18,7 @@ class ActivityRouterDialog extends ComponentDialog {
     constructor() {
         super(ACTIVITY_ROUTER_DIALOG);
 
-        this.addDialog(new SsoSkillDialog(process.env.ConnectionName))
+        this.addDialog(new SsoSkillDialog(process.env.ConnectionName ?? ''))
             .addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
                 this.processActivity.bind(this)
             ]));

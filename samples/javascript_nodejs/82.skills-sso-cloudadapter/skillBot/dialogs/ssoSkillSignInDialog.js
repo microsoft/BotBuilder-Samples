@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ComponentDialog, OAuthPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 
 const OAUTH_PROMPT = 'OAuthPrompt';

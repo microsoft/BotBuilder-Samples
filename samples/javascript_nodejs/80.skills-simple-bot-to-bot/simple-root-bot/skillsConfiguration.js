@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 /**
  * A helper class that loads Skills information from configuration.
  */

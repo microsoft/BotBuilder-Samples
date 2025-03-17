@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const createUserId = require('./createUserId');
-const fetch = require('cross-fetch');
+const fetch = require('cross-fetch').default;
 
 module.exports = async function(
-    directLineSecret = process.env.DIRECT_LINE_SECRET,
+    directLineSecret = process.env.DIRECT_LINE_SECRET ?? '',
     { domain = process.env.WEBSITE_HOSTNAME, userId = createUserId() } = {}
 ) {
     console.log(

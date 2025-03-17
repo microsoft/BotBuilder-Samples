@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ActivityTypes, InputHints, MessageFactory } = require('botbuilder');
 const { ChoicePrompt, ComponentDialog, DialogSet, DialogTurnStatus, SkillDialog, WaterfallDialog } = require('botbuilder-dialogs');
 
@@ -177,11 +179,11 @@ class MainDialog extends ComponentDialog {
             const skillInfo = skillsConfig.skills[skillId];
 
             const skillOptions = {
-                botId: process.env.MicrosoftAppId,
+                botId: process.env.MicrosoftAppId ?? '',
                 conversationIdFactory,
                 conversationState,
                 skill: skillInfo,
-                skillHostEndpoint: process.env.SkillHostEndpoint,
+                skillHostEndpoint: process.env.SkillHostEndpoint ?? '',
                 skillClient
             };
 
@@ -247,7 +249,9 @@ class MainDialog extends ComponentDialog {
                 value: {
                     latitude: 47.614891,
                     longitude: -122.195801
-                }
+                },
+                channelData: {},
+                properties: {}
             };
         }
 

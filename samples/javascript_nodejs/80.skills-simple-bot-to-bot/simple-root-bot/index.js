@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 // index.js is used to setup and configure your bot
 
 // Import required packages
@@ -117,16 +119,18 @@ async function endSkillConversation(context) {
         // forwarded to a Skill.
         const activeSkill = await conversationState.createProperty(RootBot.ActiveSkillPropertyName).get(context);
         if (activeSkill) {
-            const botId = process.env.MicrosoftAppId;
+            const botId = process.env.MicrosoftAppId ?? '';
 
             let endOfConversation = {
                 type: ActivityTypes.EndOfConversation,
                 code: 'RootSkillError'
             };
+            // @ts-ignore
             endOfConversation = TurnContext.applyConversationReference(
                 endOfConversation, TurnContext.getConversationReference(context.activity), true);
 
             await conversationState.saveChanges(context, true);
+            // @ts-ignore
             await skillClient.postActivity(botId, activeSkill.appId, activeSkill.skillEndpoint, skillsConfig.skillHostEndpoint, endOfConversation.conversation.id, endOfConversation);
         }
     } catch (err) {

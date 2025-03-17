@@ -1,15 +1,20 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ActivityHandler, ActivityTypes, CardFactory } = require('botbuilder');
 const { runDialog } = require('botbuilder-dialogs');
 const WelcomeCard = require('../cards/welcomeCard.json');
+
+/** @import { ConversationState } from 'botbuilder' */
+/** @import { MainDialog } from '../dialogs/mainDialog' */
 
 class RootBot extends ActivityHandler {
     /**
      *
      * @param {ConversationState} conversationState
-     * @param {Dialog} dialog
+     * @param {MainDialog} dialog
      */
     constructor(conversationState, dialog) {
         super();
@@ -29,7 +34,7 @@ class RootBot extends ActivityHandler {
         });
 
         this.onMembersAdded(async (context, next) => {
-            const membersAdded = context.activity.membersAdded;
+            const membersAdded = context.activity.membersAdded ?? [];
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
                 // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards.
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {

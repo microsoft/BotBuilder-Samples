@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 // index.js is used to setup and configure your bot.
 
 // Import required packages.
@@ -121,18 +123,20 @@ async function endSkillConversation(context) {
         // Inform the active skill that the conversation is ended so that it has a chance to clean up.
         // Note: the root bot manages the ActiveSkillPropertyName, which has a value while the root bot
         // has an active conversation with a skill.
-        const activeSkill = await conversationState.createProperty(mainDialog.ActiveSkillPropertyName).get(context);
+        const activeSkill = await conversationState.createProperty(mainDialog.activeSkillPropertyName).get(context);
         if (activeSkill) {
-            const botId = process.env.MicrosoftAppId;
+            const botId = process.env.MicrosoftAppId ?? '';
 
             let endOfConversation = {
                 type: ActivityTypes.EndOfConversation,
                 code: 'RootSkillError'
             };
+            // @ts-ignore
             endOfConversation = TurnContext.applyConversationReference(
                 endOfConversation, TurnContext.getConversationReference(context.activity), true);
 
             await conversationState.saveChanges(context, true);
+            // @ts-ignore
             await skillClient.postActivity(botId, activeSkill.appId, activeSkill.skillEndpoint, skillsConfig.skillHostEndpoint, endOfConversation.conversation.id, endOfConversation);
         }
     } catch (err) {
@@ -200,7 +204,6 @@ skillEndpoint.register(server, '/api/skills');
 server.on('upgrade', async (req, socket, head) => {
     // Create an adapter scoped to this WebSocket connection to allow storing session data.
     const streamingAdapter = new CloudAdapter(botFrameworkAuthentication);
-
     // Set onTurnError for the CloudAdapter created for each connection.
     streamingAdapter.onTurnError = onTurnErrorHandler;
 
