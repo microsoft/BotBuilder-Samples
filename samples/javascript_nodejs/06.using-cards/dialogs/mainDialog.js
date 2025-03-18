@@ -9,7 +9,7 @@ const AdaptiveCard = require('../resources/adaptiveCard.json');
 
 const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
 
-/** @import { WaterfallStepContext } from botbuilder-dialogs' */
+/** @import { WaterfallStepContext } from 'botbuilder-dialogs' */
 
 class MainDialog extends ComponentDialog {
     constructor() {
