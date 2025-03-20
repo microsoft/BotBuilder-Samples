@@ -15,8 +15,8 @@ class TranslatorMiddleware {
     /**
      * Middleware for translating text between the user and bot.
      * Uses the Microsoft Translator Text API.
-     * @param {StatePropertyAccessor} languagePreferenceProperty Accessor for language preference property in the user state.
      * @param {MicrosoftTranslator} translator Translator implementation to be used for text translation.
+     * @param {StatePropertyAccessor} languagePreferenceProperty Accessor for language preference property in the user state.
      */
     constructor(translator, languagePreferenceProperty) {
         if (!languagePreferenceProperty) {
