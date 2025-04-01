@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { SimpleGraphClient } = require('./simple-graph-client');
+
+/** @import { TokenResponse, TurnContext } from 'botbuilder' */
 
 /**
  * These methods call the Microsoft Graph API. The following OAuth scopes are used:

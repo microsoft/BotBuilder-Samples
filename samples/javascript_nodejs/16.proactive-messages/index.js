@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 // index.js is used to setup and configure your bot
 
 // Import required packages
@@ -72,7 +74,7 @@ server.post('/api/messages', async (req, res) => {
 // Listen for incoming notifications and send proactive messages to users.
 server.get('/api/notify', async (req, res) => {
     for (const conversationReference of Object.values(conversationReferences)) {
-        await adapter.continueConversationAsync(process.env.MicrosoftAppId, conversationReference, async context => {
+        await adapter.continueConversationAsync(process.env.MicrosoftAppId ?? '', conversationReference, async context => {
             await context.sendActivity('proactive hello');
         });
     }

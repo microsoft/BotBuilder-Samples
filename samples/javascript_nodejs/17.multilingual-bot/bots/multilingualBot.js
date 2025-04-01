@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ActivityHandler, ActionTypes, CardFactory, MessageFactory } = require('botbuilder');
 const { TranslationSettings } = require('../translation/translationSettings');
 
@@ -34,7 +36,7 @@ class MultilingualBot extends ActivityHandler {
         this.languagePreferenceProperty = languagePreferenceProperty;
 
         this.onMembersAdded(async (context, next) => {
-            const membersAdded = context.activity.membersAdded;
+            const membersAdded = context.activity.membersAdded ?? [];
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
                     const welcomeCard = CardFactory.adaptiveCard(WelcomeCard);

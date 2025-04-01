@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { MessageFactory } = require('botbuilder');
 const {
     AttachmentPrompt,
@@ -112,7 +114,7 @@ class UserProfileDialog extends ComponentDialog {
         // We can send messages to the user at any point in the WaterfallStep.
         await step.context.sendActivity(msg);
 
-        if (step.context.activity.channelId === Channels.msteams) {
+        if (step.context.activity.channelId === Channels.Msteams) {
             // This attachment prompt example is not designed to work for Teams attachments, so skip it in this case
             await step.context.sendActivity('Skipping attachment prompt in Teams channel...');
             return await step.next(undefined);

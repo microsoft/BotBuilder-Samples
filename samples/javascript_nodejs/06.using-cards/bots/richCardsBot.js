@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { MessageFactory } = require('botbuilder');
 const { DialogBot } = require('./dialogBot');
 
@@ -13,7 +15,7 @@ class RichCardsBot extends DialogBot {
         super(conversationState, userState, dialog);
 
         this.onMembersAdded(async (context, next) => {
-            const membersAdded = context.activity.membersAdded;
+            const membersAdded = context.activity.membersAdded ?? [];
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
                     const reply = MessageFactory.text('Welcome to CardBot. ' +

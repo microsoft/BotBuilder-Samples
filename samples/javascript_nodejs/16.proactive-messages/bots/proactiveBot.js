@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ActivityHandler, TurnContext } = require('botbuilder');
 
 class ProactiveBot extends ActivityHandler {
@@ -17,7 +19,7 @@ class ProactiveBot extends ActivityHandler {
         });
 
         this.onMembersAdded(async (context, next) => {
-            const membersAdded = context.activity.membersAdded;
+            const membersAdded = context.activity.membersAdded ?? [];
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
                     const welcomeMessage = 'Welcome to the Proactive Bot sample.  Navigate to http://localhost:3978/api/notify to proactively message everyone who has previously messaged this bot.';
@@ -40,7 +42,10 @@ class ProactiveBot extends ActivityHandler {
 
     addConversationReference(activity) {
         const conversationReference = TurnContext.getConversationReference(activity);
-        this.conversationReferences[conversationReference.conversation.id] = conversationReference;
+        const conversationId = conversationReference.conversation?.id;
+        if (conversationId) {
+            this.conversationReferences[conversationId] = conversationReference;
+        }
     }
 }
 

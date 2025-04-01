@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { LuisRecognizer } = require('botbuilder-ai');
+
+/** @import { TurnContext } from 'botbuilder' */
 
 class FlightBookingRecognizer {
     constructor(config) {
@@ -26,7 +30,7 @@ class FlightBookingRecognizer {
      * @param {TurnContext} context
      */
     async executeLuisQuery(context) {
-        return await this.recognizer.recognize(context);
+        return await this.recognizer?.recognize(context);
     }
 
     getFromEntities(result) {

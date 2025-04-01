@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdaptiveCardsBot", "07.usin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuggestedActionsBot", "08.suggested-actions\SuggestedActionsBot.csproj", "{9C70CB81-4403-41B8-ABB8-72497061DDB0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreBot", "13.core-bot\CoreBot.csproj", "{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HandlingAttachmentsBot", "15.handling-attachments\HandlingAttachmentsBot.csproj", "{7E6046AF-DBF2-40E2-8ABA-A0537F76695A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProactiveBot", "16.proactive-messages\ProactiveBot.csproj", "{79D2CAED-880B-4FAE-8777-5A37606E5F48}"
@@ -144,14 +142,6 @@ Global
 		{9C70CB81-4403-41B8-ABB8-72497061DDB0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9C70CB81-4403-41B8-ABB8-72497061DDB0}.Release|x64.ActiveCfg = Release|Any CPU
 		{9C70CB81-4403-41B8-ABB8-72497061DDB0}.Release|x64.Build.0 = Release|Any CPU
-		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Debug|x64.Build.0 = Debug|Any CPU
-		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Release|x64.ActiveCfg = Release|Any CPU
-		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Release|x64.Build.0 = Release|Any CPU
 		{7E6046AF-DBF2-40E2-8ABA-A0537F76695A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7E6046AF-DBF2-40E2-8ABA-A0537F76695A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E6046AF-DBF2-40E2-8ABA-A0537F76695A}.Debug|x64.ActiveCfg = Debug|Any CPU

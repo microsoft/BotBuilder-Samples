@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ComponentDialog, WaterfallDialog, OAuthPrompt } = require('botbuilder-dialogs');
 
 const SSO_SIGNIN_DIALOG = 'SsoSignInDialog';

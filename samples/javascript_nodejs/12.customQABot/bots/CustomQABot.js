@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ActivityHandler, ActivityTypes } = require('botbuilder');
 const { CustomQuestionAnswering } = require('botbuilder-ai');
 
@@ -10,9 +12,9 @@ class CustomQABot extends ActivityHandler {
 
         try {
             this.qnaMaker = new CustomQuestionAnswering({
-                knowledgeBaseId: process.env.ProjectName,
-                endpointKey: process.env.LanguageEndpointKey,
-                host: process.env.LanguageEndpointHostName
+                knowledgeBaseId: process.env.ProjectName ?? '',
+                endpointKey: process.env.LanguageEndpointKey ?? '',
+                host: process.env.LanguageEndpointHostName ?? ''
             });
         } catch (err) {
             console.warn(`QnAMaker Exception: ${ err } Check your QnAMaker configuration in .env`);
@@ -20,11 +22,12 @@ class CustomQABot extends ActivityHandler {
 
         // If a new user is added to the conversation, send them a greeting message
         this.onMembersAdded(async (context, next) => {
-            const membersAdded = context.activity.membersAdded;
+            const membersAdded = context.activity.membersAdded ?? [];
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
                     const DefaultWelcomeMessageFromConfig = process.env.DefaultWelcomeMessage;
-                    await context.sendActivity(DefaultWelcomeMessageFromConfig?.length > 0 ? DefaultWelcomeMessageFromConfig : 'Hello and Welcome');
+                    const welcomeMessage = DefaultWelcomeMessageFromConfig && DefaultWelcomeMessageFromConfig.length > 0 ? DefaultWelcomeMessageFromConfig : 'Hello and Welcome';
+                    await context.sendActivity(welcomeMessage);
                 }
             }
 
@@ -45,10 +48,10 @@ class CustomQABot extends ActivityHandler {
 
                 const enablePreciseAnswer = process.env.EnablePreciseAnswer === 'true';
                 const displayPreciseAnswerOnly = process.env.DisplayPreciseAnswerOnly === 'true';
-                const response = await this.qnaMaker.getAnswers(context, { enablePreciseAnswer: enablePreciseAnswer });
+                const response = await this.qnaMaker?.getAnswers(context, { enablePreciseAnswer: enablePreciseAnswer });
 
                 // If an answer was received from CQA, send the answer back to the user.
-                if (response.length > 0) {
+                if (response && response.length > 0) {
                     var activities = [];
 
                     var answerText = response[0].answer;

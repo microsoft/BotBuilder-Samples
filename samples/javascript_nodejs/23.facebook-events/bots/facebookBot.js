@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ActivityHandler, CardFactory, ActionTypes } = require('botbuilder');
 const { ChoiceFactory } = require('botbuilder-dialogs');
 // These are the options provided to the user when they message the bot
@@ -154,7 +156,7 @@ class FacebookBot extends ActivityHandler {
         case postBackOption:
             var card = CardFactory.heroCard(
                 'Is 42 the answer to the ultimate question of Life, the Universe, and Everything?',
-                null,
+                [],
                 CardFactory.actions([
                     {
                         type: ActionTypes.PostBack,

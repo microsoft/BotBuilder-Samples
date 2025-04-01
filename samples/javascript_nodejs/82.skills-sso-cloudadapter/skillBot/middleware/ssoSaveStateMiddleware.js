@@ -1,18 +1,22 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { CardFactory } = require('botbuilder');
+
+/** @import { Activity, ConversationState, TurnContext } from 'botbuilder' */
 
 class SsoSaveStateMiddleware {
     /**
-     * @param {import('botbuilder').ConversationState} conversationState
+     * @param {ConversationState} conversationState
      */
     constructor(conversationState) {
         this.conversationState = conversationState;
     }
 
     /**
-     * @param {import('botbuilder').TurnContext} turnContext
+     * @param {TurnContext} turnContext
      */
     async onTurn(turnContext, next) {
         // Register outgoing handler.
@@ -23,8 +27,8 @@ class SsoSaveStateMiddleware {
     }
 
     /**
-     * @param {import('botbuilder').TurnContext} turnContext
-     * @param {Partial<import('botbuilder').Activity>[]} activities
+     * @param {TurnContext} turnContext
+     * @param {Partial<Activity>[]} activities
      * @param {Function} next
      */
     async outgoingHandler(turnContext, activities, next) {

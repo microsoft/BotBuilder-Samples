@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ActivityEx, ActivityTypes, CardFactory, CloudSkillHandler, tokenExchangeOperationName, TurnContext } = require('botbuilder');
 const { JwtTokenValidation } = require('botframework-connector');
 const { v4 } = require('uuid');
@@ -17,7 +19,7 @@ class TokenExchangeSkillHandler extends CloudSkillHandler {
         if (!skillsConfiguration) throw new Error('[TokenExchangeSkillHandler]: Missing parameter \'skillsConfiguration\' is required');
 
         this.adapter = adapter;
-        this.auth = auth;
+        this.authorization = auth;
         this.conversationIdFactory = conversationIdFactory;
         this.skillsConfig = skillsConfiguration;
 
@@ -57,7 +59,7 @@ class TokenExchangeSkillHandler extends CloudSkillHandler {
                 const oauthCard = oauthCardAttachment.content;
 
                 if (oauthCard && oauthCard.tokenExchangeResource && oauthCard.tokenExchangeResource.uri) {
-                    const tokenClient = await this.auth.createUserTokenClient(claimsIdentity);
+                    const tokenClient = await this.authorization.createUserTokenClient(claimsIdentity);
                     const context = new TurnContext(this.adapter, activity);
                     context.turnState.push('BotIdentity', claimsIdentity);
 
@@ -96,7 +98,7 @@ class TokenExchangeSkillHandler extends CloudSkillHandler {
         activity.serviceUrl = skillConversationReference.conversationReference.serviceUrl;
 
         // Route the activity to the skill
-        const botFrameworkClient = this.auth.createBotFrameworkClient();
+        const botFrameworkClient = this.authorization.createBotFrameworkClient();
         const response = await botFrameworkClient.postActivity(this.botId, targetSkill.appId, targetSkill.skillEndpoint, this.skillsConfig.skillHostEndpoint, activity.conversation.id, activity);
 
         // Check response status: true if success, false if failure

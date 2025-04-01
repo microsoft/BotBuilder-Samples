@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { QnAMakerDialog, RankerTypes } = require('botbuilder-ai');
 const {
     ComponentDialog,
@@ -36,6 +38,7 @@ const createQnAMakerDialog = (knowledgeBaseId, endpointKey, endpointHostName, de
         knowledgeBaseId,
         endpointKey,
         endpointHostName,
+        // @ts-ignore
         noAnswerActivity,
         SCORE_THRESHOLD,
         ACTIVE_LEARNING_CARD_TITLE,
@@ -81,7 +84,7 @@ class RootDialog extends ComponentDialog {
     /**
      * The run method handles the incoming activity (in the form of a TurnContext) and passes it through the dialog system.
      * If no dialog is active, it will start the default dialog.
-     * @param {*} turnContext
+     * @param {*} context turnContext
      * @param {*} accessor
      */
     async run(context, accessor) {
