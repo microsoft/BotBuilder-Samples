@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ConfirmPrompt, DialogSet, DialogTurnStatus, OAuthPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 
 const { LogoutDialog } = require('./logoutDialog');
@@ -15,7 +17,7 @@ class MainDialog extends LogoutDialog {
         super(MAIN_DIALOG, process.env.connectionName);
 
         this.addDialog(new OAuthPrompt(OAUTH_PROMPT, {
-            connectionName: process.env.connectionName,
+            connectionName: process.env.connectionName ?? '',
             text: 'Please Sign In',
             title: 'Sign In',
             timeout: 300000
@@ -34,7 +36,7 @@ class MainDialog extends LogoutDialog {
     /**
      * The run method handles the incoming activity (in the form of a DialogContext) and passes it through the dialog system.
      * If no dialog is active, it will start the default dialog.
-     * @param {*} dialogContext
+     * @param {*} context The dialogContext.
      */
     async run(context, accessor) {
         const dialogSet = new DialogSet(accessor);

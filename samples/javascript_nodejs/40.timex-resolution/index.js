@@ -2,6 +2,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const ambiguity = require('./ambiguity.js');
 const constraints = require('./constraints.js');
 const languageGeneration = require('./languageGeneration.js');

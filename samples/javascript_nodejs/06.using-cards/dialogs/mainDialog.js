@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { AttachmentLayoutTypes, CardFactory } = require('botbuilder');
 const { ChoicePrompt, ComponentDialog, DialogSet, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
 const AdaptiveCard = require('../resources/adaptiveCard.json');
 
 const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
+
+/** @import { WaterfallStepContext } from 'botbuilder-dialogs' */
 
 class MainDialog extends ComponentDialog {
     constructor() {
@@ -206,6 +210,7 @@ class MainDialog extends ComponentDialog {
             {
                 subtitle: 'Star Wars: Episode V - The Empire Strikes Back',
                 text: 'The Empire Strikes Back (also known as Star Wars: Episode V – The Empire Strikes Back) is a 1980 American epic space opera film directed by Irvin Kershner. Leigh Brackett and Lawrence Kasdan wrote the screenplay, with George Lucas writing the film\'s story and serving as executive producer. The second installment in the original Star Wars trilogy, it was produced by Gary Kurtz for Lucasfilm Ltd. and stars Mark Hamill, Harrison Ford, Carrie Fisher, Billy Dee Williams, Anthony Daniels, David Prowse, Kenny Baker, Peter Mayhew and Frank Oz.',
+                // @ts-ignore
                 image: 'https://upload.wikimedia.org/wikipedia/en/3/3c/SW_-_Empire_Strikes_Back.jpg'
             }
         );
@@ -250,12 +255,14 @@ class MainDialog extends ComponentDialog {
                 {
                     title: 'Data Transfer',
                     price: '$38.45',
+                    // @ts-ignore
                     quantity: 368,
                     image: { url: 'https://github.com/amido/azure-vector-icons/raw/master/renders/traffic-manager.png' }
                 },
                 {
                     title: 'App Service',
                     price: '$45.00',
+                    // @ts-ignore
                     quantity: 720,
                     image: { url: 'https://github.com/amido/azure-vector-icons/raw/master/renders/cloud-service.png' }
                 }

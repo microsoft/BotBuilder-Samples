@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const path = require('path');
 
 // Read botFilePath and botFileSecret from .env file.

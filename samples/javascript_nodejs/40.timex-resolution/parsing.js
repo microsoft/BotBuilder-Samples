@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { TimexProperty } = require('@microsoft/recognizers-text-data-types-timex-expression');
 
 // The TimexProperty class takes a TIMEX expression as a string argument in its constructor.

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ActivityHandler, ActivityTypes, EndOfConversationCodes } = require('botbuilder');
 
 class EchoBot extends ActivityHandler {

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ActivityTypes, InputHints, MessageFactory } = require('botbuilder');
 const { ChoicePrompt, ComponentDialog, SkillDialog, WaterfallDialog } = require('botbuilder-dialogs');
 const { SsoSignInDialog } = require('./ssoSignInDialog');

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const dotenv = require('dotenv');
 const path = require('path');
 
@@ -50,7 +52,7 @@ const userState = new UserState(memoryStorage);
 const conversationState = new ConversationState(memoryStorage);
 
 // Create and add the InspectionMiddleware to the adapter.
-adapter.use(new InspectionMiddleware(inspectionState, userState, conversationState, new MicrosoftAppCredentials(process.env.MicrosoftAppId, process.env.MicrosoftAppPassword)));
+adapter.use(new InspectionMiddleware(inspectionState, userState, conversationState, new MicrosoftAppCredentials(process.env.MicrosoftAppId ?? '', process.env.MicrosoftAppPassword ?? '')));
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {

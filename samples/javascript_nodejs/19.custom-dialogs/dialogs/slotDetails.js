@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 class SlotDetails {
     /**
      * SlotDetails is a small class that defines a "slot" to be filled in a SlotFillingDialog.

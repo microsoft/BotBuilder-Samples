@@ -1,9 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { MessageFactory, InputHints } = require('botbuilder');
 const { ComponentDialog, ChoicePrompt, ChoiceFactory, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
 const { SsoSkillSignInDialog } = require('./ssoSkillSignInDialog');
+
+/** @import { WaterfallStepContext } from 'botbuilder-dialogs' */
 
 const ACTION_PROMPT = 'ActionStepPrompt';
 const WATERFALL_DIALOG = 'WaterfallDialog';
@@ -32,7 +36,7 @@ class SsoSkillDialog extends ComponentDialog {
     }
 
     /**
-     * @param {import('botbuilder-dialogs').WaterfallStepContext} stepContext
+     * @param {WaterfallStepContext} stepContext
      */
     async promptActionStep(stepContext) {
         const messageText = 'What SSO action would you like to perform on the skill?';
@@ -46,11 +50,12 @@ class SsoSkillDialog extends ComponentDialog {
     }
 
     /**
-     * @param {import('botbuilder-dialogs').WaterfallStepContext} stepContext
+     * @param {WaterfallStepContext} stepContext
      */
     async getPromptChoices(stepContext) {
         // Try to get the token for the current user to determine if it is logged in or not.
         const choices = new Set();
+        // @ts-ignore
         const userTokenClient = stepContext.context.turnState.get(stepContext.context.adapter.UserTokenClientKey);
         const tokenResponse = await userTokenClient.getUserToken(
             stepContext.context.activity.from.id,
@@ -73,10 +78,11 @@ class SsoSkillDialog extends ComponentDialog {
     }
 
     /**
-     * @param {import('botbuilder-dialogs').WaterfallStepContext} stepContext
+     * @param {WaterfallStepContext} stepContext
      */
     async handleActionStep(stepContext) {
         const action = stepContext.result.value.toLowerCase();
+        // @ts-ignore
         const userTokenClient = stepContext.context.turnState.get(stepContext.context.adapter.UserTokenClientKey);
 
         switch (action) {
@@ -119,7 +125,7 @@ class SsoSkillDialog extends ComponentDialog {
     }
 
     /**
-     * @param {import('botbuilder-dialogs').WaterfallStepContext} stepContext
+     * @param {WaterfallStepContext} stepContext
      */
     async promptFinalStep(stepContext) {
         // Restart the dialog (we will exit when the user says end).
