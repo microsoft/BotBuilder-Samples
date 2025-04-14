@@ -6,6 +6,15 @@ This bot has been created using [Bot Framework](https://dev.botframework.com/), 
 
 This bot uses `FederatedServiceClientCredentialsFactory` which is registered in Startup.cs.
 
+```csharp
+  // Create the Federated Service Client Credentials to be used as the ServiceClientCredentials for the Bot Framework SDK.
+  services.AddSingleton<ServiceClientCredentialsFactory>(
+    new FederatedServiceClientCredentialsFactory(
+      Configuration["MicrosoftAppId"],
+      Configuration["MicrosoftAppClientId"],
+      Configuration["MicrosoftAppTenantId"]));
+```
+
 ## Prerequisites
 
 - [.NET SDK](https://dotnet.microsoft.com/download) version 8.0
@@ -68,7 +77,7 @@ The easiest way to deploy the bot to the App Service for testing is using the Vi
 - Right clin the project and select **Publish**
 - Click **+ New Profile**
 - **Azure** -> **Azure App Service (Windows)**
-- Select the existing App Service, the click **Finish**
+- Select the existing App Service, then click **Finish**
 - Click the **Publish** button.
 
 ## Further reading
