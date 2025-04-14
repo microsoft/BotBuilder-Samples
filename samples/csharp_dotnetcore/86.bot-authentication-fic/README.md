@@ -44,7 +44,7 @@ This bot uses `FederatedServiceClientCredentialsFactory` which is registered in 
         - Click on the add credential under **Certificates & Secrets**, **Federated credentials**
         - On the Add a credential page, select the Federated credential scenario as **Customer Managed Keys**.
         - Select the managed identity that you created in the previous step.
-        - Enter name for the credential and click on Add.
+        - Enter name for the credential and click on **Add**.
         
     - Create an **Azure Bot** in the desired resource group and use the App Registration from the previous step.
     - Update the **Messaging endpoint** on the **Configuration** tab to:  https://{{default-domain}}/api/messages
@@ -55,7 +55,7 @@ This bot uses `FederatedServiceClientCredentialsFactory` which is registered in 
       - Click on the add credential under **Certificates & Secrets**, **Federated credentials**
       - On the Add a credential page, select the Federated credential scenario as **Customer Managed Keys**.
       - Select the managed identity that you created in the previous step.
-      - Enter name for the credential and click on Add.
+      - Enter name for the credential and click on **Add**.
    - Navigate to the **App Service** for the bot 
      - Add the User managed identity created in previous step to the Azure App Service under Configuration -> Identity -> User Assigned Managed Identity.
    
@@ -74,7 +74,7 @@ This bot uses `FederatedServiceClientCredentialsFactory` which is registered in 
 ## Deploy the bot to Azure
 
 The easiest way to deploy the bot to the App Service for testing is using the Visual Studio **Publish** tool.
-- Right clin the project and select **Publish**
+- Right click the project and select **Publish**
 - Click **+ New Profile**
 - **Azure** -> **Azure App Service (Windows)**
 - Select the existing App Service, then click **Finish**
