@@ -1,6 +1,6 @@
 ﻿# Prompt users for input
 
-This sample demonstrates how to create your own prompts with an ASP.Net Core 2 bot.
+This sample demonstrates how to create your own prompts with an Python bot.
 The bot maintains conversation state to track and direct the conversation and ask the user questions.
 The bot maintains user state to track the user's answers.
 
