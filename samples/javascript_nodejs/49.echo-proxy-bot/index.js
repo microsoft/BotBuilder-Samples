@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const path = require('path');
 
 const dotenv = require('dotenv');
@@ -34,8 +36,8 @@ server.listen(process.env.port || process.env.PORT || 3978, () => {
 const proxy = require('node-global-proxy').default;
 
 proxy.setConfig({
-    http: process.env.HTTP_PROXY,
-    https: process.env.HTTPS_PROXY
+    http: process.env.HTTP_PROXY ?? '',
+    https: process.env.HTTPS_PROXY ?? ''
 });
 proxy.start();
 

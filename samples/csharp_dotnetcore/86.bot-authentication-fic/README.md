@@ -6,6 +6,15 @@ This bot has been created using [Bot Framework](https://dev.botframework.com/), 
 
 This bot uses `FederatedServiceClientCredentialsFactory` which is registered in Startup.cs.
 
+```csharp
+  // Create the Federated Service Client Credentials to be used as the ServiceClientCredentials for the Bot Framework SDK.
+  services.AddSingleton<ServiceClientCredentialsFactory>(
+    new FederatedServiceClientCredentialsFactory(
+      Configuration["MicrosoftAppId"],
+      Configuration["MicrosoftAppClientId"],
+      Configuration["MicrosoftAppTenantId"]));
+```
+
 ## Prerequisites
 
 - [.NET SDK](https://dotnet.microsoft.com/download) version 8.0
@@ -24,6 +33,9 @@ This bot uses `FederatedServiceClientCredentialsFactory` which is registered in 
   - Record the client ID of the managed identity.
 
 - For a new bot
+  - Create an App Service
+    - Add the User managed identity created in previous step to the Azure App Service under Configuration -> Identity -> User Assigned Managed Identity.
+    - Record the **Default domain** on the **Overview** tab
   - Create Azure App and Bot
     - Create App Registration
       - This can be either Single or Multi tenant.
@@ -32,9 +44,10 @@ This bot uses `FederatedServiceClientCredentialsFactory` which is registered in 
         - Click on the add credential under **Certificates & Secrets**, **Federated credentials**
         - On the Add a credential page, select the Federated credential scenario as **Customer Managed Keys**.
         - Select the managed identity that you created in the previous step.
-        - Enter name for the credential and click on Add.
+        - Enter name for the credential and click on **Add**.
         
     - Create an **Azure Bot** in the desired resource group and use the App Registration from the previous step.
+    - Update the **Messaging endpoint** on the **Configuration** tab to:  https://{{default-domain}}/api/messages
 
 - For an existing bot
    - Navigate to the **App Registration** for the **Azure Bot**
@@ -42,15 +55,15 @@ This bot uses `FederatedServiceClientCredentialsFactory` which is registered in 
       - Click on the add credential under **Certificates & Secrets**, **Federated credentials**
       - On the Add a credential page, select the Federated credential scenario as **Customer Managed Keys**.
       - Select the managed identity that you created in the previous step.
-      - Enter name for the credential and click on Add.
+      - Enter name for the credential and click on **Add**.
    - Navigate to the **App Service** for the bot 
      - Add the User managed identity created in previous step to the Azure App Service under Configuration -> Identity -> User Assigned Managed Identity.
    
 - Set appsettings.json variables
 
-  - MicrosoftAppType: {SingTenant | MultiTenant}
+  - MicrosoftAppType: SingTenant
 
-  - MicrosoftAppId: {appId}
+  - MicrosoftAppId: {bot-appId}
 
   - MicrosoftAppTenantId: {tenantId}
 
@@ -60,7 +73,12 @@ This bot uses `FederatedServiceClientCredentialsFactory` which is registered in 
 
 ## Deploy the bot to Azure
 
-To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+The easiest way to deploy the bot to the App Service for testing is using the Visual Studio **Publish** tool.
+- Right click the project and select **Publish**
+- Click **+ New Profile**
+- **Azure** -> **Azure App Service (Windows)**
+- Select the existing App Service, then click **Finish**
+- Click the **Publish** button.
 
 ## Further reading
 
@@ -69,5 +87,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
-- [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 - [Azure Portal](https://portal.azure.com)

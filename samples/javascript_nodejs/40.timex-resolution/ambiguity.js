@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const Recognizers = require('@microsoft/recognizers-text-date-time');
 
 // TIMEX expressions are designed to represent ambiguous rather than definite dates.

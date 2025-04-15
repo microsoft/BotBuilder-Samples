@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ActivityTypes, InputHints } = require('botbuilder');
 const { ComponentDialog, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
 const { LuisRecognizer } = require('botbuilder-ai');
@@ -14,7 +16,7 @@ const BOOKING_DIALOG = 'bookingDialog';
  * A root dialog that can route activities sent to the skill to different sub-dialogs.
  */
 class ActivityRouterDialog extends ComponentDialog {
-    constructor(conversationState, luisRecognizer = undefined) {
+    constructor(conversationState, luisRecognizer) {
         super(ACTIVITY_ROUTER_DIALOG);
 
         if (!conversationState) throw new Error('[MainDialog]: Missing parameter \'conversationState\' is required');
@@ -118,14 +120,14 @@ class ActivityRouterDialog extends ComponentDialog {
 
             await stepContext.context.sendActivity(resultString, undefined, InputHints.IgnoringInput);
 
-            switch (topIntent.intent) {
+            switch (topIntent) {
                 case 'BookFlight':
                     return await this.beginBookFlight(stepContext);
                 case 'GetWeather':
                     return await this.beginGetWeather(stepContext);
                 default: {
                     // Catch all for unhandled intents.
-                    const didntUnderstandMessageText = `Sorry, I didn't get that. Please try asking in a different way (intent was ${ topIntent.intent })`;
+                    const didntUnderstandMessageText = `Sorry, I didn't get that. Please try asking in a different way (intent was ${ topIntent })`;
                     await stepContext.context.sendActivity(didntUnderstandMessageText, didntUnderstandMessageText, InputHints.IgnoringInput);
                     break;
                 }
@@ -151,7 +153,7 @@ class ActivityRouterDialog extends ComponentDialog {
 
         // Start the booking dialog.
         const bookingDialog = this.findDialog(BOOKING_DIALOG);
-        return await stepContext.beginDialog(bookingDialog.id, bookingDetails);
+        return await stepContext.beginDialog(bookingDialog?.id, bookingDetails);
     }
 }
 

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const Recognizers = require('@microsoft/recognizers-text-suite');
 const { ActivityHandler } = require('botbuilder');
 
@@ -122,8 +124,8 @@ class CustomPromptBot extends ActivityHandler {
     static validateName(input) {
         const name = input && input.trim();
         return name !== undefined
-            ? { success: true, name: name }
-            : { success: false, message: 'Please enter a name that contains at least one character.' };
+            ? { success: true, name: name, message: '' }
+            : { success: false, name: null, message: 'Please enter a name that contains at least one character.' };
     };
 
     // Validates age input. Returns whether validation succeeded and either the parsed and normalized
@@ -141,15 +143,16 @@ class CustomPromptBot extends ActivityHandler {
                 if (value) {
                     const age = parseInt(value);
                     if (!isNaN(age) && age >= 18 && age <= 120) {
-                        output = { success: true, age: age };
+                        output = { success: true, age: age, message: '' };
                         return;
                     }
                 }
             });
-            return output || { success: false, message: 'Please enter an age between 18 and 120.' };
+            return output || { success: false, age: null, message: 'Please enter an age between 18 and 120.' };
         } catch (error) {
             return {
                 success: false,
+                age: null,
                 message: "I'm sorry, I could not interpret that as an age. Please enter an age between 18 and 120."
             };
         }
@@ -176,15 +179,16 @@ class CustomPromptBot extends ActivityHandler {
                         ? new Date(`${ now.toLocaleDateString() } ${ datevalue }`)
                         : new Date(datevalue);
                     if (datetime && earliest < datetime.getTime()) {
-                        output = { success: true, date: datetime.toLocaleDateString() };
+                        output = { success: true, date: datetime.toISOString(), message: '' };
                         return;
                     }
                 });
             });
-            return output || { success: false, message: "I'm sorry, please enter a date at least an hour out." };
+            return output || { success: false, date: null, message: "I'm sorry, please enter a date at least an hour out." };
         } catch (error) {
             return {
                 success: false,
+                date: null,
                 message: "I'm sorry, I could not interpret that as an appropriate date. Please enter a date at least an hour out."
             };
         }

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ActivityHandler, CardFactory } = require('botbuilder');
 
 // Import AdaptiveCard content.
@@ -25,7 +27,7 @@ class AdaptiveCardsBot extends ActivityHandler {
     constructor() {
         super();
         this.onMembersAdded(async (context, next) => {
-            const membersAdded = context.activity.membersAdded;
+            const membersAdded = context.activity.membersAdded ?? [];
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
                     await context.sendActivity(`Welcome to Adaptive Cards Bot  ${ membersAdded[cnt].name }. ${ WELCOME_TEXT }`);

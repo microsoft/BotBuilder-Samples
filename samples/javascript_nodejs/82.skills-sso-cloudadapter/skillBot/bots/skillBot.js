@@ -1,14 +1,19 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 const { ActivityHandler } = require('botbuilder');
 const { runDialog } = require('botbuilder-dialogs');
+
+/** @import { ConversationState } from 'botbuilder' */
+/** @import { ActivityRouterDialog } from '../dialogs/activityRouterDialog' */
 
 class SkillBot extends ActivityHandler {
     /**
      *
      * @param {ConversationState} conversationState
-     * @param {Dialog} dialog
+     * @param {ActivityRouterDialog} dialog
      */
     constructor(conversationState, dialog) {
         super();
