@@ -23,11 +23,35 @@ This bot was created using [Bot Framework][BF].
 - Go to `Deploy knowledge base` and click on `Deploy`.
 
 ### Connect your bot to the project.
-Follow these steps to update [appsettings.json](appsettings.json).
-- In the [Azure Portal][Azure], go to your resource.
-- Go to `Keys and Endpoint` under Resource Management.
-- Copy one of the keys as value of `LanguageEndpointKey` and Endpoint as value of `LanguageEndpointHostName` in [appsettings.json](appsettings.json).
-- `ProjectName` is the name of the project created in [Language Studio][LS].
+There are two ways the bot could authenticate to the Language resource.
+
+Pick one and follow these steps to update [appsettings.json](appsettings.json) accordingly.
+
+1. Using an `Endpoint Key`: _provides an easier configuration by using a secret. Great way to test the bot locally._
+    - In the [Azure Portal][Azure], go to the Language resource.
+    - Go to `Keys and Endpoint` under Resource Management.
+    - Copy one of the keys as value of `LanguageEndpointKey` and Endpoint as value of `LanguageEndpointHostName` in [appsettings.json](appsettings.json).
+    - `ProjectName` is the name of the project created in [Language Studio][LS].
+    - `LanguageManagedIdentityClientId` is not needed when using an Endpoint Key, so you can remove it from [appsettings.json](appsettings.json).
+
+1. Using a `User Managed Identity` resource: _provides a more complex configuration by using a User Managed Identity resource. Great way to authenticate without the need of a secret._
+   - Create a [User Managed Identity][create-msi] resource in the same region as the Language resource.
+     - Copy the `ClientId` as value of `LanguageManagedIdentityClientId` in [appsettings.json](appsettings.json).
+   - In the [Azure Portal][Azure], go to the WebApp resource, where the bot is hosted.
+   - Go to `Identity` under Settings and select `User assigned`. More information on Identity assignment can be found [here](webapp-msi).
+   - Click on `Add` and select the User Managed Identity created in the previous step.
+   - Click `Save` to assign the User Managed Identity to the WebApp resource.
+     - This will allow the WebApp to comunicate to the Language resource using the User Managed Identity.
+   - In the [Azure Portal][Azure], go to the Language resource.
+   - Assign the following role, so the User Managed Identity can access the keys of the Cognitive Service. More information on role assignment can be found [here][language-custom-role].
+     - `Cognitive Services User`
+   - In the Language resource, go to `Keys and Endpoint` under Resource Management.
+   - Copy the `Endpoint` as value of `LanguageEndpointHostName` in [appsettings.json](appsettings.json).
+   - `ProjectName` is the name of the project created in [Language Studio][LS].
+   - `LanguageEndpointKey` is not needed when using a User Managed Identity, so you can remove it from [appsettings.json](appsettings.json).
+
+> [!NOTE]
+> This method requires [the bot to be deployed in Azure][deploy-bot], so the User Managed Identity can authenticate to the Language resource to get access to the keys.
 
 ## To try this sample
 
@@ -182,3 +206,7 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 [Quickstart]: https://docs.microsoft.com/azure/cognitive-services/language-service/question-answering/quickstart/sdk
 [Azure]: https://portal.azure.com/
 [BFE]: https://github.com/Microsoft/BotFramework-Emulator/releases
+[deploy-bot]: #deploy-the-bot-to-azure
+[create-msi]: https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/how-manage-user-assigned-managed-identities?pivots=identity-mi-methods-azp#create-a-user-assigned-managed-identity
+[language-custom-role]: https://learn.microsoft.com/en-us/azure/operator-service-manager/how-to-create-user-assigned-managed-identity#assign-custom-role-1
+[webapp-msi]: https://learn.microsoft.com/en-us/azure/app-service/overview-managed-identity?tabs=portal%2Chttp

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -55,10 +54,11 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 throw new ArgumentException(string.Format(missingConfigError, "LanguageEndpointHostName"));
             }
 
+            var managedIdentityClientId = configuration["LanguageManagedIdentityClientId"];
             var endpointKey = configuration["LanguageEndpointKey"];
-            if (string.IsNullOrEmpty(endpointKey))
+            if (string.IsNullOrEmpty(managedIdentityClientId) && string.IsNullOrEmpty(endpointKey))
             {
-                throw new ArgumentException(string.Format(missingConfigError, "LanguageEndpointKey"));
+                throw new ArgumentException(string.Format(missingConfigError, "Either LanguageManagedIdentityClientId or LanguageEndpointKey"));
             }
 
             var knowledgeBaseId = configuration["ProjectName"];
@@ -73,23 +73,60 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
             // Create a new instance of QnAMakerDialog with dialogOptions initialized.
             var noAnswer = MessageFactory.Text(configuration["DefaultAnswer"] ?? string.Empty);
-            var qnamakerDialog = new QnAMakerDialog(nameof(QnAMakerDialog), knowledgeBaseId, endpointKey, hostname, noAnswer: noAnswer, cardNoMatchResponse: MessageFactory.Text(ActiveLearningCardNoMatchResponse), useTeamsAdaptiveCard: useTeamsAdaptiveCard)
-            {
-                Threshold = ScoreThreshold,
-                ActiveLearningCardTitle = ActiveLearningCardTitle,
-                CardNoMatchText = ActiveLearningCardNoMatchText,
-                Top = TopAnswers,
-                Filters = { },
-                QnAServiceType = ServiceType.Language,
-                EnablePreciseAnswer = enablePreciseAnswer,
-                DisplayPreciseAnswerOnly = displayPreciseAnswerOnly,
-                IncludeUnstructuredSources = IncludeUnstructuredSources,
-                RankerType = RankerType,
-                IsTest = IsTest,
-                UseTeamsAdaptiveCard = useTeamsAdaptiveCard
-            };
 
-            return qnamakerDialog;
+            QnAMakerDialog dialog;
+            if (!string.IsNullOrEmpty(managedIdentityClientId))
+            {
+                dialog = new QnAMakerDialog(
+                    dialogId: nameof(QnAMakerDialog),
+                    managedIdentityClientId: managedIdentityClientId,
+                    knowledgeBaseId: knowledgeBaseId,
+                    hostName: new Uri(hostname),
+                    noAnswer: noAnswer,
+                    cardNoMatchResponse: MessageFactory.Text(ActiveLearningCardNoMatchResponse),
+                    useTeamsAdaptiveCard: useTeamsAdaptiveCard)
+                {
+                    Threshold = ScoreThreshold,
+                    ActiveLearningCardTitle = ActiveLearningCardTitle,
+                    CardNoMatchText = ActiveLearningCardNoMatchText,
+                    Top = TopAnswers,
+                    Filters = { },
+                    QnAServiceType = ServiceType.Language,
+                    EnablePreciseAnswer = enablePreciseAnswer,
+                    DisplayPreciseAnswerOnly = displayPreciseAnswerOnly,
+                    IncludeUnstructuredSources = IncludeUnstructuredSources,
+                    RankerType = RankerType,
+                    IsTest = IsTest,
+                    UseTeamsAdaptiveCard = useTeamsAdaptiveCard
+                };
+            }
+            else
+            {
+                dialog = new QnAMakerDialog(
+                    dialogId: nameof(QnAMakerDialog),
+                    endpointKey: endpointKey,
+                    knowledgeBaseId: knowledgeBaseId,
+                    hostName: hostname,
+                    noAnswer: noAnswer,
+                    cardNoMatchResponse: MessageFactory.Text(ActiveLearningCardNoMatchResponse),
+                    useTeamsAdaptiveCard: useTeamsAdaptiveCard)
+                {
+                    Threshold = ScoreThreshold,
+                    ActiveLearningCardTitle = ActiveLearningCardTitle,
+                    CardNoMatchText = ActiveLearningCardNoMatchText,
+                    Top = TopAnswers,
+                    Filters = { },
+                    QnAServiceType = ServiceType.Language,
+                    EnablePreciseAnswer = enablePreciseAnswer,
+                    DisplayPreciseAnswerOnly = displayPreciseAnswerOnly,
+                    IncludeUnstructuredSources = IncludeUnstructuredSources,
+                    RankerType = RankerType,
+                    IsTest = IsTest,
+                    UseTeamsAdaptiveCard = useTeamsAdaptiveCard
+                };
+            }
+
+            return dialog;
         }
 
         private async Task<DialogTurnResult> InitialStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
