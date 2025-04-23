@@ -13,6 +13,7 @@ const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
 
 const restify = require('restify');
+const { FederatedServiceClientCredentialsFactory } = require('botframework-connector');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
@@ -27,7 +28,14 @@ const {
 const { AuthBot } = require('./bots/authBot');
 const { MainDialog } = require('./dialogs/mainDialog');
 
-const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env);
+// Create the Federated Service Client Credentials to be used as the ServiceClientCredentials for the Bot Framework SDK.
+const serviceClientCredentialsFactory = new FederatedServiceClientCredentialsFactory(
+    process.env.MicrosoftAppId ?? '',
+    process.env.MicrosoftAppClientId ?? '',
+    process.env.MicrosoftAppTenantId
+);
+
+const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env, serviceClientCredentialsFactory);
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.
 const adapter = new CloudAdapter(botFrameworkAuthentication);
