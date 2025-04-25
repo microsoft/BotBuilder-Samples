@@ -1,8 +1,8 @@
-﻿# Bot using Federation Identity Credentials
+﻿# Bot using Federated Identity Credentials
 
-Bot Framework v4 bot authentication using Federation Identity Credentials (FIC). Currently, FIC feature is supported single tenant bots only.
+Bot Framework v4 bot authentication using Federated Identity Credentials (FIC). Currently, FIC feature is supported in single tenant bots only.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com/), is shows how to use the bot authentication capabilities of Azure Bot Service. In this sample, we use federated identity certificate configuration to create the Bot Framework Authentication.
+This bot has been created using [Bot Framework](https://dev.botframework.com/), it shows how to use the bot authentication capabilities of Azure Bot Service. In this sample, we use federated identity credentials configuration to create the Bot Framework Authentication.
 
 This bot uses `FederatedServiceClientCredentialsFactory` which is registered in Startup.cs.
 
@@ -38,11 +38,11 @@ This bot uses `FederatedServiceClientCredentialsFactory` which is registered in 
     - Record the **Default domain** on the **Overview** tab
   - Create Azure App and Bot
     - Create App Registration
-      - This can be either Single or Multi tenant.
+      - This should be Single tenant (Currently, FIC feature is supported in single tenant bots only).
       - Record the Application and Tenant ID's.
-      - To create trust using the FIC, we need to link the managed identity to the App Registration.  On the App Registration:
+      - To create trust using the FIC, we need to link the managed identity to the App Registration. On the App Registration:
         - Click on the add credential under **Certificates & Secrets**, **Federated credentials**
-        - On the Add a credential page, select the Federated credential scenario as **Customer Managed Keys**.
+        - On the Add a credential page, select the Federated credential scenario as **Managed Identity**.
         - Select the managed identity that you created in the previous step.
         - Enter name for the credential and click on **Add**.
         
@@ -51,9 +51,9 @@ This bot uses `FederatedServiceClientCredentialsFactory` which is registered in 
 
 - For an existing bot
    - Navigate to the **App Registration** for the **Azure Bot**
-     - To create trust using the FIC, we need to link the managed identity to the App Registration.  On the App Registration:
+     - To create trust using the FIC, we need to link the managed identity to the App Registration. On the App Registration:
       - Click on the add credential under **Certificates & Secrets**, **Federated credentials**
-      - On the Add a credential page, select the Federated credential scenario as **Customer Managed Keys**.
+      - On the Add a credential page, select the Federated credential scenario as **Managed Identity**.
       - Select the managed identity that you created in the previous step.
       - Enter name for the credential and click on **Add**.
    - Navigate to the **App Service** for the bot 
@@ -61,7 +61,7 @@ This bot uses `FederatedServiceClientCredentialsFactory` which is registered in 
    
 - Set appsettings.json variables
 
-  - MicrosoftAppType: SingTenant
+  - MicrosoftAppType: SingleTenant
 
   - MicrosoftAppId: {bot-appId}
 
@@ -69,7 +69,7 @@ This bot uses `FederatedServiceClientCredentialsFactory` which is registered in 
 
   - MicrosoftAppClientId: {clientId of managed identity}
 
-- A bot using Federated Credentials, like UserManagedIdentity, cannot be run locally.  It must be deployed to Azure.
+- A bot using Federated Credentials, like UserManagedIdentity, cannot be run locally. It must be deployed to Azure.
 
 ## Deploy the bot to Azure
 

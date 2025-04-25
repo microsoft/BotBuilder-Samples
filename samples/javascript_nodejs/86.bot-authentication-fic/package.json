@@ -1,7 +1,7 @@
 {
     "name": "bot-authentication-fic",
     "version": "1.0.0",
-    "description": "Bot Builder v4 bot authentication with Federation Identity Certificate (FIC) sample",
+    "description": "Bot Builder v4 bot authentication with Federated Identity Credentials (FIC) sample",
     "author": "Microsoft",
     "license": "MIT",
     "main": "index.js",
