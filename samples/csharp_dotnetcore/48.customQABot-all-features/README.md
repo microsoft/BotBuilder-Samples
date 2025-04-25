@@ -38,13 +38,13 @@ Pick one and follow these steps to update [appsettings.json](appsettings.json) a
    - Create a [User Managed Identity][create-msi] resource in the same region as the Language resource.
      - Copy the `ClientId` as value of `LanguageManagedIdentityClientId` in [appsettings.json](appsettings.json).
    - In the [Azure Portal][Azure], go to the WebApp resource, where the bot is hosted.
-   - Go to `Identity` under Settings and select `User assigned`. More information on Identity assignment can be found [here](webapp-msi).
+   - Go to `Identity` under Settings and select `User assigned`. More information on Identity assignment can be found [here][webapp-msi].
    - Click on `Add` and select the User Managed Identity created in the previous step.
    - Click `Save` to assign the User Managed Identity to the WebApp resource.
-     - This will allow the WebApp to comunicate to the Language resource using the User Managed Identity.
+     - This will allow the WebApp to communicate with the Language resource using the User Managed Identity.
    - In the [Azure Portal][Azure], go to the Language resource.
-   - Assign the following role, so the User Managed Identity can access the keys of the Cognitive Service. More information on role assignment can be found [here][language-custom-role].
-     - `Cognitive Services User`
+   - Assign the following role in the `Access Control (IAM)` section. More information on role assignment can be found [here][language-custom-role].
+     - `Cognitive Services User`: _this role is required so the Managed Identity can access the keys of the Cognitive Service resource_.
    - In the Language resource, go to `Keys and Endpoint` under Resource Management.
    - Copy the `Endpoint` as value of `LanguageEndpointHostName` in [appsettings.json](appsettings.json).
    - `ProjectName` is the name of the project created in [Language Studio][LS].
