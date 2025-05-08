@@ -74,56 +74,36 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             // Create a new instance of QnAMakerDialog with dialogOptions initialized.
             var noAnswer = MessageFactory.Text(configuration["DefaultAnswer"] ?? string.Empty);
 
-            QnAMakerDialog dialog;
-            if (!string.IsNullOrEmpty(managedIdentityClientId))
-            {
-                dialog = new QnAMakerDialog(
+            var dialog = new QnAMakerDialog(
                     dialogId: nameof(QnAMakerDialog),
-                    managedIdentityClientId: managedIdentityClientId,
-                    knowledgeBaseId: knowledgeBaseId,
-                    hostName: new Uri(hostname),
-                    noAnswer: noAnswer,
-                    cardNoMatchResponse: MessageFactory.Text(ActiveLearningCardNoMatchResponse),
-                    useTeamsAdaptiveCard: useTeamsAdaptiveCard)
-                {
-                    Threshold = ScoreThreshold,
-                    ActiveLearningCardTitle = ActiveLearningCardTitle,
-                    CardNoMatchText = ActiveLearningCardNoMatchText,
-                    Top = TopAnswers,
-                    Filters = { },
-                    QnAServiceType = ServiceType.Language,
-                    EnablePreciseAnswer = enablePreciseAnswer,
-                    DisplayPreciseAnswerOnly = displayPreciseAnswerOnly,
-                    IncludeUnstructuredSources = IncludeUnstructuredSources,
-                    RankerType = RankerType,
-                    IsTest = IsTest,
-                    UseTeamsAdaptiveCard = useTeamsAdaptiveCard
-                };
-            }
-            else
-            {
-                dialog = new QnAMakerDialog(
-                    dialogId: nameof(QnAMakerDialog),
-                    endpointKey: endpointKey,
+                    endpointKey: null,
                     knowledgeBaseId: knowledgeBaseId,
                     hostName: hostname,
                     noAnswer: noAnswer,
                     cardNoMatchResponse: MessageFactory.Text(ActiveLearningCardNoMatchResponse),
                     useTeamsAdaptiveCard: useTeamsAdaptiveCard)
-                {
-                    Threshold = ScoreThreshold,
-                    ActiveLearningCardTitle = ActiveLearningCardTitle,
-                    CardNoMatchText = ActiveLearningCardNoMatchText,
-                    Top = TopAnswers,
-                    Filters = { },
-                    QnAServiceType = ServiceType.Language,
-                    EnablePreciseAnswer = enablePreciseAnswer,
-                    DisplayPreciseAnswerOnly = displayPreciseAnswerOnly,
-                    IncludeUnstructuredSources = IncludeUnstructuredSources,
-                    RankerType = RankerType,
-                    IsTest = IsTest,
-                    UseTeamsAdaptiveCard = useTeamsAdaptiveCard
-                };
+            {
+                Threshold = ScoreThreshold,
+                ActiveLearningCardTitle = ActiveLearningCardTitle,
+                CardNoMatchText = ActiveLearningCardNoMatchText,
+                Top = TopAnswers,
+                Filters = { },
+                QnAServiceType = ServiceType.Language,
+                EnablePreciseAnswer = enablePreciseAnswer,
+                DisplayPreciseAnswerOnly = displayPreciseAnswerOnly,
+                IncludeUnstructuredSources = IncludeUnstructuredSources,
+                RankerType = RankerType,
+                IsTest = IsTest,
+                UseTeamsAdaptiveCard = useTeamsAdaptiveCard
+            };
+
+            if (!string.IsNullOrWhiteSpace(managedIdentityClientId))
+            {
+                dialog.WithManagedIdentityClientId(managedIdentityClientId);
+            }
+            else
+            {
+                dialog.WithEndpointKey(endpointKey);
             }
 
             return dialog;
