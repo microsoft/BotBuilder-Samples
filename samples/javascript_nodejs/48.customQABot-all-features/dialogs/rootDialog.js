@@ -28,7 +28,7 @@ const INCLUDE_UNSTRUCTURED_SOURCES = true;
 /**
  * Creates QnAMakerDialog instance with provided configuraton values.
  */
-const createQnAMakerDialog = (knowledgeBaseId, endpointKey, endpointHostName, defaultAnswer, enablePreciseAnswerRaw, displayPreciseAnswerOnlyRaw, useTeamsAdaptiveCard) => {
+const createQnAMakerDialog = (knowledgeBaseId, endpointKey, managedIdentityClientId, endpointHostName, defaultAnswer, enablePreciseAnswerRaw, displayPreciseAnswerOnlyRaw, useTeamsAdaptiveCard) => {
     let noAnswerActivity;
     if (typeof defaultAnswer === 'string' && defaultAnswer !== '') {
         noAnswerActivity = MessageFactory.text(defaultAnswer);
@@ -36,7 +36,7 @@ const createQnAMakerDialog = (knowledgeBaseId, endpointKey, endpointHostName, de
 
     const qnaMakerDialog = new QnAMakerDialog(
         knowledgeBaseId,
-        endpointKey,
+        undefined,
         endpointHostName,
         // @ts-ignore
         noAnswerActivity,
@@ -47,6 +47,12 @@ const createQnAMakerDialog = (knowledgeBaseId, endpointKey, endpointHostName, de
         ACTIVE_LEARNING_CARD_NO_MATCH_RESPONSE,
         RANKER_TYPE
     );
+
+    if (managedIdentityClientId) {
+        qnaMakerDialog.withManagedIdentityClientId(managedIdentityClientId);
+    } else {
+        qnaMakerDialog.withEndpointKey(endpointKey);
+    }
 
     qnaMakerDialog.enablePreciseAnswer = enablePreciseAnswerRaw === 'true';
     qnaMakerDialog.displayPreciseAnswerOnly = displayPreciseAnswerOnlyRaw === 'true';
@@ -63,21 +69,22 @@ class RootDialog extends ComponentDialog {
     /**
      * Root dialog for this bot. Creates a QnAMakerDialog.
      * @param {string} knowledgeBaseId Knowledge Base ID of the QnA Maker instance.
-     * @param {string} endpointKey Endpoint key needed to query QnA Maker.
+     * @param {any} endpointKey (optional) Endpoint key needed to query QnA Maker.
+     * @param {any} managedIdentityClientId (optional) Managed identity client ID to use for authentication.
      * @param {string} endpointHostName Host name of the QnA Maker instance.
      * @param {string} defaultAnswer (optional) Text used to create a fallback response when QnA Maker doesn't have an answer for a question.
      * @param {string} enablePreciseAnswer
      * @param {string} displayPreciseAnswerOnly
 
     */
-    constructor(knowledgeBaseId, endpointKey, endpointHostName, defaultAnswer, enablePreciseAnswer, displayPreciseAnswerOnly, useTeamsAdaptiveCard) {
+    constructor(knowledgeBaseId, endpointKey, managedIdentityClientId, endpointHostName, defaultAnswer, enablePreciseAnswer, displayPreciseAnswerOnly, useTeamsAdaptiveCard) {
         super(ROOT_DIALOG);
         // Initial waterfall dialog.
         this.addDialog(new WaterfallDialog(INITIAL_DIALOG, [
             this.startInitialDialog.bind(this)
         ]));
 
-        this.addDialog(createQnAMakerDialog(knowledgeBaseId, endpointKey, endpointHostName, defaultAnswer, enablePreciseAnswer, displayPreciseAnswerOnly, useTeamsAdaptiveCard));
+        this.addDialog(createQnAMakerDialog(knowledgeBaseId, endpointKey, managedIdentityClientId, endpointHostName, defaultAnswer, enablePreciseAnswer, displayPreciseAnswerOnly, useTeamsAdaptiveCard));
         this.initialDialogId = INITIAL_DIALOG;
     }
 
