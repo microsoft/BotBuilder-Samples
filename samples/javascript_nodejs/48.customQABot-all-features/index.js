@@ -16,17 +16,16 @@ const restify = require('restify');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = require('botbuilder');
+const { CloudAdapter, ConversationState, MemoryStorage, UserState, ConfigurationBotFrameworkAuthentication } = require('botbuilder');
 
 const { CustomQABot } = require('./bots/CustomQABot');
 const { RootDialog } = require('./dialogs/rootDialog');
 
+const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env);
+
 // Create adapter.
-// See https://aka.ms/about-bot-adapter to learn more about adapters.
-const adapter = new BotFrameworkAdapter({
-    appId: process.env.MicrosoftAppId,
-    appPassword: process.env.MicrosoftAppPassword
-});
+// See https://aka.ms/about-bot-adapter to learn more about how bots work.
+const adapter = new CloudAdapter(botFrameworkAuthentication);
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
@@ -65,13 +64,20 @@ if (!endpointHostName?.startsWith('https://')) {
     endpointHostName = 'https://' + endpointHostName;
 }
 
+const managedIdentityClientId = process.env.LanguageManagedIdentityClientId;
+
 // To support backward compatibility for Key Names, fallback to process.env.QnAAuthKey.
 const endpointKey = process.env.LanguageEndpointKey || process.env.QnAAuthKey;
+
+if (!managedIdentityClientId?.trim() && !endpointKey?.trim()) {
+    throw new Error('Either LanguageManagedIdentityClientId or LanguageEndpointKey should be set.');
+}
 
 // Create the main dialog.
 const dialog = new RootDialog(
     process.env.ProjectName ?? '',
-    endpointKey ?? '',
+    endpointKey,
+    managedIdentityClientId,
     endpointHostName,
     process.env.DefaultAnswer ?? '',
     process.env.EnablePreciseAnswer?.toLowerCase() ?? 'false',
@@ -83,6 +89,8 @@ const bot = new CustomQABot(conversationState, userState, dialog);
 
 // Create HTTP server.
 const server = restify.createServer();
+server.use(restify.plugins.bodyParser());
+
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }.`);
     console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
@@ -91,8 +99,6 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 
 // Listen for incoming requests.
 server.post('/api/messages', async (req, res) => {
-    adapter.processActivity(req, res, async (turnContext) => {
-        // Route the message to the bot's main handler.
-        await bot.run(turnContext);
-    });
+    // Route received a request to adapter for processing
+    await adapter.process(req, res, (context) => bot.run(context));
 });
