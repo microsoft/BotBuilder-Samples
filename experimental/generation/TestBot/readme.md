@@ -1,4 +1,4 @@
-﻿# TestBot
+﻿#sudo su  TestBot
 
 This bot allows you to easily run Bot Framework Adaptive Dialog declarative tests that use only standard SDK components.
 It starts a web server you can connect the Bot Framework Emulator to at `http://localhost:5000/api/messages` and interact with your bot.
